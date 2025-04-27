@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "noImplicitAny": false,
+    "strict": true,
+    "lib": [
+      "es5",
+      "es6",
+      "dom",
+      "dom.iterable",
+      "ES2021.String"
+    ],
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] },
+  }
+}

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+chmod +x ./git-remove-history
+
+if [ -z "$1" ]; then
+  echo "Please provide a file or directory name"
+  exit 1
+fi
+
+# Check if the path exists and is a directory
+if [ -d "$1" ]; then
+  # It's a directory, use -r flag
+  git rm -r --cached "$1"
+else
+  # It's a file
+  git rm --cached "$1"
+fi
+
+# Add to gitignore if not already there
+if ! grep -q "^$1$" .gitignore; then
+  echo "$1" >> .gitignore
+fi
+
+echo "$1 has been removed from git tracking and added to .gitignore"

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/component/cards/TransactionCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/request/business/BusinessRequest.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/modules/business.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/hook/useToast.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/auth/login.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/auth/signup.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/_layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/analytics.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/dashboard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/dispatch.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/dashboard/send.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/_layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/settings.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/request/auth/LoginRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/request/auth/LoginRequest.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/request/cart/CartRequest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/response/auth/LoginResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/response/auth/LoginResponse.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/validate/auth/SecondEnrollmentValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/validate/auth/SecondEnrollmentValidation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/routes/auth-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/auth-routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/routes/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/routes/onboarding-routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/AuthService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/AuthService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/BaseService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/BaseService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/CartService.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/StoreFrontService.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/base.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/base.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/biometric.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/camera.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/cart.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/contact.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/dashboard.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/document-picker.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/storefront.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/temp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/CompleteForgotPasswordScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/InitiateForgotPasswordScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/LoginScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/OtpValidationScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/RegisterScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/CheckOutButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/DeliveryAddressScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/OrderConfirmationScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/PaymentOptionScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/ShippingCartDashboardScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/FilterScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/HomeDashboardScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/ProductDetailScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/StoreFrontScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/list/ListDashboardScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/user/MyProfileScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/user/UserDashboardScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/onboarding/CompleteOnboardingScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/onboarding/InitiateOnboardingScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="false" />
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/RefreshControl/RefreshControl.d.ts" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Touchable/TouchableOpacity.d.ts" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2w0ywCf1JA1GG65ziWh44ZG4Dvq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/dashboard",
+    "last_opened_file_path": "/Users/ndubisiukonu/Downloads/softgem/azapal-mobile/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "npm.optimize:app.executor": "Run",
+    "npm.start dev.executor": "Run",
+    "ts.external.directory.path": "/Users/ndubisiukonu/Downloads/softgem/azapal-mobile/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/component" />
+      <recent name="$PROJECT_DIR$/src/utility/hook" />
+      <recent name="$PROJECT_DIR$/src/service" />
+      <recent name="$PROJECT_DIR$/src/view/screens" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/component/textInput" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.optimize:app">
+    <configuration name="optimize:app" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="optimize:app" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.optimize:app" />
+        <item itemvalue="npm.start dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="" />
+      <created>1745193022009</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745193022009</updated>
+      <workItem from="1745193023154" duration="20506000" />
+      <workItem from="1745338593110" duration="25045000" />
+      <workItem from="1745446408294" duration="15432000" />
+      <workItem from="1745636902492" duration="13147000" />
+      <workItem from="1745663897932" duration="2491000" />
+      <workItem from="1745713043427" duration="6161000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/screens/dashboard/home/StoreFrontScreen.tsx</url>
+          <line>150</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/screens/dashboard/home/StoreFrontScreen.tsx</url>
+          <line>189</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/screens/dashboard/cart/ShippingCartDashboardScreen.tsx</url>
+          <line>277</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/component/formik/auth/LoginFormik.tsx</url>
+          <line>32</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/component/formik/auth/LoginFormik.tsx</url>
+          <line>40</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/utility/hook/useCart.tsx</url>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/store/modules/storefront.ts</url>
+          <line>128</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/store/modules/storefront.ts</url>
+          <line>39</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/layout/ContainerLayout.tsx</url>
+          <line>47</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/screens/dashboard/send.tsx</url>
+          <line>27</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
