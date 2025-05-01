@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Pressable, TouchableOpacity, Image, StatusBar, Platform, ScrollView } from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import { View, Text, StyleSheet, SafeAreaView, Pressable, Alert, TouchableOpacity, Image, StatusBar, Platform, ScrollView } from 'react-native';
+import {Ionicons, FontAwesome6, Feather} from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'expo-router';
-import { RootState } from "../../src/store";
+import { RootState } from "@/store";
 import {useRouter} from "expo-router";
-import useLocation from "@/src/hooks/useLocation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {RouterUtil} from "@/utility/RouterUtil";
+import {persistStore} from "redux-persist";
+import {useStore} from "react-redux";
+import auth from '@/store/modules/auth'
+import {useDispatch} from "react-redux";
+import Dispatch from "@/view/screens/business_tabs/dispatch";
 
 const MenuItem = ({ icon, title }: any) => (
 
@@ -32,96 +36,87 @@ const MenuSection = ({ title, children }: any) => (
 const DashboardScreen = () => {
   const [showMenu, setShowMenu] = useState(false)
   const authState = useSelector((state: RootState) => state.auth)
-  const token = authState?.token
   const user = authState?.userDetails
-  const {location, errorMsg} = useLocation()
+  const dispatch = useDispatch();
   const router = useRouter();
-
-
-  useEffect(() => {
-
-
-  }, [location])
+  const store = useStore();
+  const persistor = persistStore(store);
 
   const userLocation = authState.location
 
-  async function logout() {
+  const handleLogout = async () => {
     try {
-      // Clear AsyncStorage
-      await AsyncStorage.clear()
+      // Show confirmation dialog
+      Alert.alert(
+          "Logout",
+          "Are you sure you want to logout?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "Logout",
+              onPress: async () => {
+                // 1. Dispatch logout action
+                dispatch(auth.mutation.logout());
 
-      // If using Redux, reset the store
-      // store.dispatch({ type: 'RESET_STATE' });
+                // 2. Purge the persistor to clear persisted Redux state
+                await persistor.purge();
 
-      // Force a complete app reset by setting a short timeout
-      setTimeout(() => {
-        router.replace('/login')
-      }, 100)
-
-      // Optional: Add console logging for debugging
-      console.log('Logout successful, storage cleared')
+                // 3. Clear any auth-related items from AsyncStorage
+                await AsyncStorage.multiRemove(['authToken', 'userId', 'userCredentials']);
+                // 4. Navigate user back to login screen
+                RouterUtil.replace('auth.login'); // Adjust to your actual login route name
+              }
+            }
+          ]
+      );
     } catch (error) {
-      console.error('Error during logout:', error)
-      // Handle the error appropriately
+      console.error("Logout failed:", error);
+      Alert.alert("Error", "Failed to logout. Please try again.");
     }
-  }
+  };
 
   const AzapalMenu = () => {
     return <>
-      {/* Header */}
-      {/* <View style={styles.menuheader}>
-        <TouchableOpacity style={styles.backButton} onPress={() => setShowMenu(false)}>
-          <Ionicons name="arrow-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Menu</Text>
-        <View style={{ width: 24 }} />
-      </View> */}
-
-      {/* Menu Content */}
       <ScrollView style={styles.content}>
 
         {/* Send and business_tabs */}
         <MenuSection title="Money and Business">
-          <TouchableOpacity onPress={() => router.navigate('/send')} style={styles.menuItem}>
+          <TouchableOpacity onPress={() => RouterUtil.navigate('dashboard.sendMoneyScreen')} style={styles.menuItem}>
             <View style={styles.iconContainer}>
               {/* Ensure icon is a component, not a string */}
-              <Ionicons name="paper-plane-outline" size={24} color="#333" />
+              <Ionicons name="paper-plane-outline" size={18} color="#333" />
             </View>
             <Text style={styles.menuItemText}>Send to a Azapal Business account</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity  onPress={() => router.navigate('/business')} style={styles.menuItem}>
+          <TouchableOpacity  onPress={() => RouterUtil.navigate('dashboard.createBusinessScreen')} style={styles.menuItem}>
             <View style={styles.iconContainer}>
               {/* Ensure icon is a component, not a string */}
-              <Ionicons name="document-text-outline" size={24} color="#333" />
+              <Ionicons name="document-text-outline" size={18} color="#333" />
             </View>
             <Text style={styles.menuItemText}>Create A Business</Text>
           </TouchableOpacity>
         </MenuSection>
 
-        {/* Get paid */}
-        {/* <MenuSection title="Get paid">
-          <MenuItem
-            icon={<Ionicons name="cash-outline" size={24} color="#333" />}
-            title="Request money"
-          />
-        </MenuSection> */}
-
+        <Dispatch />
         {/* Profile and support */}
         <MenuSection title="Profile and support">
           <MenuItem
-            icon={<Ionicons name="person-outline" size={24} color="#333" />}
+            icon={<Ionicons name="person-outline" size={18} color="#333" />}
             title="Your Profile"
           />
           <MenuItem
-            icon={<Ionicons name="call-outline" size={24} color="#333" />}
+            icon={<Ionicons name="call-outline" size={18} color="#333" />}
             title="Customer Support"
           />
 
-          <TouchableOpacity  onPress={() => logout()} style={styles.menuItem}>
+          <TouchableOpacity  onPress={() => handleLogout()} style={styles.menuItem}>
             <View style={styles.iconContainer}>
               {/* Ensure icon is a component, not a string */}
-              <Ionicons name="exit-outline" size={24} color="#333" />
+              <Ionicons name="exit-outline" size={18} color="#333" />
             </View>
             <Text style={styles.menuItemText}>Log out</Text>
           </TouchableOpacity>
@@ -134,75 +129,59 @@ const DashboardScreen = () => {
 
   }
 
-  useEffect(() => {
-    console.log(token);
-  },[authState])
 
+  return( <>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" translucent={true} />
 
-  return (
+      <>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.locationContainer}  onPress={() => setShowMenu(true)}>
+            <Ionicons name="location-outline" size={20} color="#3B3B3B" />
+            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.locationText}>
+              {userLocation?.address || 'Somewhere in africa' }
+            </Text>
+          </TouchableOpacity>
+          <View style={styles.profileContainer}>
+            <View style={styles.profileIcon}>
+              <Text style={styles.profileLetter}>N</Text>
+            </View>
+            {/*<Feather name="chevron-down" size={20} color="black" />*/}
+          </View>
+          {/*<View style={styles.profileContainer}>*/}
+          {/*  <Image*/}
+          {/*    source={{ uri: 'https://randomuser.me/api/portraits/women/32.jpg' }}*/}
+          {/*    style={styles.profileImage}*/}
+          {/*  />*/}
+          {/*  <View style={styles.notificationBadge}>*/}
+          {/*    <Text style={styles.notificationText}>1</Text>*/}
+          {/*  </View>*/}
+          {/*</View>*/}
+        </View>
 
-        !token ? < Redirect href="/login" /> :
-          <>
-            {/*<StatusBar barStyle="dark-content" backgroundColor="#fff" translucent={true} />*/}
-
-            <SafeAreaView style={styles.container}>
-              <StatusBar barStyle="dark-content" backgroundColor="#fff" translucent={true} />
-
-              <>
-                {/* Header */}
-                <View style={styles.header}>
-                  <TouchableOpacity style={styles.locationContainer}  onPress={() => setShowMenu(true)}>
-                    <Ionicons name="location-outline" size={20} color="#3B3B3B" />
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.locationText}>
-                      {userLocation?.address || 'Somewhere in africa' }
-                    </Text>
-              </TouchableOpacity>
-                  <View style={styles.profileContainer}>
-                    <View style={styles.profileIcon}>
-                      <Text style={styles.profileLetter}>N</Text>
-                    </View>
-                    {/*<Feather name="chevron-down" size={20} color="black" />*/}
-                  </View>
-                  {/*<View style={styles.profileContainer}>*/}
-                  {/*  <Image*/}
-                  {/*    source={{ uri: 'https://randomuser.me/api/portraits/women/32.jpg' }}*/}
-                  {/*    style={styles.profileImage}*/}
-                  {/*  />*/}
-                  {/*  <View style={styles.notificationBadge}>*/}
-                  {/*    <Text style={styles.notificationText}>1</Text>*/}
-                  {/*  </View>*/}
-                  {/*</View>*/}
+        <View style={styles.content}>
+          <TouchableOpacity style={styles.card}>
+            <View style={[styles.progressContainer, { backgroundColor: '#F15A24', borderRadius: 12, padding: 15, }]}>
+              <View style={styles.progressInfo}>
+                <Text style={styles.progressTitle}>Set up your account</Text>
+                <Text style={styles.progressSubtitle}>A few more steps left.</Text>
+              </View>
+              <View style={styles.progressCircleContainer}>
+                <View style={styles.progressCircle}>
+                  {/*<View style={styles.progressFill} />*/}
+                  <View style={styles.progressCenter} />
+                  <Text style={styles.progressText}>0/3</Text>
                 </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <AzapalMenu />
+        </View>
+      </>
 
-                {/* Content */}
-                <View style={styles.content}>
-                  <TouchableOpacity style={styles.card}>
-                    <View style={[styles.progressContainer, { backgroundColor: '#F15A24', borderRadius: 12, padding: 15, }]}>
-                      <View style={styles.progressInfo}>
-                        <Text style={styles.progressTitle}>Set up your account</Text>
-                        <Text style={styles.progressSubtitle}>A few more steps left.</Text>
-                      </View>
-                      <View style={styles.progressCircleContainer}>
-                        <View style={styles.progressCircle}>
-                          {/*<View style={styles.progressFill} />*/}
-                          <View style={styles.progressCenter} />
-                          <Text style={styles.progressText}>0/3</Text>
-                        </View>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                  <AzapalMenu />
-                </View>
-              </>
-
-
-              {/* } */}
-            </SafeAreaView>
-          </>
-
-
-
-  );
+    </SafeAreaView>
+  </>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -210,12 +189,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingHorizontal:16
 
   },
   locationContainer: {
     flexDirection: 'row',
+
     alignItems: 'center',
-    width:'70%'
+    width:'70%',
   },
   locationText: {
     fontSize: 13,
@@ -227,9 +208,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    // paddingVertical: 12,
+    alignItems: 'flex-center',
   },
   menuButton: {
     padding: 8,
@@ -282,17 +261,17 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 0,
-    paddingTop: 20,
   },
   card: {
     borderRadius: 12,
     padding: 10,
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.05,
-    // shadowRadius: 8,
-    // elevation: 2,
-    paddingHorizontal: 20
+    shadowColor: '#fff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+    paddingHorizontal: 0,
+    marginBottom:16
   },
   progressContainer: {
     flexDirection: 'row',
@@ -401,16 +380,13 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    fontSize: 14,
+    fontWeight: '500',
     color: '#333',
   },
   sectionContent: {
     backgroundColor: 'white',
     borderRadius: 8,
-    marginHorizontal: 16,
     overflow: 'hidden',
   },
   menuItem: {
@@ -427,7 +403,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   menuItemText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#333',
     flex: 1,
   },

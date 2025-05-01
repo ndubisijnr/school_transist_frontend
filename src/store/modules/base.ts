@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {CaseAsyncActionHelper} from "@/src/utility/helper/CaseAsyncActionHelper";
+import {CaseAsyncActionHelper} from "@/utility/helper/CaseAsyncActionHelper";
 
 export type BaseState = {
     firstTime: boolean,

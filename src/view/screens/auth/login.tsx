@@ -2,26 +2,24 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
   TouchableWithoutFeedback,
-  Image,
-    ActivityIndicator,
-  ToastAndroid
+  ScrollView,
+  ActivityIndicator, Platform, StatusBar,
 } from 'react-native';
-import {LoginRequest, LoginRequestType} from "@/src/model/request/auth/LoginRequest";
+import {LoginRequest, LoginRequestType} from "@/model/request/auth/LoginRequest";
 import {useRef} from "react";
 import {useFormik} from "formik";
-import {DefaultTextInput} from "@/src/components/textinput/DefaultTextInput";
-import auth from "@/src/store/modules/auth";
+import {DefaultTextInput} from "@/component/textInput/DefaultTextInput";
+import auth from "@/store/modules/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {useAppSelector} from "../src/store";
-import { useRouter } from 'expo-router';
-import {showMessage} from "@/src/hooks/useToast";
+import {useAppSelector} from "@/store";
+import { useRouter, Link } from 'expo-router';
+import {showMessage} from "@/utility/hook/useToast";
 import {Feather, Ionicons} from '@expo/vector-icons';
-
+import {RouterUtil} from "@/utility/RouterUtil";
 const LoginScreen = () => {
   const [email, setEmail] = useState('anthony.morah11@gmail.com');
   const [password, setPassword] = useState('••••••');
@@ -39,7 +37,7 @@ const LoginScreen = () => {
     dispatch(auth.action.login(values)).then((response: any)=> {
       console.log(response.payload)
       if (response.payload.code === "00"){
-        router.replace('/(tabs)')
+          RouterUtil.navigate('dashboard.homeScreen', { screen: 'Home Screen' });
       }else {
         showMessage(response.payload.message)
       }
@@ -54,7 +52,8 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.contentContainer}>
+      <ScrollView>
+        <View style={styles.contentContainer}>
         <Text style={styles.title}>Azapal</Text>
         
         <Text style={styles.heading}>Welcome Back</Text>
@@ -85,13 +84,12 @@ const LoginScreen = () => {
           {!loading && (<Text style={styles.loginButtonText}>Login</Text>)}
         </TouchableOpacity>
         
-        <View style={styles.signupContainer}>
+        <TouchableOpacity style={styles.signupContainer} onPress={() => RouterUtil.navigate('auth.register')}>
           <Text style={styles.signupText}>Dont have an account? </Text>
-          <Link href="/signup">
-            <Text style={styles.signupLink}>Sign up</Text>
-          </Link>
-        </View>
+          <Text style={styles.signupLink}>Sign up</Text>
+        </TouchableOpacity>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -100,6 +98,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+
   },
   contentContainer: {
     flex: 1,
@@ -125,6 +125,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
     marginBottom: 30,
+    width:'100%',
+    textAlign: 'center',
   },
   socialButton: {
     flexDirection: 'row',
@@ -149,7 +151,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    marginVertical: 20,
   },
   dividerLine: {
     flex: 1,
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: '#666',
     fontSize: 14,
+    textAlign: 'center',
   },
   inputContainer: {
     width: '100%',
@@ -209,13 +211,18 @@ const styles = StyleSheet.create({
   signupContainer: {
     flexDirection: 'row',
     marginTop: 20,
+    maxWidth:'100%',
+    marginBottom: 20,
   },
   signupText: {
     color: '#333',
+    fontSize: 16,
   },
   signupLink: {
     color: '#F15A24',
     fontWeight: 'bold',
+    fontSize: 16,
+
   },
 });
 

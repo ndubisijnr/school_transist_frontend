@@ -8,9 +8,11 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Image,
+  ScrollView, Platform, StatusBar
 } from 'react-native';
 import { Link } from 'expo-router';
 import {Ionicons} from "@expo/vector-icons";
+import { RouterUtil } from '@/utility/RouterUtil';
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('anthony.morah11@gmail.com');
@@ -19,6 +21,7 @@ const SignUpScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Azapal</Text>
         
@@ -92,11 +95,12 @@ const SignUpScreen = () => {
         
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>Already have an account? </Text>
-          <Link href="/">
+          <TouchableOpacity onPress={() => RouterUtil.navigate('auth.login')}>
             <Text style={styles.signupLink}>Login</Text>
-          </Link>
+          </TouchableOpacity>
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -105,6 +109,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+
   },
   contentContainer: {
     flex: 1,
@@ -127,10 +133,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   subheading: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#666',
     marginBottom: 30,
-    textAlign:"center"
+    textAlign:"center",
+    width:'100%'
   },
   socialButton: {
     flexDirection: 'row',
@@ -166,6 +173,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: '#666',
     fontSize: 14,
+    textAlign: "center",
   },
   inputContainer: {
     width: '100%',
@@ -218,10 +226,13 @@ const styles = StyleSheet.create({
   },
   signupText: {
     color: '#333',
+    fontSize:16
   },
   signupLink: {
     color: '#F15A24',
     fontWeight: 'bold',
+    fontSize:16
+
   },
 });
 

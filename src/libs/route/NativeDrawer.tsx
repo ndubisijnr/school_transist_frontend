@@ -28,6 +28,7 @@ export const NativeDrawer = () => {
         }
     ]
 
+
     const drawerNavigator = routes.filter((it: RouteType)=> it.metadata?.type === NavigationTypeConstant.drawer)?.concat(bottomTab)
 
 

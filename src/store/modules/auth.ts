@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {CaseAsyncActionHelper} from "@/src/utility/helper/CaseAsyncActionHelper";
-import {LoginResponse} from "@/src/model/response/auth/LoginResponse";
-import {AuthService} from "@/src/service/AuthService";
-import {LoginRequestType} from "@/src/model/request/auth/LoginRequest";
+import {CaseAsyncActionHelper} from "@/utility/helper/CaseAsyncActionHelper";
+import {LoginResponse} from "@/model/response/auth/LoginResponse";
+import {AuthService} from "@/service/AuthService";
+import {LoginRequestType} from "@/model/request/auth/LoginRequest";
 
 export type AuthState = {
     token: string|null,
@@ -22,6 +22,10 @@ const initialState: AuthState  = {
 
 const actions = {
     login: CaseAsyncActionHelper.createThunk<LoginRequestType>("auth/login", AuthService.login),
+    logout: CaseAsyncActionHelper.createThunk("auth/logout", async () => {
+        // You can add API calls here if needed (like token invalidation on server)
+        return { success: true };
+    }),
 }
 
 const slice = createSlice({
@@ -37,6 +41,9 @@ const slice = createSlice({
       setLoading: (state, action: PayloadAction<boolean>) => {
         state.loading = action.payload
     },
+    logout: (state) => {
+            return initialState;
+        },
     },
     extraReducers:(builder)=>{
 
@@ -46,7 +53,10 @@ const slice = createSlice({
                 {stateProp: "userDetails", responseKey:'data'},
             ]
         })(builder)
-
+        // Handle the logout action if you're using the thunk version
+        builder.addCase(actions.logout.fulfilled, (state) => {
+            return initialState;
+        });
     }
 })
 

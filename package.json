@@ -1,5 +1,5 @@
 {
-  "name": "sundry-mobile",
+  "name": "azapal-mobile",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
@@ -25,6 +25,7 @@
     "account list": "eas account:list",
     "build:android11and12": "EXPO_ANDROID_REACT_NATIVE_ARCHITECTURES=arm64-v8a eas build --platform android --local --profile production --clear-cache",
     "build:apk": "eas build --platform android --local --profile production --clear-cache",
+    "build:eas:apk": "eas build --platform android --profile production --clear-cache",
     "build:androiddev": "eas build --platform android --profile development --clear-cache",
     "build:ios": "eas build --platform ios --local --clear-cache",
     "optimize:app": "rm -rf node_modules && rm -rf .expo && rm -rf yarn.lock && yarn && cd android && ./gradlew clean && cd .. && cd ios && rm -rf Podfile.lock && rm -rf .xcode.env.local && pod install && cd ..",
@@ -49,6 +50,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "2.29.3",
     "expo": "~52.0.38",
+    "expo-av": "^15.1.4",
     "expo-blur": "~14.0.3",
     "expo-build-properties": "~0.13.2",
     "expo-camera": "~16.0.18",
@@ -66,6 +68,7 @@
     "expo-network": "~7.0.5",
     "expo-notifications": "~0.29.14",
     "expo-print": "~14.0.3",
+    "expo-router": "^4.0.20",
     "expo-secure-store": "~14.0.1",
     "expo-sharing": "~13.0.1",
     "expo-splash-screen": "~0.29.22",
@@ -84,6 +87,7 @@
     "react-native-actions-sheet": "^0.9.7",
     "react-native-async-storage": "^0.0.1",
     "react-native-fast-image": "^8.6.3",
+    "react-native-feather": "^1.1.2",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-get-random-values": "~1.11.0",
     "react-native-gifted-charts": "^1.4.11",

@@ -10,18 +10,12 @@ import {RouteConstant} from "@/utility/constant/RouteConstant";
 import {FallbackLoader} from "@/component/loader/FallbackLoader";
 import Toast from "react-native-toast-message";
 import {useInactivity} from "@/libs/useInactivity";
-import base from "@/store/modules/base";
-import {BottomSheetConstant} from "@/utility/constant/BottomSheetConstant";
-import auth from "@/store/modules/auth";
-import {useDispatch} from "react-redux";
 import {NavigationTypeConstant} from "@/utility/constant/NavigationTypeConstant";
 
 SplashScreen.preventAutoHideAsync().then();
 export const Router = ()=>{
     const prefix = Linking.createURL('/stack/auth/login');
     const linking = { prefixes: [prefix] };
-    const dispatch = useDispatch<any>()
-
     const [fontsLoaded] = useFonts(Fonts);
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -40,8 +34,8 @@ export const Router = ()=>{
 
     const {ViewComponent} = useInactivity({callbackFn: handleSessionExpired})
 
-    // const initR = RouteConstant.onboarding.initiateOnboarding.path
-    const initR = NavigationTypeConstant.drawer
+    const initR = RouteConstant.dashboard.splashScreen.path
+    // const initR = NavigationTypeConstant.drawer
 
     return (
         <NavigationContainer onReady={onLayoutRootView} linking={linking}  ref={navigationRef}   fallback={<FallbackLoader />}>

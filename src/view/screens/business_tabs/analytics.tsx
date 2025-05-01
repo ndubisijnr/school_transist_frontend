@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {style} from "@/src/hooks/styles";
+import {style} from "@/utility/hook/styles";
+import {RouterUtil} from "@/utility/RouterUtil";
 
 
 const Analytics = () => {
@@ -9,8 +10,12 @@ const Analytics = () => {
 
     return (
         <ScrollView style={styles.container}>
+            <View>
+                <TouchableOpacity className="flex-row" onPress={()=> RouterUtil.goBack()}>
+                    <Ionicons name="arrow-back" size={24} className="ml-3" />
+                    <Text className="text-lg">Business Analytics</Text>
+                </TouchableOpacity>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>Business Analytics</Text>
                 <View style={styles.tabSelector}>
                     <TouchableOpacity
                         style={[styles.tabButton, timeframe === 'Week' && styles.activeTab]}
@@ -29,6 +34,7 @@ const Analytics = () => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <View className="pl-3 pr-3 pb-20">
 
             <View style={styles.card}>
                 <Text style={styles.cardLabel}>Total Amount Received</Text>
@@ -130,6 +136,8 @@ const Analytics = () => {
                     <Text style={styles.analysisItemLabel}>In-Store</Text>
                     <Text style={styles.analysisItemValue}>8%</Text>
                 </View>
+            </View>
+            </View>
             </View>
         </ScrollView>
     );

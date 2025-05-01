@@ -1,9 +1,10 @@
 // Available Dispatch Services (Image 3)
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList, Linking, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {style} from "@/src/hooks/styles";
+import {style} from "@/utility/hook/styles";
 import { AntDesign, Feather } from '@expo/vector-icons';
+import {RouterUtil} from "@/utility/RouterUtil";
 
 const Dispatch = () => {
     const [activeTab, setActiveTab] = useState('Pending');
@@ -50,10 +51,10 @@ const Dispatch = () => {
         ];
 
         return (
-            <ScrollView style={[styles.container]}>
+            <ScrollView >
                 <View style={styles.header}>
-                    <Text style={styles.logoText}>SpeedyDis</Text>
-                    <Text style={styles.logoSubtext}>'ogo</Text>
+                    <Text style={styles.logoText}>GUO</Text>
+                    <Text style={styles.logoSubtext}>'logo</Text>
                     <TouchableOpacity style={styles.closeIcon} onPress={() => setShowDispatch(false)}>
                         <AntDesign name="close" size={24} color="black"  />
                     </TouchableOpacity>
@@ -89,6 +90,7 @@ const Dispatch = () => {
                     {/*    <Text style={styles.subscribeButtonText}>Subscribe</Text>*/}
                     {/*</TouchableOpacity>*/}
                 </View>
+        <View >
 
                 <View style={styles.sectionContainer}>
                     <Text style={styles.sectionTitle}>Branches</Text>
@@ -147,6 +149,7 @@ const Dispatch = () => {
                         ))}
                     </View>
                 </View>
+            </View>
             </ScrollView>
         );
     };
@@ -154,9 +157,15 @@ const Dispatch = () => {
 
     return (
         <>
-            {showDispatch && (<SpeedyDispatch></SpeedyDispatch>)}
-            {!showDispatch && (<ScrollView style={styles.container}>
-                <Text style={styles.pageTitle}>Explore Interstate Logistics Company</Text>
+            {!showDispatch && (
+
+                <View className="mb-5">
+                    <View className="flex-row items-center justify-between">
+                        <Text  className="text-sm" style={styles.pageTitle}>Explore Logistics</Text>
+                        {/*<TouchableOpacity>*/}
+                        {/*    <Text  className="text-sm underline text-blue-500" style={styles.pageTitle}> More</Text>*/}
+                        {/*</TouchableOpacity>*/}
+                    </View>
                     <ScrollView
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
@@ -215,70 +224,74 @@ const Dispatch = () => {
                     </View>
                         </View>
                     </ScrollView>
-
-                <Text style={styles.sectionTitle}>Dispatch Services</Text>
-
-                <View style={styles.tabContainer}>
-                    <TouchableOpacity
-                        style={[styles.dispatchTab, activeTab === 'Pending' && styles.activeDispatchTab]}
-                        onPress={() => setActiveTab('Pending')}>
-                        <Text style={[styles.dispatchTabText, activeTab === 'Pending' && styles.activeDispatchTabText]}>Pending</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.dispatchTab, activeTab === 'Active' && styles.activeDispatchTab]}
-                        onPress={() => setActiveTab('Active')}>
-                        <Text style={styles.dispatchTabText}>Active</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.dispatchTab, activeTab === 'Completed' && styles.activeDispatchTab]}
-                        onPress={() => setActiveTab('Completed')}>
-                        <Text style={styles.dispatchTabText}>Completed</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.dispatchTab, activeTab === 'All' && styles.activeDispatchTab]}
-                        onPress={() => setActiveTab('All')}>
-                        <Text style={styles.dispatchTabText}>All</Text>
-                    </TouchableOpacity>
                 </View>
 
-                <View style={styles.emptyStateContainer}>
-                    <View style={styles.receiptIconContainer}>
-                        <Ionicons name="receipt-outline" size={40} color="#333" />
-                    </View>
-                    {/* <Text style={styles.emptyStateTitle}>
-                        All your payments and purchases in one place
-                    </Text> */}
-                    <Text style={styles.emptyStateDescription}>
-                        Keep track and manage dispatch activity right here. Let's get started.
-                    </Text>
-                </View>
 
-                {/*<View style={styles.dispatchItemCard}>*/}
-                {/*    <View style={styles.dispatchItemInfo}>*/}
-                {/*        <Text style={styles.dispatchCustomerName}>John Doe</Text>*/}
-                {/*        <Text style={styles.dispatchLocation}>Lagos</Text>*/}
-                {/*        <Text style={styles.dispatchPhone}>+2341234567890</Text>*/}
-                {/*    </View>*/}
-                {/*    <View style={styles.dispatchStatusContainer}>*/}
-                {/*        <Text style={styles.dispatchStatusPending}>Pending</Text>*/}
-                {/*    </View>*/}
-                {/*    <View style={styles.dispatchActionContainer}>*/}
-                {/*        <TouchableOpacity style={styles.detailsButton}>*/}
-                {/*            <Text style={styles.detailsButtonText}>Details</Text>*/}
-                {/*        </TouchableOpacity>*/}
-                {/*        <TouchableOpacity style={styles.approveButton}>*/}
-                {/*            <Text style={styles.approveButtonText}>Approve</Text>*/}
-                {/*        </TouchableOpacity>*/}
-                {/*    </View>*/}
-                {/*</View>*/}
 
-            </ScrollView>)}
+            )}
+
+            <Modal visible={showDispatch}  animationType="slide"
+                   presentationStyle="pageSheet">
+                <SpeedyDispatch></SpeedyDispatch>
+            </Modal>
         </>
 
     );
 };
 
-const styles = StyleSheet.create({...style})
+const styles = StyleSheet.create({...style,
+    progressContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    progressInfo: {
+        flex: 1,
+    },
+    progressTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#fff',
+        marginBottom: 4,
+    },
+    progressSubtitle: {
+        fontSize: 14,
+        color: '#fff',
+    },
+    progressCircleContainer: {
+        marginLeft: 10,
+    },
+    progressCircle: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+    },
+    progressFill: {
+        position: 'absolute',
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderWidth: 5,
+        // borderColor: 'green',
+        borderRightColor: 'transparent',
+        borderBottomColor: 'transparent',
+        transform: [{ rotate: '360deg' }],
+    },
+    progressCenter: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        position: 'absolute',
+    },
+    progressText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#333',
+    },})
 
 
 export  default  Dispatch

@@ -74,7 +74,8 @@ import { useState, useEffect } from "react"
 import * as Location from 'expo-location';
 import {useDispatch} from "react-redux";
 import auth from "@/store/modules/auth";
-
+import {ToastAndroid} from "react-native";
+import {showMessage} from "@/utility/hook/useToast";
 const useLocation = () => {
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -108,7 +109,7 @@ const useLocation = () => {
                 const result = await response.json();
 
                 if (result.results && result.results.length > 0) {
-                    const address = {
+                    const address:any = {
                         id: 'current',
                         name: 'Current Location',
                         address: result.results[0].formatted_address,
@@ -120,26 +121,14 @@ const useLocation = () => {
                     // Reset retry count on success
                     // setRetryCount(0);
                 } else {
-                    throw new Error('No address found');
+                    showMessage('No address found')
                 }
             } else {
-                throw new Error('Location not available');
+                showMessage('Location not available')
+
             }
         } catch (error) {
-            console.error('Error getting current location:', error);
-
-            // Retry logic instead of showing alert
-            // if (retryCount < MAX_RETRIES) {
-            //     setRetryCount(prev => prev + 1);
-            //     console.log(`Retrying location fetch (${retryCount + 1}/${MAX_RETRIES})...`);
-            //
-            //     // Schedule retry after delay
-            //     setTimeout(() => {
-            //         getCurrentLocation();
-            //     }, RETRY_DELAY);
-            // } else {
-            //     setErrorMsg('Failed to get location after multiple attempts');
-            // }
+            showMessage(`Error getting current location:', ${error}`)
         } finally {
             setIsLoadingLocation(false);
         }
@@ -149,11 +138,11 @@ const useLocation = () => {
     const retryGetLocation = () => {
         setRetryCount(0);
         setErrorMsg(null);
-        getCurrentLocation();
+        getCurrentLocation().finally(() => setIsLoadingLocation(false));
     };
 
     useEffect(() => {
-        getCurrentLocation();
+        getCurrentLocation().finally(() => setIsLoadingLocation(false));
     }, []);
 
     return {

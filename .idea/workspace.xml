@@ -5,74 +5,56 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/component/cards/TransactionCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/request/business/BusinessRequest.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/modules/business.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utility/hook/useToast.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/auth/login.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/auth/signup.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/_layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/analytics.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/dashboard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/dispatch.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/dashboard/send.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/_layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/settings.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/request/auth/LoginRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/request/auth/LoginRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/request/cart/CartRequest.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/response/auth/LoginResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/response/auth/LoginResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/validate/auth/SecondEnrollmentValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/validate/auth/SecondEnrollmentValidation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/routes/auth-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/auth-routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/component/reels/MarketReelsItems.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/BusinessService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/hook/styles.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/seller-registration-screen.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/cards/TransactionCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/cards/TransactionCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/libs/route/BottomTabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/libs/route/BottomTabs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/libs/route/NativeDrawer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/libs/route/NativeDrawer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/routes/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/routes/onboarding-routes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/AuthService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/AuthService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/BaseService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/BaseService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/CartService.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/StoreFrontService.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/modules/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/auth.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/modules/base.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/base.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/biometric.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/camera.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/cart.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/contact.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/dashboard.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/document-picker.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/business.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/business.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/modules/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/storefront.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/temp.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/CompleteForgotPasswordScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/InitiateForgotPasswordScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/LoginScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/OtpValidationScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/RegisterScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/CheckOutButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/DeliveryAddressScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/OrderConfirmationScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/PaymentOptionScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cart/ShippingCartDashboardScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/FilterScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/HomeDashboardScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/ProductDetailScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/home/StoreFrontScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/list/ListDashboardScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/user/MyProfileScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/user/UserDashboardScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/onboarding/CompleteOnboardingScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/onboarding/InitiateOnboardingScreen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/helper/CaseAsyncActionHelper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/helper/CaseAsyncActionHelper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/hook/useCart.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/hook/useLocation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/hook/useLocation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/hook/useToast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/hook/useToast.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/auth/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/signup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/auth/signup.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/_layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/analytics.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/analytics.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/dispatch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/dispatch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/send.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/dashboard/send.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/onboarding/SplashScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/onboarding/SplashScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/_layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
   </component>
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="false" />
@@ -96,37 +78,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/dashboard",
-    "last_opened_file_path": "/Users/ndubisiukonu/Downloads/softgem/azapal-mobile/src",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "npm.optimize:app.executor": "Run",
-    "npm.start dev.executor": "Run",
-    "ts.external.directory.path": "/Users/ndubisiukonu/Downloads/softgem/azapal-mobile/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ndubisiukonu/Downloads/softgem/azapal-mobile/src/utility/hook&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;npm.build:androiddev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.optimize:app.executor&quot;: &quot;Run&quot;,
+    &quot;npm.start dev.executor&quot;: &quot;Run&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/ndubisiukonu/Downloads/softgem/azapal-mobile/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/component" />
       <recent name="$PROJECT_DIR$/src/utility/hook" />
       <recent name="$PROJECT_DIR$/src/service" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/component" />
       <recent name="$PROJECT_DIR$/src/view/screens" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/component/textInput" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.optimize:app">
+  <component name="RunManager" selected="npm.build:androiddev">
+    <configuration name="build:androiddev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:androiddev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="optimize:app" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -149,6 +143,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.build:androiddev" />
         <item itemvalue="npm.optimize:app" />
         <item itemvalue="npm.start dev" />
       </list>
@@ -167,6 +162,9 @@
       <workItem from="1745636902492" duration="13147000" />
       <workItem from="1745663897932" duration="2491000" />
       <workItem from="1745713043427" duration="6161000" />
+      <workItem from="1745752583123" duration="20138000" />
+      <workItem from="1745849876030" duration="5726000" />
+      <workItem from="1746087339607" duration="673000" />
     </task>
     <servers />
   </component>
@@ -202,10 +200,6 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/utility/hook/useCart.tsx</url>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/store/modules/storefront.ts</url>
           <line>128</line>
           <option name="timeStamp" value="8" />
@@ -222,9 +216,14 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/view/screens/dashboard/send.tsx</url>
-          <line>27</line>
-          <properties lambdaOrdinal="-1" />
+          <line>28</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx</url>
+          <line>13</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

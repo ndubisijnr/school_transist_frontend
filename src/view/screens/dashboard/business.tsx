@@ -1,14 +1,23 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Modal, Platform} from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
 import {useRouter} from "expo-router";
+import {RouterUtil} from "@/utility/RouterUtil";
+import SellerRegistrationScreen from "@/view/screens/business_tabs/seller-registration-screen";
+
 const BusinessRegistrationScreen = () => {
+    const [userHasBusiness, setUserHasBusiness] = useState<boolean>(false);
+    const [showForm, setShowForm] = useState<boolean>(false);
 
     const navigation = useNavigation();
-    const router = useRouter();
+
     function handleNavigate() {
-        router.navigate('/(business_tabs)/dashboard');
+        setShowForm(true);
+    }
+
+    function handleFormClose(){
+        setShowForm(false);
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -29,29 +38,44 @@ const BusinessRegistrationScreen = () => {
             </View>
 
             {/*<View style={styles.divider} />*/}
+            {!userHasBusiness && (
+                <>
+                <Modal
+                    visible={showForm}
+                    animationType="slide"
+                    presentationStyle="pageSheet"
+                    onRequestClose={() => setShowForm(false)}
+                >
+                    <SellerRegistrationScreen handleOnClick={() => setShowForm(false)} />
+                </Modal>
 
-            {/* Main Content */}
-            <View style={styles.content}>
-                <Text style={styles.title}>What type of business are you registering?</Text>
+                <View style={styles.content}>
+                        <Text style={styles.title}>What type of business are you registering?</Text>
 
-                {/* Service Provider Option */}
-                <TouchableOpacity style={styles.optionCard} onPress={() => handleNavigate()}>
-                    <View style={styles.iconContainer}>
-                        <MaterialIcons name="people" size={28} color="#FF5722" />
+                        {/* Service Provider Option */}
+                        <TouchableOpacity style={styles.optionCard} onPress={() => handleNavigate()}>
+                            <View style={styles.iconContainer}>
+                                <MaterialIcons name="people" size={28} color="#FF5722" />
+                            </View>
+                            <Text style={styles.optionTitle}>Service Provider</Text>
+                            <Text style={styles.optionDescription}>Register as a product or service seller</Text>
+                        </TouchableOpacity>
+
+                        {/* Logistics Option */}
+                        <TouchableOpacity style={styles.optionCard}  onPress={() => handleNavigate()}>
+                            <View style={styles.iconContainer}>
+                                <Feather name="truck" size={28} color="#FF5722" />
+                            </View>
+                            <Text style={styles.optionTitle}>Logistics</Text>
+                            <Text style={styles.optionDescription}>Register as a delivery or dispatch service</Text>
+                        </TouchableOpacity>
                     </View>
-                    <Text style={styles.optionTitle}>Service Provider</Text>
-                    <Text style={styles.optionDescription}>Register as a product or service seller</Text>
-                </TouchableOpacity>
 
-                {/* Logistics Option */}
-                <TouchableOpacity style={styles.optionCard}  onPress={() => handleNavigate()}>
-                    <View style={styles.iconContainer}>
-                        <Feather name="truck" size={28} color="#FF5722" />
-                    </View>
-                    <Text style={styles.optionTitle}>Logistics</Text>
-                    <Text style={styles.optionDescription}>Register as a delivery or dispatch service</Text>
-                </TouchableOpacity>
-            </View>
+                </>
+            )}
+
+            {/*{userHasBusiness && ( )}*/}
+
         </SafeAreaView>
     );
 };
@@ -60,6 +84,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     },
     header: {
         flexDirection: 'row',

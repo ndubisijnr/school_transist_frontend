@@ -2,7 +2,7 @@
 // import {ThunkApiConfig} from "@/utility/type/StoreType";
 //
 // type BaseResponse = {
-//     responseCode: string;
+//     code: string;
 //     token?: string;
 //     [key: string]: any;
 // };
@@ -76,7 +76,7 @@
 //                         });
 //                     }
 //
-//                     if (response?.responseCode && response.responseCode === "00") {
+//                     if (response?.code && response.code === "00") {
 //                         if (options?.stateProps) {
 //                             options.stateProps.forEach(mapping => {
 //                                 (state[mapping.stateProp] as any) = mapping.responseKey
@@ -129,10 +129,10 @@
 // }
 
 import {createAsyncThunk, PayloadAction, ActionReducerMapBuilder, AsyncThunk} from "@reduxjs/toolkit";
-import {ThunkApiConfig} from "@/utility/type/StoreType";
+import {ThunkApiConfig} from "@/src/utility/type/StoreType";
 
 type BaseResponse = {
-    responseCode?: string;
+    code?: string;
     token?: string;
     [key: string]: any;
 };
@@ -210,11 +210,11 @@ export class CaseAsyncActionHelper {
 
                     const response = action.payload;
 
-                    // Default success check is for responseCode === "00" (for backward compatibility)
+                    // Default success check is for code === "00" (for backward compatibility)
                     // But can be overridden with custom isSuccess function
                     const isSuccess = options?.isSuccess
                         ? options.isSuccess(response)
-                        : (response?.responseCode === "00");
+                        : (response?.code === "00" || response.response_code === "00");
 
                     if (isSuccess && options?.stateProps) {
                         // Get response data - either through custom extractor or use whole response

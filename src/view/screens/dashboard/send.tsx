@@ -23,6 +23,7 @@ import {businessLookupRequest, businessLookupRequestType} from "@/model/request/
 import {showMessage} from "@/utility/hook/useToast";
 import business from "@/store/modules/business";
 import { usePaystack } from 'react-native-paystack-webview';
+import {RouterUtil} from "@/utility/RouterUtil";
 
 
 const Send = () => {
@@ -32,7 +33,6 @@ const Send = () => {
     const [remarks, setRemarks] = useState('Payment for nike shoes limited editions 2025');
     const [showTooltip, setShowTooltip] = useState(true);
     const [showPaymentDetails, setShowPaymentDetails] = useState(false)
-    const router = useRouter();
     const {location} = useAppSelector((state: RootState) => state.auth);
     const {loading, paymentDetails} = useAppSelector((state: RootState) => state.business);
     const [selectedDeliveryArea, setSelectedDeliveryArea] = useState(null);
@@ -241,7 +241,7 @@ const Send = () => {
             {!paymentDetails && (
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
                 <View style={styles.container}>
-                    <TouchableOpacity style={[styles.backButton, {flexDirection:'row', alignItems:'center', gap:5}]} onPress={() => router.back()}>
+                    <TouchableOpacity style={[styles.backButton, {flexDirection:'row', alignItems:'center', gap:5}]} onPress={() => RouterUtil.goBack()}>
                         <Ionicons name="arrow-back" size={24} color="#333" />
                         <Text>Transfer to Azapal Business</Text>
                     </TouchableOpacity>
@@ -272,14 +272,24 @@ const Send = () => {
                         </Text>
                         {activeTab === 'Send Money' && <View style={styles.activeTabIndicator} />}
                     </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.tab, activeTab === 'Favorites' && styles.activeTab]}
+                            onPress={() => handleTabPress('Favorites')}
+                        >
+                            <Text style={[styles.tabText, activeTab === 'Favorites' && styles.activeTabText]}>
+                                Favorites
+                            </Text>
+                            {activeTab === 'Favorites' && <View style={styles.activeTabIndicator} />}
+                        </TouchableOpacity>
                 </View>
 
                 <View style={styles.divider} />
 
                 {/* Form Fields */}
+                    {activeTab === 'Send Money' ?
                 <View style={styles.formContainer}>
                     <View style={styles.inputGroup}>
-                        <DefaultTextInput formik={formik} name={'business_identification_name'} label={'Business'}/>
+                        <DefaultTextInput formik={formik} placeholder="Enter business name" name={'business_identification_name'} label={'Business'}/>
                     </View>
 
                     <View style={styles.inputGroup}>
@@ -306,7 +316,22 @@ const Send = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+                        :
+
+
+                        <View className="flex items-center">
+                            <View >
+                                <Ionicons name="receipt-outline" size={40} color="#333" />
+                            </View>
+
+                            <Text className="text-center">
+                                Your most recent and favorite business will appear here.
+                            </Text>
+                        </View>
+                    }
+
                 </View>
+
             </TouchableWithoutFeedback>)}
 
 
@@ -368,7 +393,7 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     backButton: {
-        padding: 4,
+        padding: 0,
     },
     tabContainer: {
         flexDirection: 'row',
@@ -635,3 +660,4 @@ const styles = StyleSheet.create({
 });
 
 export default Send;
+

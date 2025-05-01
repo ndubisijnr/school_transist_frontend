@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import {RouterUtil} from "@/utility/RouterUtil";
 
 // Sample data for three transactions
 const SAMPLE_TRANSACTIONS = [
@@ -275,6 +276,11 @@ const TransactionTracker = () => {
                     title="Processing"
                     active={activeFilter === 'PROCESSING'}
                     onPress={() => setActiveFilter('PROCESSING')}
+                />
+                <FilterButton
+                    title="Analytics"
+                    active={activeFilter === 'ANALYTICS'}
+                    onPress={() => RouterUtil.navigate('dashboard.analyticsScreen')}
                 />
             </View>
 

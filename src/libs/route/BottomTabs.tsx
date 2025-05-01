@@ -1,20 +1,21 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { routes, RouteType } from "@/router/routes";
 import { NavigationTypeConstant } from "@/utility/constant/NavigationTypeConstant";
-import {Text, StyleSheet, Platform, View, StatusBar} from "react-native";
+import {Text, StyleSheet, StatusBar} from "react-native";
 import { useTheme } from "@/libs/useTheme";
-import useCart from "@/utility/hook/useCart";
-import React, {useEffect} from "react";
+import React from "react";
+import {Feather, Ionicons} from '@expo/vector-icons';
+
 
 export const BottomTabs = () => {
     const BottomTab = createBottomTabNavigator();
     const tabNavigator = routes.filter((it: RouteType) => it.metadata?.type === NavigationTypeConstant.tab);
+    const homeTab = tabNavigator.filter(it => it.path.includes('tab/dashboard'));
+    const businessTab = tabNavigator.filter(it => it.path.includes('tab/business'));
     const theme = useTheme();
-    const { cartCount, fetchCartData } = useCart();
+    const isTab = tabNavigator.map(it => it.path).filter(it => it.includes('tab/dashboard'))
 
-    useEffect(() => {
-        fetchCartData()
-    }, [fetchCartData]);
+    console.log(homeTab)
 
 
     return (
@@ -26,36 +27,21 @@ export const BottomTabs = () => {
                     tabBarActiveTintColor: theme.primary,
                     tabBarInactiveTintColor: "rgba(148, 149, 149, 1)",
                     tabBarStyle: styles.tabBarStyle,
-                    tabBarLabel: ({ color }) => {
+                    tabBarLabel: ({ color })  => {
                         const screen = tabNavigator.filter((it) => it.path === route.name)[0];
-                        return <Text style={{ color: color }}>{screen?.metadata?.title ?? screen?.name}</Text>;
+                        return <Text style={{ color: color }}>{screen?.metadata?.title ?? screen?.path}</Text>;
                     },
-                    tabBarIcon: ({ color, focused }) => {
+                    tabBarIcon:({color,focused})  => {
                         const screen = tabNavigator.filter((it) => it.path === route.name)[0];
+                        const path = tabNavigator.filter((it) => it.path);
                         const Svg = focused ? screen?.metadata?.activeIcon ?? screen?.metadata?.inactiveIcon : screen?.metadata?.inactiveIcon ?? screen?.metadata?.activeIcon;
 
-                        // Check if this is the cart tab
-                        const isCartTab = screen.metadata?.title === 'Cart'; // Adjust according to how you identify your cart tab
-                        if (isCartTab) {
-                            // Return the icon with a badge for cart
-                            return (
-                                <View style={{ width: 30, height: 30 }}>
-                                    {Svg ? <Svg width={30} color={color} /> : null}
-                                    <View style={[styles.badge, { backgroundColor: theme.primary }]}>
-                                        <Text style={styles.badgeText}>
-                                            {cartCount < 1 ? '0' : cartCount > 99 ? '99+' : cartCount}
-                                        </Text>
-                                    </View>
-                                </View>
-                            );
-                        }
+                        return Svg ? <Ionicons name={Svg} size={20}  /> : null
+                    }
+                })}>
 
-                        // Return normal icon for other tabs
-                        return Svg ? <Svg width={30} color={color} /> : null;
-                    },
-                })}
-            >
                 {tabNavigator.map((value, index) => (
+
                     <BottomTab.Screen
                         key={index}
                         name={value?.path}
@@ -65,6 +51,7 @@ export const BottomTabs = () => {
                 ))}
 
             </BottomTab.Navigator>
+
             <StatusBar barStyle="dark-content" />
         </>
 
@@ -79,22 +66,5 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         borderWidth: 0,
         borderTopWidth: 0.5
-    },
-    badge: {
-        position: 'absolute',
-        right: -6,
-        top: -4,
-        backgroundColor: 'red',
-        borderRadius: 10,
-        minWidth: 18,
-        height: 18,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 3,
-    },
-    badgeText: {
-        color: 'white',
-        fontSize: 10,
-        fontWeight: 'bold',
     },
 });

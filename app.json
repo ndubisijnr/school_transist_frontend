@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "sundry",
-    "slug": "sundryMarketMobile",
+    "name": "azapalMobile",
+    "slug": "azapalMobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": false,
-    "scheme": "sundry-mobile",
+    "scheme": "azapal-mobile",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "cover",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.quickgem.sundryMarketMobile",
+      "bundleIdentifier": "com.jionerddev.azapalMobile",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSLocationWhenInUseUsageDescription": "This app uses your location to show relevant content nearby.",
@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.quickgem.sundryMarketMobile",
+      "package": "com.jionerddev.azapalMobile",
       "permissions": [
         "android.permission.USE_BIOMETRIC",
         "android.permission.USE_FINGERPRINT",
@@ -54,7 +54,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "48350246-d894-4ae8-8645-35fce5620a0e"
+        "projectId": "a6e80d1f-56e1-40d9-a798-2e1d0ced6128"
       }
     },
     "plugins": [

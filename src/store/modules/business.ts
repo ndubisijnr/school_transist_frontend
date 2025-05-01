@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {CaseAsyncActionHelper} from "@/src/utility/helper/CaseAsyncActionHelper";
-import {BusinessService} from "@/src/service/BusinessService";
-import {businessLookupRequestType} from "@/src/model/request/business/BusinessRequest";
+import {CaseAsyncActionHelper} from "@/utility/helper/CaseAsyncActionHelper";
+import {BusinessService} from "@/service/BusinessService";
+import {businessLookupRequestType} from "@/model/request/business/BusinessRequest";
 
 export type BusinessState = {
     loading: boolean,

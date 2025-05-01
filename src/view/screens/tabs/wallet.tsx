@@ -11,6 +11,7 @@ import {
   Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Analytics from "@/view/screens/business_tabs/analytics";
 
 const WalletScreen = () => {
     const [activeTab, setActiveTab] = useState('Activity');
@@ -18,7 +19,7 @@ const WalletScreen = () => {
     const renderTabContent = () => {
         if (activeTab === 'Activity') {
             return (
-                <View style={styles.emptyStateContainer}>
+                <View className="flex-1 items-center justify-center">
                     <View style={styles.receiptIconContainer}>
                         <Ionicons name="receipt-outline" size={40} color="#333" />
                     </View>
@@ -30,13 +31,18 @@ const WalletScreen = () => {
                     </Text>
                 </View>
             );
-        } else {
+        }
+        else if(activeTab === 'Wallet') {
             return (
-                <View style={styles.emptyStateContainer}>
-                    <Text style={styles.emptyStateTitle}>Wallet Content</Text>
+                <View className="flex-1 items-center justify-center">
+                    <View style={styles.receiptIconContainer}>
+                        <Ionicons name="receipt-outline" size={40} color="#333" />
+                    </View>
+                    <Text >Coming Soon</Text>
                 </View>
             );
         }
+
     };
     return (
         <SafeAreaView style={styles.container}>
@@ -70,6 +76,7 @@ const WalletScreen = () => {
                     </Text>
                     {activeTab === 'Activity' && <View style={styles.activeTabIndicator} />}
                 </TouchableOpacity>
+
             </View>
 
             {/* Main Content */}
@@ -121,8 +128,7 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        padding:10
     },
     emptyStateContainer: {
         alignItems: 'center',

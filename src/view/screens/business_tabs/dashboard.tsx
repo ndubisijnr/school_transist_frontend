@@ -1,9 +1,12 @@
 // Business Dashboard (Image 4)
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import {style} from "@/src/hooks/styles";
-import TransactionCard from "@/src/components/cards/TransactionCard";
+import {View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList, SafeAreaView} from 'react-native';
+import {StatusBar} from "expo-status-bar";
+import {Feather, Ionicons} from '@expo/vector-icons';
+import {style} from "@/utility/hook/styles";
+import TransactionCard from "@/component/cards/TransactionCard";
+import {RouterUtil} from "@/utility/RouterUtil";
+
 
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('New Payments');
@@ -57,67 +60,77 @@ const Dashboard = () => {
     ];
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.businessHeader}>
-                <View style={styles.businessLogoContainer}>
-                    <Text style={styles.businessLogo}>Business Logo</Text>
-                </View>
-                <Text style={styles.businessName}>Zita Gliters</Text>
-                <View style={styles.balanceContainer}>
-                    <Text style={styles.balanceAmount}>₦0.00</Text>
-                </View>
-            </View>
+        <ScrollView>
+            <SafeAreaView style={styles.container}>
+                <StatusBar  />
 
-            {/*<View style={styles.paymentTabContainer}>*/}
-            {/*    <TouchableOpacity*/}
-            {/*        style={[styles.paymentTab, activeTab === 'New Payments' && styles.activePaymentTab]}*/}
-            {/*        onPress={() => setActiveTab('New Payments')}>*/}
-            {/*        <Text style={[styles.paymentTabText, activeTab === 'New Payments' && styles.activePaymentTabText]}>New Payments</Text>*/}
-            {/*    </TouchableOpacity>*/}
-            {/*    <TouchableOpacity*/}
-            {/*        style={[styles.paymentTab, activeTab === 'Ongoing' && styles.activePaymentTab]}*/}
-            {/*        onPress={() => setActiveTab('Ongoing')}>*/}
-            {/*        <Text style={styles.paymentTabText}>Ongoing</Text>*/}
-            {/*    </TouchableOpacity>*/}
-            {/*    <TouchableOpacity*/}
-            {/*        style={[styles.paymentTab, activeTab === 'Completed' && styles.activePaymentTab]}*/}
-            {/*        onPress={() => setActiveTab('Completed')}>*/}
-            {/*        <Text style={styles.paymentTabText}>Completed</Text>*/}
-            {/*    </TouchableOpacity>*/}
-            {/*</View>*/}
-            <TransactionCard />
+                <View style={styles.businessHeader}>
+                    <TouchableOpacity className="absolute left-5 top-5 flex-row items-center gap-3">
+                        <Feather name="arrow-left" size={24} color="black"  onPress={() => RouterUtil.navigate('dashboard.homeScreen')} />
+                        <Text>Zita Gliters</Text>
+                    </TouchableOpacity>
 
-            <View style={styles.emptyStateContainer}>
-                {/*<View style={styles.receiptIconContainer}>*/}
-                {/*    <Ionicons name="receipt-outline" size={40} color="#333" />*/}
+                    <View style={styles.businessLogoContainer}>
+                        <Text style={styles.businessLogo}>Business Logo</Text>
+                    </View>
+                    <Text style={styles.businessName}>Zita Gliters</Text>
+                    <View style={styles.balanceContainer}>
+                        <Text style={styles.balanceAmount}>₦0.00</Text>
+                    </View>
+                </View>
+
+                {/*<View style={styles.paymentTabContainer}>*/}
+                {/*    <TouchableOpacity*/}
+                {/*        style={[styles.paymentTab, activeTab === 'New Payments' && styles.activePaymentTab]}*/}
+                {/*        onPress={() => setActiveTab('New Payments')}>*/}
+                {/*        <Text style={[styles.paymentTabText, activeTab === 'New Payments' && styles.activePaymentTabText]}>New Payments</Text>*/}
+                {/*    </TouchableOpacity>*/}
+                {/*    <TouchableOpacity*/}
+                {/*        style={[styles.paymentTab, activeTab === 'Ongoing' && styles.activePaymentTab]}*/}
+                {/*        onPress={() => setActiveTab('Ongoing')}>*/}
+                {/*        <Text style={styles.paymentTabText}>Ongoing</Text>*/}
+                {/*    </TouchableOpacity>*/}
+                {/*    <TouchableOpacity*/}
+                {/*        style={[styles.paymentTab, activeTab === 'Completed' && styles.activePaymentTab]}*/}
+                {/*        onPress={() => setActiveTab('Completed')}>*/}
+                {/*        <Text style={styles.paymentTabText}>Completed</Text>*/}
+                {/*    </TouchableOpacity>*/}
                 {/*</View>*/}
-                {/* <Text style={styles.emptyStateTitle}>
+                <TransactionCard />
+
+                <View style={styles.emptyStateContainer}>
+                    {/*<View style={styles.receiptIconContainer}>*/}
+                    {/*    <Ionicons name="receipt-outline" size={40} color="#333" />*/}
+                    {/*</View>*/}
+                    {/* <Text style={styles.emptyStateTitle}>
                         All your payments and purchases in one place
                     </Text> */}
-                {/*<Text style={styles.emptyStateDescription}>*/}
-                {/*    Keep track and manage payments made to your  AzaPal business account right here. Let's get started.*/}
-                {/*</Text>*/}
+                    {/*<Text style={styles.emptyStateDescription}>*/}
+                    {/*    Keep track and manage payments made to your  AzaPal business account right here. Let's get started.*/}
+                    {/*</Text>*/}
 
-            </View>
+                </View>
 
-            {/*<View style={styles.transactionSummaryCard}>*/}
-            {/*    <View style={styles.transactionSummaryContent}>*/}
-            {/*        <Text style={styles.transactionSummaryLabel}>Successful Transactions</Text>*/}
-            {/*    </View>*/}
-            {/*    <View style={styles.transactionSuccessIcon}>*/}
-            {/*        <Ionicons name="checkmark-circle" size={24} color="#34A853" />*/}
-            {/*    </View>*/}
-            {/*</View>*/}
+                {/*<View style={styles.transactionSummaryCard}>*/}
+                {/*    <View style={styles.transactionSummaryContent}>*/}
+                {/*        <Text style={styles.transactionSummaryLabel}>Successful Transactions</Text>*/}
+                {/*    </View>*/}
+                {/*    <View style={styles.transactionSuccessIcon}>*/}
+                {/*        <Ionicons name="checkmark-circle" size={24} color="#34A853" />*/}
+                {/*    </View>*/}
+                {/*</View>*/}
 
-            {/*<View style={styles.transactionSummaryCard}>*/}
-            {/*    <View style={styles.transactionSummaryContent}>*/}
-            {/*        <Text style={styles.transactionSummaryLabel}>Failed Transactions</Text>*/}
-            {/*    </View>*/}
-            {/*    <View style={styles.transactionFailedIcon}>*/}
-            {/*        <Ionicons name="close-circle" size={24} color="#EA4335" />*/}
-            {/*    </View>*/}
-            {/*</View>*/}
+                {/*<View style={styles.transactionSummaryCard}>*/}
+                {/*    <View style={styles.transactionSummaryContent}>*/}
+                {/*        <Text style={styles.transactionSummaryLabel}>Failed Transactions</Text>*/}
+                {/*    </View>*/}
+                {/*    <View style={styles.transactionFailedIcon}>*/}
+                {/*        <Ionicons name="close-circle" size={24} color="#EA4335" />*/}
+                {/*    </View>*/}
+                {/*</View>*/}
+            </SafeAreaView>
         </ScrollView>
+
     );
 };
 

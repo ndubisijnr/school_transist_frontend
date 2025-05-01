@@ -69,7 +69,7 @@ import {configureStore, ThunkMiddleware} from "@reduxjs/toolkit";
 import thunk from 'redux-thunk';
 import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { rootReducer } from "@/src/store/modules";
+import { rootReducer } from "@/store/modules";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 // Change to AsyncStorage instead of MMKV
