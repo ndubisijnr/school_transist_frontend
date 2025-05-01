@@ -7,9 +7,6 @@ import Send  from "@/view/screens/dashboard/send";
 import WalletScreen from "@/view/screens/tabs/wallet";
 import Settings from "@/view/screens/tabs/settings";
 import {SplashScreen} from "@/view/screens/onboarding/SplashScreen";
-import HomeIcon from "@/assets/icon/home.svg"
-import HomeIcon2 from "@/assets/icon/active-home.svg"
-import WalletActive from "@/assets/icon/active-wallet.svg"
 import Dashboard from "@/view/screens/business_tabs/dashboard";
 import Analytics from "@/view/screens/business_tabs/analytics";
 import Dispatch from "@/view/screens/business_tabs/dispatch";

@@ -14,7 +14,6 @@ import {PaystackProvider} from "react-native-paystack-webview"
 export default function App() {
 
   return (
-
     <SheetProvider >
       <SafeAreaProvider>
       <PaystackProvider publicKey="pk_test_c9e5c330771a43937800449ed736c73bc647202f" debug={true}>
