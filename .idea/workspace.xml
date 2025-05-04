@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/reels/MarketReelsItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/reels/MarketReelsItems.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/Home.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -144,7 +144,7 @@
       <workItem from="1745713043427" duration="6161000" />
       <workItem from="1745752583123" duration="20138000" />
       <workItem from="1745849876030" duration="5726000" />
-      <workItem from="1746087339607" duration="8201000" />
+      <workItem from="1746087339607" duration="11067000" />
     </task>
     <servers />
   </component>

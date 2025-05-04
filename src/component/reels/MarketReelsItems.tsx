@@ -6,7 +6,7 @@ import {
     Image,
     Dimensions,
     Animated,
-    Pressable
+    Pressable,
 } from 'react-native';
 import { Video } from 'expo-av';
 import {
