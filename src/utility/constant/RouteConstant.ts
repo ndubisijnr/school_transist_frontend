@@ -58,9 +58,18 @@ export const RouteConstant = {
             path: "tab/dashboard/settings-screen",
             name: "Settings Screen"
         },
+        searchScreen: {
+            path: "tab/dashboard/search-screen",
+            name: "Search Screen"
+        },
         businessDashboardScreen: {
             path: "stack/dashboard/business-screen",
             name: "Business Dashboard Screen"
+        },
+
+        cooperativeScreen: {
+            path: "stack/dashboard/cooperative-screen",
+            name: "Cooperative Screen"
         },
 
         logisticsScreen: {

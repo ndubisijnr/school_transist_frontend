@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Analytics from "@/view/screens/business_tabs/analytics";
+import {ContainerScrollViewLayout} from "@/view/layout/ContainerScrollViewLayout";
 
 const WalletScreen = () => {
     const [activeTab, setActiveTab] = useState('Activity');
@@ -45,9 +46,7 @@ const WalletScreen = () => {
 
     };
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-
+  <ContainerScrollViewLayout >
 
             {/* Tab Header */}
             <View style={styles.tabsContainer}>
@@ -85,7 +84,7 @@ const WalletScreen = () => {
             </View>
 
         
-        </SafeAreaView>
+        </ContainerScrollViewLayout>
     );
 }
 

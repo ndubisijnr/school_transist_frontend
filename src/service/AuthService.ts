@@ -5,7 +5,11 @@ import {LoginRequestType} from "@/model/request/auth/LoginRequest";
 
 export class AuthService {
     static login(other: GetThunkAPI<ThunkApiConfig>, data?: LoginRequestType) {
-        return BaseService.apiClient(other).post('authenticate-user', data)
+        return BaseService.apiClient(other).post('/login/', data)
+    }
+
+    static register(other: GetThunkAPI<ThunkApiConfig>, data?: LoginRequestType) {
+        return BaseService.apiClient(other).post('/register/', data)
     }
 
 }

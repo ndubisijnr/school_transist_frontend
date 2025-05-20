@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {CaseAsyncActionHelper} from "@/utility/helper/CaseAsyncActionHelper";
 import {LoginResponse} from "@/model/response/auth/LoginResponse";
 import {AuthService} from "@/service/AuthService";
-import {LoginRequestType} from "@/model/request/auth/LoginRequest";
+import {LoginRequestType, RegisterRequestType} from "@/model/request/auth/LoginRequest";
 
 export type AuthState = {
     token: string|null,
@@ -22,6 +22,7 @@ const initialState: AuthState  = {
 
 const actions = {
     login: CaseAsyncActionHelper.createThunk<LoginRequestType>("auth/login", AuthService.login),
+    register: CaseAsyncActionHelper.createThunk<RegisterRequestType>("auth/register", AuthService.register),
     logout: CaseAsyncActionHelper.createThunk("auth/logout", async () => {
         // You can add API calls here if needed (like token invalidation on server)
         return { success: true };

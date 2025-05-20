@@ -14,7 +14,7 @@ const { height: WINDOW_HEIGHT } = Dimensions.get('window');
 const REELS_DATA = [
     {
         id: '1',
-        videoUri: 'https://example.com/video1.mp4', // Replace with actual video URL
+        videoUri: 'https://cdn.pixabay.com/video/2024/09/01/229254_large.mp4', // Replace with actual video URL
         user: {
             id: '1',
             username: 'FashionHub',
@@ -33,7 +33,7 @@ const REELS_DATA = [
     },
     {
         id: '2',
-        videoUri: 'https://example.com/video2.mp4', // Replace with actual video URL
+        videoUri: 'https://cdn.pixabay.com/video/2024/09/01/229254_large.mp4', // Replace with actual video URL
         user: {
             id: '2',
             username: 'TechGadgetsNG',
@@ -52,7 +52,7 @@ const REELS_DATA = [
     },
     {
         id: '3',
-        videoUri: 'https://example.com/video3.mp4', // Replace with actual video URL
+        videoUri: 'https://cdn.pixabay.com/video/2024/09/01/229254_large.mp4', // Replace with actual video URL
         user: {
             id: '3',
             username: 'HomeStyleDecor',
@@ -137,8 +137,9 @@ const ReelsScreen = () => {
     };
 
     return (
-        <View className="flex-1 bg-black">
-            <FlatList
+                <View className="flex-1 ">
+
+                <FlatList
                 ref={flatListRef}
                 data={reels}
                 renderItem={({ item, index }) => (
@@ -159,8 +160,6 @@ const ReelsScreen = () => {
                 snapToInterval={WINDOW_HEIGHT}
                 snapToAlignment="start"
                 decelerationRate="fast"
-                onEndReached={loadMoreReels}
-                onEndReachedThreshold={0.5}
                 ListFooterComponent={
                     loading ? (
                         <View className="h-40 items-center justify-center">
@@ -170,7 +169,8 @@ const ReelsScreen = () => {
                     ) : null
                 }
             />
-        </View>
+                </View>
+
     );
 };
 

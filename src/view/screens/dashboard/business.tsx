@@ -1,14 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Modal, Platform} from 'react-native';
-import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { Feather, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import {useNavigation} from "@react-navigation/native";
 import {useRouter} from "expo-router";
 import {RouterUtil} from "@/utility/RouterUtil";
-import SellerRegistrationScreen from "@/view/screens/business_tabs/seller-registration-screen";
+import StudentRegistrationScreen from "@/view/screens/business_tabs/student-registration-screen";
+import {ContainerScrollViewLayout} from "@/view/layout/ContainerScrollViewLayout";
+import app from "@/store/modules/app";
+import {useAppDispatch, useAppSelector} from "@/store";
 
 const BusinessRegistrationScreen = () => {
     const [userHasBusiness, setUserHasBusiness] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     const navigation = useNavigation();
 
@@ -19,23 +23,15 @@ const BusinessRegistrationScreen = () => {
     function handleFormClose(){
         setShowForm(false);
     }
+
+    useEffect(() => {
+        dispatch(app.action.readUnis({}))
+    }, []);
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+        <ContainerScrollViewLayout>
 
             {/* Header */}
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
-                    <Feather name="arrow-left" size={24} color="black"  onPress={() => navigation.goBack()} />
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>BUSINESS</Text>
-                <View style={styles.profileContainer}>
-                    <View style={styles.profileIcon}>
-                        <Text style={styles.profileLetter}>N</Text>
-                    </View>
-                    {/*<Feather name="chevron-down" size={20} color="black" />*/}
-                </View>
-            </View>
+
 
             {/*<View style={styles.divider} />*/}
             {!userHasBusiness && (
@@ -46,27 +42,27 @@ const BusinessRegistrationScreen = () => {
                     presentationStyle="pageSheet"
                     onRequestClose={() => setShowForm(false)}
                 >
-                    <SellerRegistrationScreen handleOnClick={() => setShowForm(false)} />
+                    <StudentRegistrationScreen handleOnClick={() => setShowForm(false)} />
                 </Modal>
 
                 <View style={styles.content}>
-                        <Text style={styles.title}>What type of business are you registering?</Text>
+                        <Text style={styles.title}>Lets know who is using this app?</Text>
 
                         {/* Service Provider Option */}
                         <TouchableOpacity style={styles.optionCard} onPress={() => handleNavigate()}>
                             <View style={styles.iconContainer}>
                                 <MaterialIcons name="people" size={28} color="#FF5722" />
                             </View>
-                            <Text style={styles.optionTitle}>Service Provider</Text>
+                            <Text style={styles.optionTitle}>Student</Text>
                             <Text style={styles.optionDescription}>Register as a product or service seller</Text>
                         </TouchableOpacity>
 
                         {/* Logistics Option */}
                         <TouchableOpacity style={styles.optionCard}  onPress={() => handleNavigate()}>
                             <View style={styles.iconContainer}>
-                                <Feather name="truck" size={28} color="#FF5722" />
+                                <Ionicons name="car" size={28} color="#FF5722" />
                             </View>
-                            <Text style={styles.optionTitle}>Logistics</Text>
+                            <Text style={styles.optionTitle}>Driver</Text>
                             <Text style={styles.optionDescription}>Register as a delivery or dispatch service</Text>
                         </TouchableOpacity>
                     </View>
@@ -76,7 +72,7 @@ const BusinessRegistrationScreen = () => {
 
             {/*{userHasBusiness && ( )}*/}
 
-        </SafeAreaView>
+        </ContainerScrollViewLayout>
     );
 };
 

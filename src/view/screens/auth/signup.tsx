@@ -8,91 +8,73 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Image,
-  ScrollView, Platform, StatusBar
+  ScrollView, Platform, StatusBar, ActivityIndicator
 } from 'react-native';
 import { Link } from 'expo-router';
 import {Ionicons} from "@expo/vector-icons";
 import { RouterUtil } from '@/utility/RouterUtil';
+import {ContainerScrollViewLayout} from "@/view/layout/ContainerScrollViewLayout";
+import { RegisterRequest, RegisterRequestType} from "@/model/request/auth/LoginRequest";
+import auth from "@/store/modules/auth";
+import {showMessage} from "@/utility/hook/useToast";
+import {useFormik} from "formik";
+import {useDispatch} from "react-redux";
+import { DefaultTextInput } from '@/component/textInput/DefaultTextInput';
+import {useAppSelector} from "@/store";
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('anthony.morah11@gmail.com');
   const [password, setPassword] = useState('••••••');
   const [showPassword, setShowPassword] = useState(false);
+  const [loginRef, setLoginRef] = useState(RegisterRequest);
+  const dispatch = useDispatch();
+  const {loading } = useAppSelector(state => state.auth);
+
+
+  async function handleSubmit (values: RegisterRequestType){
+
+    console.log("response==========", values)
+
+    dispatch(auth.action.register(values)).then((response: any)=> {
+      console.log('response====', response)
+      if (response.payload.code === "00"){
+        RouterUtil.navigate('dashboard.createBusinessScreen', { screen: 'Home Screen' });
+      }else {
+        showMessage(response.payload.message)
+      }
+    })
+  }
+
+  const formik = useFormik({
+    initialValues: loginRef,
+    onSubmit: handleSubmit,
+
+  })
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ContainerScrollViewLayout>
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>Azapal</Text>
+        <Text style={styles.title}>School Transit</Text>
         
         <Text style={styles.heading}>Create your account</Text>
-        <Text style={styles.subheading}>Join thousands who trust Azapal for secure social commerce transactions.</Text>
-        
-        <TouchableOpacity style={styles.socialButton}>
-          <Ionicons name="logo-tiktok" size={24} color="#333" />
+        <Text style={styles.subheading}>Bringing 21th century transport tech to nigeria schools</Text>
 
-          <Text style={styles.socialButtonText}>Continue with TikTok</Text>
-        </TouchableOpacity>
         
-        <View style={styles.dividerContainer}>
-          <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>Or continue with email</Text>
-          <View style={styles.dividerLine} />
+        <View style={styles.inputContainer}>
+          <DefaultTextInput formik={formik} name={"email"} placeholder={"Enter your email"} label={"Email"} />
         </View>
         
         <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>email</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
-        
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>password</Text>
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.passwordInput}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-            />
-            <TouchableWithoutFeedback onPress={() => setShowPassword(!showPassword)}>
-              <View style={styles.eyeIcon}>
-                <Text>{showPassword ? '👁️' : '👁️‍🗨️'}</Text>
-              </View>
-            </TouchableWithoutFeedback>
+          <DefaultTextInput secureTextEntry formik={formik} name={"password"} placeholder={"Enter your email"} label={"password"} />
           </View>
-        </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>first name</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>last name</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
-        
-        <TouchableOpacity style={styles.loginButton}>
+
+
+        <TouchableOpacity style={styles.loginButton} className={loading ? 'bg-black/20' : 'relative bg-[#F15A24]'} onPress={()=> formik.handleSubmit()} disabled={loading}>
+          {loading && (<ActivityIndicator size="small" color={"white"} className="absolute left-0 right-0 top-0 bottom-0" />)}
           <Text style={styles.loginButtonText}>Signup</Text>
         </TouchableOpacity>
-        
+
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>Already have an account? </Text>
           <TouchableOpacity onPress={() => RouterUtil.navigate('auth.login')}>
@@ -100,8 +82,7 @@ const SignUpScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      </ScrollView>
-    </SafeAreaView>
+      </ContainerScrollViewLayout>
   );
 };
 
@@ -208,7 +189,6 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   loginButton: {
-    backgroundColor: '#F15A24',
     borderRadius: 8,
     padding: 14,
     width: '100%',

@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   ScrollView,
-  ActivityIndicator, Platform, StatusBar,
+  ActivityIndicator, Platform, StatusBar, Alert,
 } from 'react-native';
 import {LoginRequest, LoginRequestType} from "@/model/request/auth/LoginRequest";
 import {useRef} from "react";
@@ -18,8 +18,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {useAppSelector} from "@/store";
 import { useRouter, Link } from 'expo-router';
 import {showMessage} from "@/utility/hook/useToast";
-import {Feather, Ionicons} from '@expo/vector-icons';
 import {RouterUtil} from "@/utility/RouterUtil";
+import {ContainerScrollViewLayout} from "@/view/layout/ContainerScrollViewLayout";
+import {Ionicons} from "@expo/vector-icons"
+
 const LoginScreen = () => {
   const [email, setEmail] = useState('anthony.morah11@gmail.com');
   const [password, setPassword] = useState('••••••');
@@ -35,9 +37,9 @@ const LoginScreen = () => {
     console.log("response==========", values)
 
     dispatch(auth.action.login(values)).then((response: any)=> {
-      console.log(response.payload)
+      console.log('response====', response)
       if (response.payload.code === "00"){
-          RouterUtil.navigate('dashboard.homeScreen', { screen: 'Home Screen' });
+          RouterUtil.navigate('dashboard.createBusinessScreen', { screen: 'Home Screen' });
       }else {
         showMessage(response.payload.message)
       }
@@ -51,46 +53,35 @@ const LoginScreen = () => {
   })
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ContainerScrollViewLayout>
         <View style={styles.contentContainer}>
-        <Text style={styles.title}>Azapal</Text>
+        <Text style={styles.title}>School Transit</Text>
         
-        <Text style={styles.heading}>Welcome Back</Text>
-        <Text style={styles.subheading}>Social Commerce Made Easy.</Text>
-        
-        <TouchableOpacity style={styles.socialButton}>
-          <Ionicons name="logo-tiktok" size={24} color="#333" />
 
-          <Text style={styles.socialButtonText}>Continue with TikTok</Text>
-        </TouchableOpacity>
-        
-        <View style={styles.dividerContainer}>
-          <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>Or continue with email</Text>
-          <View style={styles.dividerLine} />
-        </View>
-        
-        <View style={styles.inputContainer}>
+        <View style={styles.inputContainer} className="relative">
           <DefaultTextInput formik={formik} name={"email"} placeholder={"Enter your email"} label={"Email"} />
+          {/*<TouchableOpacity  className="absolute right-2 bottom-3">*/}
+          {/*  <Ionicons name="chevron-forward-circle-outline" size={35} />*/}
+          {/*</TouchableOpacity>*/}
         </View>
-        
+
+        {/*<Text style={styles.heading}>Welcome Back</Text>*/}
+
         <View style={styles.inputContainer}>
           <DefaultTextInput  secureTextEntry formik={formik} name={"password"} containerClassname={"!mt-5"} placeholder={"••••••••"} label={"Password"} />
         </View>
-        
-        <TouchableOpacity style={styles.loginButton} onPress={()=> formik.handleSubmit()} disabled={loading}>
-          {loading && (<ActivityIndicator size="large" color={"white"} />)}
-          {!loading && (<Text style={styles.loginButtonText}>Login</Text>)}
-        </TouchableOpacity>
+
+          <TouchableOpacity style={styles.loginButton} className={loading ? 'bg-black/20' : 'relative bg-[#F15A24]'} onPress={()=> formik.handleSubmit()} disabled={loading}>
+            {loading && (<ActivityIndicator size="small" color={"white"} className="absolute left-0 right-0 top-0 bottom-0" />)}
+            <Text style={styles.loginButtonText}>Login</Text>
+          </TouchableOpacity>
         
         <TouchableOpacity style={styles.signupContainer} onPress={() => RouterUtil.navigate('auth.register')}>
           <Text style={styles.signupText}>Dont have an account? </Text>
           <Text style={styles.signupLink}>Sign up</Text>
         </TouchableOpacity>
       </View>
-      </ScrollView>
-    </SafeAreaView>
+      </ContainerScrollViewLayout>
   );
 };
 
@@ -99,6 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    justifyContent: 'center',
 
   },
   contentContainer: {
@@ -114,7 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#F15A24',
-    marginBottom: 20,
+    marginBottom: 5,
   },
   heading: {
     fontSize: 24,
@@ -165,7 +157,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
-    marginBottom: 15,
+    marginBottom: 5,
   },
   inputLabel: {
     fontSize: 14,
@@ -196,7 +188,6 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   loginButton: {
-    backgroundColor: '#F15A24',
     borderRadius: 8,
     padding: 14,
     width: '100%',

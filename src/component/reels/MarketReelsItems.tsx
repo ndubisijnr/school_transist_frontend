@@ -10,13 +10,11 @@ import {
 } from 'react-native';
 import { Video } from 'expo-av';
 import {
-    Heart,
-    MessageCircle,
-    Share,
-    ShoppingBag,
-    MapPin,
-    User
-} from 'lucide-react';
+    MaterialIcons,
+    FontAwesome,
+    Feather,
+    MaterialCommunityIcons
+} from '@expo/vector-icons';
 
 const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } = Dimensions.get('window');
 
@@ -33,14 +31,17 @@ const ReelItem = ({
     const [muted, setMuted] = useState(false);
     const videoRef = useRef(null);
     const likeAnimation = useRef(new Animated.Value(0)).current;
+    const [videoLoaded, setVideoLoaded] = useState(false);
 
     useEffect(() => {
-        if (!paused && videoRef.current) {
-            videoRef.current.playAsync();
-        } else if (paused && videoRef.current) {
-            videoRef.current.pauseAsync();
+        if (videoRef.current) {
+            if (!paused && isActive) {
+                videoRef.current.playAsync();
+            } else {
+                videoRef.current.pauseAsync();
+            }
         }
-    }, [paused]);
+    },[paused]);
 
     useEffect(() => {
         setPaused(!isActive);
@@ -86,12 +87,14 @@ const ReelItem = ({
     };
 
     return (
-        <View className="flex-1 w-full h-full bg-black">
+        <View className="flex-1 w-full" style={{height:WINDOW_HEIGHT-50}}>
             <Pressable
-                onPress={() => setPaused(!paused)}
+                onPress={() => {
+                    setPaused(!paused)
+                    console.log(paused)
+                }}
                 onLongPress={() => setMuted(!muted)}
                 delayLongPress={200}
-                onDoublePress={handleDoubleTap}
                 className="flex-1"
             >
                 {/* Video Player */}
@@ -99,11 +102,13 @@ const ReelItem = ({
                     ref={videoRef}
                     source={{ uri: item.videoUri }}
                     className="absolute top-0 left-0 bottom-0 right-0"
-                    resizeMode="cover"
                     isLooping
                     isMuted={muted}
-                    shouldPlay={isActive && !paused}
+                    shouldPlay={isActive && videoLoaded}
                     useNativeControls={false}
+                    onError={(error) => console.log('Video error:', error)}
+                    onLoad={() => {console.log('Video loaded successfully'),setVideoLoaded(true)}}
+                    onLoadStart={() => console.log('Video loading started')}
                 />
 
                 {/* Double tap heart animation */}
@@ -119,7 +124,7 @@ const ReelItem = ({
                         likeAnimationStyle,
                     ]}
                 >
-                    <Heart fill="#fff" color="#fff" size={80} />
+                    <FontAwesome name="heart" size={80} color="#fff" />
                 </Animated.View>
 
                 {/* Overlay Content */}
@@ -129,7 +134,7 @@ const ReelItem = ({
                         onPress={() => onViewProduct(item.product)}
                         className="flex-row items-center mb-4 bg-black/40 p-2 rounded-lg"
                     >
-                        <ShoppingBag color="#fff" size={20} />
+                        <MaterialCommunityIcons name="shopping" size={20} color="#fff" />
                         <View className="ml-2 flex-1">
                             <Text className="text-white font-medium text-base">{item.product.name}</Text>
                             <View className="flex-row items-center justify-between mt-1">
@@ -157,7 +162,7 @@ const ReelItem = ({
                             <View className="ml-2 flex-1">
                                 <Text className="text-white font-semibold">{item.user.username}</Text>
                                 <View className="flex-row items-center">
-                                    <MapPin color="#fff" size={12} className="mr-1" />
+                                    <MaterialIcons name="location-on" size={12} color="#fff" style={{ marginRight: 4 }} />
                                     <Text className="text-white/80 text-xs">{item.user.location}</Text>
                                 </View>
                             </View>
@@ -175,10 +180,12 @@ const ReelItem = ({
                         onPress={() => onLike(item.id)}
                         className="items-center"
                     >
-                        <Heart
-                            color="#fff"
-                            fill={item.isLiked ? "#f91880" : "transparent"}
+                        <FontAwesome
+                            name="heart"
                             size={28}
+                            color="#fff"
+                            style={{ color: item.isLiked ? "#f91880" : "#fff" }}
+                            solid={item.isLiked}
                         />
                         <Text className="text-white text-xs mt-1">
                             {formatNumber(item.likes)}
@@ -190,7 +197,7 @@ const ReelItem = ({
                         onPress={() => onComment(item.id)}
                         className="items-center"
                     >
-                        <MessageCircle color="#fff" size={28} />
+                        <MaterialIcons name="chat-bubble-outline" size={28} color="#fff" />
                         <Text className="text-white text-xs mt-1">
                             {formatNumber(item.comments)}
                         </Text>
@@ -201,7 +208,7 @@ const ReelItem = ({
                         onPress={() => onShare(item.id)}
                         className="items-center"
                     >
-                        <Share color="#fff" size={26} />
+                        <Feather name="share" size={26} color="#fff" />
                         <Text className="text-white text-xs mt-1">Share</Text>
                     </TouchableOpacity>
                 </View>
