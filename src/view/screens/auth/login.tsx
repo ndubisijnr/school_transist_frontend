@@ -57,7 +57,8 @@ const LoginScreen = () => {
       <ContainerScrollViewLayout>
         <View style={styles.contentContainer}>
         <Text style={styles.title}>School Transit</Text>
-        
+        <Text className="text-[20px] text-[#666]">Login</Text>
+
 
         <View style={styles.inputContainer} className="relative">
           <DefaultTextInput formik={formik} name={"email"} placeholder={"Enter your email"} label={"Email"} />

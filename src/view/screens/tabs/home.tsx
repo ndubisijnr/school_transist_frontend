@@ -49,9 +49,9 @@ const DashboardScreen = () => {
 
   useEffect(() => {
 
-    dispatch(app.action.readLocations(userDetails?.uni?.id))
+    dispatch(app.action.readLocations(userDetails?.uni?.id || userDetails?.driver_uni?.id))
 
-  }, [])
+  }, [userDetails])
 
 
   return( <ContainerScrollViewLayout>
@@ -62,10 +62,10 @@ const DashboardScreen = () => {
             <View className="flex-row items-center gap-2">
               <Ionicons name="star" size={18} color="gold" />
               <Text className="text-[#666]">
-                {userDetails?.student?.full_name ? userDetails?.student?.full_name.toLowerCase() : userDetails?.hub?.full_name.toLowerCase()}
+                {userDetails?.student?.full_name ? userDetails?.student?.full_name.toLowerCase() : userDetails?.hub?.driver_fullname.toLowerCase()}
               </Text>
             </View>
-            <Text className="mt-2 text-[#666]">at {userDetails?.uni?.name}</Text>
+            <Text className="mt-2 text-[#666]">at {userDetails?.uni?.name || userDetails?.driver_uni?.name}</Text>
           </View>
           <Ionicons name="person-circle-outline" size={45} color="black" />
         </View>
@@ -73,6 +73,7 @@ const DashboardScreen = () => {
         </View>
 
 
+        {userDetails?.student ?
         <View className="mt-3">
           <View className="relative mb-3">
             <DefaultTextInput  inputType="dropdown"  label={"moving from"} onClick={() => setShowFrom(!showFrom)}/>
@@ -105,6 +106,28 @@ const DashboardScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
+            :
+            <View className="mt-3">
+              <View className="relative mb-3">
+                <DefaultTextInput  inputType="dropdown"  label={"Change your current address"} onClick={() => setShowFrom(!showFrom)}/>
+              </View>
+              {showFrom && (<View className="bg-white bottom-[-180px] z-50 absolute w-full border rounded border-gray-300">
+                {/*<DefaultTextInput placeholder="search location" />*/}
+                {locations?.map((it, index) => {
+                  return <TouchableOpacity className="p-2 mt-2 mb-2" key={index} >
+                    <Text className="">{it.area_name}</Text>
+                  </TouchableOpacity>
+                })}
+
+              </View>)}
+
+              <View>
+                <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]">
+                  <Text className="text-white text-center">Proceed</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+        }
       </View>
 
 

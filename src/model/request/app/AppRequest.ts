@@ -6,6 +6,7 @@ export type CreateStudentRequestType = {
 }
 export type CreateHubRequestType = {
     uni_id: string,
+    user_id: string,
     driver_fullname: string,
     driver_gender: string,
     driver_vehicle_type: string,
@@ -36,7 +37,8 @@ export const CreateStudentRequest:CreateStudentRequestType = {
 }
 
 export const CreateHubRequest:CreateHubRequestType = {
-    uni: "",
+    uni_id: "",
+    user_id: "",
     driver_fullname: "",
     driver_gender: "",
     driver_vehicle_type: "",

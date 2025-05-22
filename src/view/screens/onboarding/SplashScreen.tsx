@@ -9,7 +9,6 @@ import {PixelRatio} from "react-native";
 export const SplashScreen = () => {
     const {token} = useSelector((state: RootState) => state.auth)
     const [isInitialized, setIsInitialized] = useState(false)
-    const {location} = useLocation()
 
     const [textScaleFactor, setTextScaleFactor] = useState(1);
 
@@ -30,10 +29,6 @@ export const SplashScreen = () => {
         }
     }, []);
 
-    useEffect(() => {
-
-
-    }, [location])
 
     useEffect(() => {
         // This will run on component mount and when token changes

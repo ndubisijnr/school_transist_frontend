@@ -5,18 +5,20 @@ import {useNavigation} from "@react-navigation/native";
 import {useRouter} from "expo-router";
 import {RouterUtil} from "@/utility/RouterUtil";
 import StudentRegistrationScreen from "@/view/screens/business_tabs/student-registration-screen";
+import DriverRegistrationScreen from "@/view/screens/business_tabs/driver-registration-screen";
 import {ContainerScrollViewLayout} from "@/view/layout/ContainerScrollViewLayout";
 import app from "@/store/modules/app";
 import {useAppDispatch, useAppSelector} from "@/store";
 
 const BusinessRegistrationScreen = () => {
-    const [userHasBusiness, setUserHasBusiness] = useState<boolean>(false);
+    const [userType, setUserType] = useState(null);
     const [showForm, setShowForm] = useState<boolean>(false);
     const dispatch = useAppDispatch();
 
     const navigation = useNavigation();
 
-    function handleNavigate() {
+    function handleNavigate(value) {
+        setUserType(value);
         setShowForm(true);
     }
 
@@ -30,47 +32,45 @@ const BusinessRegistrationScreen = () => {
     return (
         <ContainerScrollViewLayout>
 
-            {/* Header */}
-
-
-            {/*<View style={styles.divider} />*/}
-            {!userHasBusiness && (
-                <>
+            <>
                 <Modal
                     visible={showForm}
                     animationType="slide"
                     presentationStyle="pageSheet"
                     onRequestClose={() => setShowForm(false)}
                 >
+                    {userType === 'student' ?
                     <StudentRegistrationScreen handleOnClick={() => setShowForm(false)} />
+                        :
+                    <DriverRegistrationScreen handleOnClick={() => setShowForm(false)} />
+
+                    }
                 </Modal>
 
                 <View style={styles.content}>
-                        <Text style={styles.title}>Lets know who is using this app?</Text>
+                    <Text style={styles.title}>Lets know who is using this app?</Text>
 
-                        {/* Service Provider Option */}
-                        <TouchableOpacity style={styles.optionCard} onPress={() => handleNavigate()}>
-                            <View style={styles.iconContainer}>
-                                <MaterialIcons name="people" size={28} color="#FF5722" />
-                            </View>
-                            <Text style={styles.optionTitle}>Student</Text>
-                            <Text style={styles.optionDescription}>Register as a product or service seller</Text>
-                        </TouchableOpacity>
+                    {/* Service Provider Option */}
+                    <TouchableOpacity style={styles.optionCard} onPress={() => handleNavigate('student')}>
+                        <View style={styles.iconContainer}>
+                            <MaterialIcons name="people" size={28} color="#FF5722" />
+                        </View>
+                        <Text style={styles.optionTitle}>Student</Text>
+                    </TouchableOpacity>
 
-                        {/* Logistics Option */}
-                        <TouchableOpacity style={styles.optionCard}  onPress={() => handleNavigate()}>
-                            <View style={styles.iconContainer}>
-                                <Ionicons name="car" size={28} color="#FF5722" />
-                            </View>
-                            <Text style={styles.optionTitle}>Driver</Text>
-                            <Text style={styles.optionDescription}>Register as a delivery or dispatch service</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {/* Logistics Option */}
+                    <TouchableOpacity style={styles.optionCard}  onPress={() => handleNavigate('driver')}>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="car" size={28} color="#FF5722" />
+                        </View>
+                        <Text style={styles.optionTitle}>Hub</Text>
+                    </TouchableOpacity>
+                </View>
 
-                </>
-            )}
+            </>
 
-            {/*{userHasBusiness && ( )}*/}
+
+
 
         </ContainerScrollViewLayout>
     );

@@ -54,6 +54,7 @@ const slice = createSlice({
                 {stateProp: "userDetails", responseKey:'data'},
             ]
         })(builder)
+        CaseAsyncActionHelper.createAsyncReducer<AuthState>(actions.register, {})(builder)
         // Handle the logout action if you're using the thunk version
         builder.addCase(actions.logout.fulfilled, (state) => {
             return initialState;

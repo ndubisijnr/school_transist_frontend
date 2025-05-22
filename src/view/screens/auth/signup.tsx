@@ -28,7 +28,7 @@ const SignUpScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginRef, setLoginRef] = useState(RegisterRequest);
   const dispatch = useDispatch();
-  const {loading } = useAppSelector(state => state.auth);
+  const {loading} = useAppSelector(state => state.auth);
 
 
   async function handleSubmit (values: RegisterRequestType){
@@ -38,7 +38,7 @@ const SignUpScreen = () => {
     dispatch(auth.action.register(values)).then((response: any)=> {
       console.log('response====', response)
       if (response.payload.code === "00"){
-        RouterUtil.navigate('dashboard.createBusinessScreen', { screen: 'Home Screen' });
+        RouterUtil.navigate('auth.login');
       }else {
         showMessage(response.payload.message)
       }
@@ -65,7 +65,7 @@ const SignUpScreen = () => {
         </View>
         
         <View style={styles.inputContainer}>
-          <DefaultTextInput secureTextEntry formik={formik} name={"password"} placeholder={"Enter your email"} label={"password"} />
+          <DefaultTextInput secureTextEntry formik={formik} name={"password"} placeholder={"*********"} label={"password"} />
           </View>
 
 
