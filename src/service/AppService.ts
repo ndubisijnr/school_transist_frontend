@@ -9,7 +9,7 @@ export class AppService {
     }
 
     static readLocationByUniversityId(other: GetThunkAPI<ThunkApiConfig>, data?:number) {
-        return BaseService.apiClient(other).get(`/locations/${data}`)
+        return BaseService.apiClient(other).get(`/locations/${data}/`)
     }
 
     static createStudent(other: GetThunkAPI<ThunkApiConfig>, data?: LoginRequestType) {

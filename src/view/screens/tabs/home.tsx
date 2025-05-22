@@ -12,6 +12,8 @@ import auth from '@/store/modules/auth'
 import {useDispatch} from "react-redux";
 import Dispatch from "@/view/screens/business_tabs/dispatch";
 import {ContainerScrollViewLayout, ContainerScrollViewLayoutProps} from "@/view/layout/ContainerScrollViewLayout";
+import {DefaultTextInput} from "@/component/textInput/DefaultTextInput";
+import app from "@/store/modules/app";
 const MenuItem = ({ icon, title }: any) => (
 
   <TouchableOpacity style={styles.menuItem}>
@@ -35,92 +37,73 @@ const MenuSection = ({ title, children }: any) => (
 
 const DashboardScreen = () => {
   const [showMenu, setShowMenu] = useState(false)
-  const authState = useSelector((state: RootState) => state.auth)
-  const {appTypeUserData} = useSelector((state: RootState) => state.app)
-  const user = authState?.userDetails
+  const {userDetails} = useSelector((state: RootState) => state.auth)
+  const {locations} = useSelector((state: RootState) => state.app)
   const dispatch = useDispatch();
   const router = useRouter();
   const store = useStore();
   const persistor = persistStore(store);
-
-  const userLocation = authState.location
-
-
-  const AzapalMenu = () => {
-    return <>
-      <ScrollView style={styles.content}>
-
-        {/* Send and business_tabs */}
-        <MenuSection title="Money and Business">
-          <TouchableOpacity onPress={() => RouterUtil.navigate('dashboard.sendMoneyScreen')} style={styles.menuItem}>
-            <View style={styles.iconContainer}>
-              {/* Ensure icon is a component, not a string */}
-              <Ionicons name="paper-plane-outline" size={18} color="#333" />
-            </View>
-            <Text style={styles.menuItemText}>Send to a Azapal Business account</Text>
-          </TouchableOpacity>
-
-          {/*<TouchableOpacity  onPress={() => RouterUtil.navigate('dashboard.createBusinessScreen')} style={styles.menuItem}>*/}
-          {/*  <View style={styles.iconContainer}>*/}
-          {/*    /!* Ensure icon is a component, not a string *!/*/}
-          {/*    <Ionicons name="document-text-outline" size={18} color="#333" />*/}
-          {/*  </View>*/}
-          {/*  <Text style={styles.menuItemText}>Create A Business</Text>*/}
-          {/*</TouchableOpacity>*/}
-          <TouchableOpacity  onPress={() => RouterUtil.navigate('dashboard.cooperativeScreen')} style={styles.menuItem}>
-            <View style={styles.iconContainer}>
-              {/* Ensure icon is a component, not a string */}
-              <Ionicons name="people-circle-outline" size={18} color="#333" />
-            </View>
-            <Text style={styles.menuItemText}>Join Cooperative</Text>
-          </TouchableOpacity>
-        </MenuSection>
-
-        <Dispatch />
-        {/* Profile and support */}
-        {/*<MenuSection title="Profile and support">*/}
-        {/*  <MenuItem*/}
-        {/*    icon={<Ionicons name="person-outline" size={18} color="#333" />}*/}
-        {/*    title="Your Profile"*/}
-        {/*  />*/}
-        {/*  <MenuItem*/}
-        {/*    icon={<Ionicons name="call-outline" size={18} color="#333" />}*/}
-        {/*    title="Customer Support"*/}
-        {/*  />*/}
-
-        {/*  <TouchableOpacity  onPress={() => handleLogout()} style={styles.menuItem}>*/}
-        {/*    <View style={styles.iconContainer}>*/}
-        {/*      /!* Ensure icon is a component, not a string *!/*/}
-        {/*      <Ionicons name="exit-outline" size={18} color="#333" />*/}
-        {/*    </View>*/}
-        {/*    <Text style={styles.menuItemText}>Log out</Text>*/}
-        {/*  </TouchableOpacity>*/}
-
-        {/*</MenuSection>*/}
-      </ScrollView>
+  const [showFrom, setShowFrom] = useState(false);
+  const [showTo, setShowTo] = useState(false);
 
 
-    </>
+  useEffect(() => {
 
-  }
+    dispatch(app.action.readLocations(userDetails?.uni?.id))
+
+  }, [])
 
 
   return( <ContainerScrollViewLayout>
 
       <View className="flex-1 p-[16px]">
         <View style={styles.header} className="items-center">
-          <View>
+          <View className="">
             <View className="flex-row items-center gap-2">
               <Ionicons name="star" size={18} color="gold" />
-              <Text>
-                {appTypeUserData?.full_name ? appTypeUserData?.full_name : user?.email}
+              <Text className="text-[#666]">
+                {userDetails?.student?.full_name ? userDetails?.student?.full_name.toLowerCase() : userDetails?.hub?.full_name.toLowerCase()}
               </Text>
             </View>
-            <Text className="mt-2">from {appTypeUserData?.uni} lead city university</Text>
+            <Text className="mt-2 text-[#666]">at {userDetails?.uni?.name}</Text>
           </View>
           <Ionicons name="person-circle-outline" size={45} color="black" />
         </View>
-        <View>
+      <View>
+        </View>
+
+
+        <View className="mt-3">
+          <View className="relative mb-3">
+            <DefaultTextInput  inputType="dropdown"  label={"moving from"} onClick={() => setShowFrom(!showFrom)}/>
+          </View>
+          {showFrom && (<View className="bg-white bottom-[-85px] z-50 absolute w-full border rounded border-gray-300">
+            {/*<DefaultTextInput placeholder="search location" />*/}
+            {locations?.map((it, index) => {
+              return <TouchableOpacity className="p-2 mt-2 mb-2" key={index} >
+                <Text className="">{it.area_name}</Text>
+              </TouchableOpacity>
+            })}
+
+          </View>)}
+
+          <View className="relative mb-3">
+            <DefaultTextInput inputType="dropdown" label={"to" } onClick={() => setShowTo(!showTo)} />
+          </View>
+          {showTo && (<View className="bg-white w-full absolute bottom-[-170px] z-50 border rounded border-gray-300">
+            {/*<DefaultTextInput placeholder="search location" />*/}
+            {locations?.map((it, index) => {
+              return <TouchableOpacity className="p-2 mt-2 mb-2" key={index} >
+                <Text className="">{it.area_name}</Text>
+              </TouchableOpacity>
+            })}
+          </View>)}
+
+          <View>
+            <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]">
+              <Text className="text-white text-center">Request Ride</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 

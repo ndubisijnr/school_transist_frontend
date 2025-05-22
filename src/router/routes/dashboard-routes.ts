@@ -25,20 +25,20 @@ export const dashboardRoutes: RouteType[] = [
         path: RouteConstant.dashboard.homeScreen.path,
         name: RouteConstant.dashboard.homeScreen.name,
         component:Home,
-        metadata: {type: NavigationTypeConstant.tab, activeIcon:'home', inactiveIcon:'home-outline', title:'Home'}
+        metadata: {type: NavigationTypeConstant.tab, activeIcon:'car', inactiveIcon:'car-outline', title:'Ride'}
     },
 
-    {
-        path: RouteConstant.dashboard.MarketReelsScreen.path,
-        name: RouteConstant.dashboard.MarketReelsScreen.name,
-        component:ReelsScreen,
-        metadata: {type: NavigationTypeConstant.tab, activeIcon:'play', inactiveIcon:'play-outline', title:'Market Reels'}
-    },
+    // {
+    //     path: RouteConstant.dashboard.MarketReelsScreen.path,
+    //     name: RouteConstant.dashboard.MarketReelsScreen.name,
+    //     component:ReelsScreen,
+    //     metadata: {type: NavigationTypeConstant.tab, activeIcon:'play', inactiveIcon:'play-outline', title:'Market Reels'}
+    // },
     {
         path: RouteConstant.dashboard.walletScreen.path,
         name: RouteConstant.dashboard.walletScreen.name,
         component:WalletScreen,
-        metadata: {type: NavigationTypeConstant.tab, activeIcon:'wallet', inactiveIcon:'wallet-outline', title:'Wallet'}
+        metadata: {type: NavigationTypeConstant.tab, activeIcon:'wallet', inactiveIcon:'wallet-outline', title:'Activity'}
     },
 
     {
@@ -47,12 +47,12 @@ export const dashboardRoutes: RouteType[] = [
         component:CooperativeScreen,
         metadata: {type: NavigationTypeConstant.stack}
     },
-    {
-        path: RouteConstant.dashboard.searchScreen.path,
-        name: RouteConstant.dashboard.searchScreen.name,
-        component: SearchScreen,
-        metadata: {type: NavigationTypeConstant.tab, activeIcon:'search', inactiveIcon:'search-outline', title:'Explore'}
-    },
+    // {
+    //     path: RouteConstant.dashboard.searchScreen.path,
+    //     name: RouteConstant.dashboard.searchScreen.name,
+    //     component: SearchScreen,
+    //     metadata: {type: NavigationTypeConstant.tab, activeIcon:'search', inactiveIcon:'search-outline', title:'Explore'}
+    // },
     {
         path: RouteConstant.dashboard.settingsScreen.path,
         name: RouteConstant.dashboard.settingsScreen.name,

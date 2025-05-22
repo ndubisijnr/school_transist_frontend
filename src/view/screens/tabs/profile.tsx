@@ -43,8 +43,7 @@ const MenuSection = ({ title, children }: any) => (
 const ProfileScreen = () => {
     const [activeTab, setActiveTab] = useState('Activity');
     const [isEditing, setIsEditing] = useState(false);
-    const authState = useSelector((state: RootState) => state.auth)
-    const user = authState?.userDetails
+    const {userDetails} = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch();
     const store = useStore();
     const persistor = persistStore(store);
@@ -112,10 +111,16 @@ const ProfileScreen = () => {
 
     return (
         <ContainerScrollViewLayout>
-            <View className={"flex-row justify-between items-center mt-5 pb-4 mx-5"}>
+            <View className={"flex-row justify-between items-center mt-5 pb-2 mx-5"}>
                 <View className={"flex-1 items-center"}>
                     <Ionicons name="person-circle" size={70} color="#999" />
-                    <Text className="text-2xl">{user?.first_name} {user?.last_name}</Text>
+                    <Text className="text-lg">{userDetails?.student?.full_name ? userDetails?.student?.full_name : userDetails?.hub?.full_name}</Text>
+                    <View className="flex-row items-center gap-2 mt-1">
+                        <Text className="text-sm bg-black/20 p-1">{userDetails?.student?.full_name ? 'Student' : 'Driver'}</Text>
+                        <Text className="text-md"> at</Text>
+                        <Text className="text-sm bg-orange-200 p-1"> {userDetails?.uni?.name}</Text>
+
+                    </View>
                     {/* <Image width={124} height={124} className={"rounded-full w-[124px] h-[124px]"} source={pf} /> */}
                 </View>
                 {/*<View className={"flex-1 items-end"}>*/}
@@ -127,14 +132,7 @@ const ProfileScreen = () => {
                 {/*    />*/}
                 {/*</View>*/}
             </View>
-            <View className="p-5">
-                <TouchableOpacity
-                    onPress={() => RouterUtil.navigate('dashboard.createBusinessScreen')}
-                    className="w-full py-4 bg-orange-400 rounded-[14px] items-center"
-                >
-                    <Text className="text-white text-lg font-semibold">Become A Business</Text>
-                </TouchableOpacity>
-            </View>
+
 
             <View className="p-5">
                 <MenuSection title="Profile and support">

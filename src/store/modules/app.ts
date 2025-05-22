@@ -45,17 +45,7 @@ const slice = createSlice({
                 {stateProp: "unis", responseKey:"data"},
             ]
         })(builder)
-        CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.createStudent, {
-            stateProps: [
-                {stateProp: "appTypeUserData", responseKey:"data"},
-            ]
-        })(builder)
 
-        CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.createHub, {
-            stateProps: [
-                {stateProp: "appTypeUserData", responseKey:"data"},
-            ]
-        })(builder)
 
         CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.readLocations, {
             stateProps: [

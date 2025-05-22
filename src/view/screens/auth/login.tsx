@@ -39,7 +39,8 @@ const LoginScreen = () => {
     dispatch(auth.action.login(values)).then((response: any)=> {
       console.log('response====', response)
       if (response.payload.code === "00"){
-          RouterUtil.navigate('dashboard.createBusinessScreen', { screen: 'Home Screen' });
+          if(response.payload.data.student || response.payload.data.hub) return RouterUtil.navigate('dashboard.homeScreen');
+          return RouterUtil.navigate('dashboard.createBusinessScreen');
       }else {
         showMessage(response.payload.message)
       }

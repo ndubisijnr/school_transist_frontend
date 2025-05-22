@@ -28,7 +28,7 @@ const WalletScreen = () => {
                         All your payments and purchases in one place
                     </Text> */}
                     <Text style={styles.emptyStateDescription}>
-                        Keep track of everything you do with AzaPal right here. Let's get started.
+                        Keep track of your rides here. Let's get started.
                     </Text>
                 </View>
             );

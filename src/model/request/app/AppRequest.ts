@@ -1,11 +1,11 @@
 export type CreateStudentRequestType = {
-    user: string,
-    uni: string,
+    user_id: string,
+    uni_id: string,
     school_id: string,
     full_name: string
 }
 export type CreateHubRequestType = {
-    uni: string,
+    uni_id: string,
     driver_fullname: string,
     driver_gender: string,
     driver_vehicle_type: string,
@@ -29,8 +29,8 @@ export const ReadLocationsRequest:ReadLocationsRequestType = {
 }
 
 export const CreateStudentRequest:CreateStudentRequestType = {
-    user: "",
-    uni: "",
+    user_id: "",
+    uni_id: "",
     school_id: "",
     full_name: ""
 }

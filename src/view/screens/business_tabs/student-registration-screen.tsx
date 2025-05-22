@@ -39,23 +39,20 @@ const StudentRegistrationScreen = ({handleOnClick}) => {
 
 
     async function handleSubmit (values: CreateStudentRequestType){
-        CreateStudentRequest.uni = selectedValue
-        CreateStudentRequest.user = userDetails?.email
-
-        console.log(CreateStudentRequest)
-        console.log(userDetails)
-
-        console.log("response==========", values)
+        values.uni_id = selectedValue
+        values.user_id = userDetails?.user?.id
 
         try{
-            const response = await dispatch(app.action.createStudent(values)).unwrap()
-            console.log('response====', response)
-            if (response.code === "00"){
+            const response = await dispatch(app.action.createStudent(values))
+            console.log('response====', response.payload)
+            if (response?.payload?.code === "00"){
+                await handleOnClick()
                 RouterUtil.navigate('dashboard.homeScreen', { screen: 'Home Screen' });
             }else {
-                showMessage(response.payload.message)
+                showMessage(response?.payload?.message)
             }
         }catch (err){
+            showMessage(err.error.message)
             console.log(err);
         }
     }
@@ -65,11 +62,6 @@ const StudentRegistrationScreen = ({handleOnClick}) => {
         onSubmit: handleSubmit,
 
     })
-
-
-    useEffect(() => {
-
-    },[])
 
     return (
         <SafeAreaView style={styles.container}>

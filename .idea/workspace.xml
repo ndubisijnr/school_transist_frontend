@@ -5,40 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/component/photo_collage/PhotoCollage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/component/select/Select.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/request/app/AppRequest.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/AppService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/modules/app.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/dashboard/cooperative.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/tabs/search.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/reels/MarketReelsItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/reels/MarketReelsItems.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/request/auth/LoginRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/request/auth/LoginRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/AuthService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/AuthService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/BaseService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/BaseService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/BusinessService.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/business.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/modules/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/auth/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/auth/signup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/auth/signup.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/seller-registration-screen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/business_tabs/student-registration-screen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/send.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/settings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,6 +167,7 @@
       <workItem from="1747473571979" duration="334000" />
       <workItem from="1747636479885" duration="13824000" />
       <workItem from="1747735176535" duration="7897000" />
+      <workItem from="1747820101375" duration="1137000" />
     </task>
     <servers />
   </component>

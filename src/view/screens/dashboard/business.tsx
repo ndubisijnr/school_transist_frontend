@@ -26,7 +26,7 @@ const BusinessRegistrationScreen = () => {
 
     useEffect(() => {
         dispatch(app.action.readUnis({}))
-    }, []);
+    }, [dispatch]);
     return (
         <ContainerScrollViewLayout>
 
