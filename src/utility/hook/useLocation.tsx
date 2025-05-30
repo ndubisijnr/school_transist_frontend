@@ -84,7 +84,7 @@ const useLocation = () => {
     const [retryCount, setRetryCount] = useState(0);
     const dispatch = useDispatch();
 
-    const GOOGLE_PLACES_API_KEY = 'AIzaSyA0G3e9Zwswp9Lr1jzA_VA8xJU10iiAIZs';
+    const GOOGLE_PLACES_API_KEY = '**********';
     const MAX_RETRIES = 1;
     const RETRY_DELAY = 200; // 2 seconds
 
