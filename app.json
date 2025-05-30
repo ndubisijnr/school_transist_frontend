@@ -102,7 +102,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon.jpeg",
+          "icon": "./assets/icon.png",
           "color": "#ffffff",
           "defaultChannel": "default",
           "sounds": [
