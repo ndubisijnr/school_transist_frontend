@@ -15,6 +15,8 @@ import {ContainerScrollViewLayout, ContainerScrollViewLayoutProps} from "@/view/
 import {DefaultTextInput} from "@/component/textInput/DefaultTextInput";
 import app from "@/store/modules/app";
 import MapComponent from "@/component/mapComponent";
+import Select from "@/component/select/Select";
+import {ResponseUtil} from "@/utility/ResponseUtil";
 
 const MenuItem = ({ icon, title }: any) => (
 
@@ -46,8 +48,31 @@ const DashboardScreen = () => {
   const store = useStore();
   const persistor = persistStore(store);
   const [showFrom, setShowFrom] = useState(false);
+  const [selectedToValue, setSelectedToValue] = useState(null);
+  const [selectedFromValue, setSelectedFromValue] = useState(null);
   const [showTo, setShowTo] = useState(false);
 
+  const toOptions:any = locations?.map(item => {
+    return {
+      value: item.area_name,
+      label: item.area_name
+    };
+  })
+
+  const fromOptions:any = locations?.map(item => {
+    return {
+      value: item.area_name,
+      label: item.area_name
+    };
+  })
+
+  const updateDriversLocation = () => {
+    ResponseUtil.toast('Location updated successfully', 'success');
+  }
+
+  const handleBookRide = () => {
+    ResponseUtil.toast('Requesting ride', 'success');
+  }
 
   useEffect(() => {
 
@@ -58,80 +83,78 @@ const DashboardScreen = () => {
 
   return( <ContainerScrollViewLayout>
 
-      <View className="flex-1 p-[16px]">
-        <View style={styles.header} className="items-center">
-          <View className="">
-            <View className="flex-row items-center gap-2">
-              <Ionicons name="star" size={18} color="gold" />
-              <Text className="text-[#666]">
-                {userDetails?.student?.full_name ? userDetails?.student?.full_name.toLowerCase() : userDetails?.hub?.driver_fullname.toLowerCase()}
-              </Text>
-            </View>
-            <Text className="mt-2 text-[#666]">at {userDetails?.uni?.name || userDetails?.driver_uni?.name}</Text>
-          </View>
-          <Ionicons name="person-circle-outline" size={45} color="black" />
-        </View>
-      <View>
-        </View>
+        <View className="relative flex-1">
+          <MapComponent />
 
-
-        <MapComponent />
-        {userDetails?.student ?
-        <View className="mt-3">
-          <View className="relative mb-3">
-            <DefaultTextInput  inputType="dropdown"  label={"moving from"} onClick={() => setShowFrom(!showFrom)}/>
-          </View>
-          {showFrom && (<View className="bg-white bottom-[-85px] z-50 absolute w-full border rounded border-gray-300">
-            {/*<DefaultTextInput placeholder="search location" />*/}
-            {locations?.map((it, index) => {
-              return <TouchableOpacity className="p-2 mt-2 mb-2" key={index} >
-                <Text className="">{it.area_name}</Text>
-              </TouchableOpacity>
-            })}
-
-          </View>)}
-
-          <View className="relative mb-3">
-            <DefaultTextInput inputType="dropdown" label={"to" } onClick={() => setShowTo(!showTo)} />
-          </View>
-          {showTo && (<View className="bg-white w-full absolute bottom-[-170px] z-50 border rounded border-gray-300">
-            {/*<DefaultTextInput placeholder="search location" />*/}
-            {locations?.map((it, index) => {
-              return <TouchableOpacity className="p-2 mt-2 mb-2" key={index} >
-                <Text className="">{it.area_name}</Text>
-              </TouchableOpacity>
-            })}
-          </View>)}
-
-          <View>
-            <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]">
-              <Text className="text-white text-center">Request Ride</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-            :
-            <View className="mt-3">
-              <View className="relative mb-3">
-                <DefaultTextInput  inputType="dropdown"  label={"Change your current address"} onClick={() => setShowFrom(!showFrom)}/>
+          <View className="relative overflow-hidden">
+          <View style={styles.header} className="absolute top-5 right-[130px]">
+            <View className="bg-white p-4 rounded-lg shadow-sm p-4">
+              <View className="flex-row items-center gap-2">
+                <Ionicons name="star" size={18} color="gold" />
+                <Text className="text-[#666]">
+                  {userDetails?.student?.full_name ? userDetails?.student?.full_name.toLowerCase() : userDetails?.hub?.driver_fullname.toLowerCase()}
+                </Text>
               </View>
-              {showFrom && (<View className="bg-white bottom-[-180px] z-50 absolute w-full border rounded border-gray-300">
-                {/*<DefaultTextInput placeholder="search location" />*/}
-                {locations?.map((it, index) => {
-                  return <TouchableOpacity className="p-2 mt-2 mb-2" key={index} >
-                    <Text className="">{it.area_name}</Text>
-                  </TouchableOpacity>
-                })}
-
-              </View>)}
-
-              <View>
-                <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]">
-                  <Text className="text-white text-center">Proceed</Text>
-                </TouchableOpacity>
-              </View>
+              <Text className="mt-2 text-[#666]">at {userDetails?.uni?.name || userDetails?.driver_uni?.name}</Text>
             </View>
-        }
-      </View>
+          </View>
+          <View className="w-full h-full relative">
+
+            <View className="absolute bg-white  w-full bottom-0 rounded p-3">
+              {userDetails?.student ?
+                  <View className="mt-3 ">
+                    <Select
+                        label="Select Your destination"
+                        options={fromOptions}
+                        value={selectedFromValue}
+                        onValueChange={setSelectedFromValue}
+                        placeholder="from"
+                        searchable={true}
+                        searchPlaceholder="Select Your destination..."
+                    />
+                    <Select
+                        label="Select Your destination"
+                        options={toOptions}
+                        value={selectedToValue}
+                        onValueChange={setSelectedToValue}
+                        placeholder="to"
+                        searchable={true}
+                        searchPlaceholder="Select Your destination..."
+                    />
+
+                    <View>
+                      <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]" onPress={() =>  handleBookRide()}>
+                        <Text className="text-white text-center">Request Ride</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  :
+                  <View className="mt-3">
+                    <Select
+                        label="Update your current location"
+                        options={toOptions}
+                        value={selectedToValue}
+                        onValueChange={setSelectedToValue}
+                        placeholder="to"
+                        searchable={true}
+                        searchPlaceholder="Update your current location..."
+                    />
+
+                    <View>
+                      <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]" onPress={() => updateDriversLocation()}>
+                        <Text className="text-white text-center">Proceed</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+              }
+            </View>
+          </View>
+          </View>
+
+
+
+        </View>
 
 
   </ContainerScrollViewLayout>

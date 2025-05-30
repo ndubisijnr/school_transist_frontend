@@ -19,6 +19,7 @@ import { DefaultTextInput } from '@/component/textInput/DefaultTextInput';
 import {CreateHubRequest, CreateHubRequestType} from "@/model/request/app/AppRequest";
 import {showMessage} from "@/utility/hook/useToast";
 import {useFormik} from "formik";
+import {ResponseUtil} from "@/utility/ResponseUtil";
 
 const DriverRegistrationScreen = ({handleOnClick}) => {
     const [selectedValue, setSelectedValue] = useState(null);
@@ -94,7 +95,8 @@ const DriverRegistrationScreen = ({handleOnClick}) => {
             console.log('response====', response.payload)
             if (response?.payload?.code === "00"){
                 await handleOnClick()
-                RouterUtil.navigate('dashboard.homeScreen', { screen: 'Home Screen' });
+                RouterUtil.navigate('auth.login');
+                ResponseUtil.toast('Create new driver successfully, Please Re-login', 'success');
             }else {
                 showMessage(response?.payload?.message)
             }
