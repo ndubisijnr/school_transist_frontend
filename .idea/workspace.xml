@@ -30,6 +30,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "ndubisijnr"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://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@github.com/ndubisijnr/school_transist_frontend.git",
+    "accountId": "4818250e-861c-42c2-8be0-36a1d55fbf87"
+  }
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/RefreshControl/RefreshControl.d.ts" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Touchable/TouchableOpacity.d.ts" root0="SKIP_INSPECTION" />
@@ -49,7 +61,7 @@
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/ndubisiukonu/Downloads/softgem/school-transit-frontend/src/service&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ndubisiukonu/Downloads/softgem/school-transit-frontend/src/view/screens/business_tabs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -76,11 +88,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/view/screens/business_tabs" />
       <recent name="$PROJECT_DIR$/src/service" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/utility/hook" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/component" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/component/textInput" />
@@ -168,6 +180,8 @@
       <workItem from="1747636479885" duration="13824000" />
       <workItem from="1747735176535" duration="7897000" />
       <workItem from="1747820101375" duration="1137000" />
+      <workItem from="1747862198358" duration="23746000" />
+      <workItem from="1748539778206" duration="1136000" />
     </task>
     <servers />
   </component>
@@ -221,6 +235,11 @@
           <url>file://$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx</url>
           <line>13</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/screens/tabs/home.tsx</url>
+          <line>77</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

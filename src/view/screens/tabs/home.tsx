@@ -14,6 +14,8 @@ import Dispatch from "@/view/screens/business_tabs/dispatch";
 import {ContainerScrollViewLayout, ContainerScrollViewLayoutProps} from "@/view/layout/ContainerScrollViewLayout";
 import {DefaultTextInput} from "@/component/textInput/DefaultTextInput";
 import app from "@/store/modules/app";
+import MapComponent from "@/component/mapComponent";
+
 const MenuItem = ({ icon, title }: any) => (
 
   <TouchableOpacity style={styles.menuItem}>
@@ -73,6 +75,7 @@ const DashboardScreen = () => {
         </View>
 
 
+        <MapComponent />
         {userDetails?.student ?
         <View className="mt-3">
           <View className="relative mb-3">
