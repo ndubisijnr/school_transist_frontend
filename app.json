@@ -4,12 +4,12 @@
     "slug": "school-transit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/aza1.jpeg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": false,
     "scheme": "azapal-mobile",
     "splash": {
-      "image": "./assets/aza1.jpeg",
+      "image": "./assets/icon.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +24,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/aza1.jpeg",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.jionerddev.azapalMobile",
@@ -41,7 +41,7 @@
       ]
     },
     "web": {
-      "favicon": "./assets/aza1.jpeg"
+      "favicon": "./assets/icon.png"
     },
     "packagerOpts": {
       "config": "metro.config.js",
@@ -118,13 +118,13 @@
           "ios": {
             "resizeMode": "cover",
             "backgroundColor": "#ffffff",
-            "image": "./assets/aza1.jpeg",
+            "image": "./assets/icon.png",
             "imageWidth": 200
           },
           "android": {
             "resizeMode": "cover",
             "backgroundColor": "#ffffff",
-            "image": "./assets/aza1.jpeg",
+            "image": "./assets/icon.png",
             "imageWidth": 200
           }
         }
