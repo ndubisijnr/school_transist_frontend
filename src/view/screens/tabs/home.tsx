@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Pressable, Alert, TouchableOpacity, Image, StatusBar, Platform, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Pressable, Alert, TouchableOpacity, Modal, Image, StatusBar, Platform, ScrollView } from 'react-native';
 import {Ionicons, FontAwesome6, Feather} from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { RootState } from "@/store";
@@ -17,6 +17,7 @@ import app from "@/store/modules/app";
 import MapComponent from "@/component/mapComponent";
 import Select from "@/component/select/Select";
 import {ResponseUtil} from "@/utility/ResponseUtil";
+import {CreditCard, Wallet} from "lucide-react";
 
 const MenuItem = ({ icon, title }: any) => (
 
@@ -51,6 +52,9 @@ const DashboardScreen = () => {
   const [selectedToValue, setSelectedToValue] = useState(null);
   const [selectedFromValue, setSelectedFromValue] = useState(null);
   const [showTo, setShowTo] = useState(false);
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState('online');
+  const [walletBalance] = useState(1250.00);
 
   const toOptions:any = locations?.map(item => {
     return {
@@ -72,7 +76,17 @@ const DashboardScreen = () => {
 
   const handleBookRide = () => {
     ResponseUtil.toast('Requesting ride', 'success');
+    setShowSummaryModal(true)
   }
+
+  const handlePaymentSelect = (method) => {
+    console.log(method)
+    setSelectedPayment(method);
+  };
+
+  const handleDriverSelect = (driver) => {
+    alert(`Booking ride with ${driver.name}. ETA: ${driver.eta}`);
+  };
 
   useEffect(() => {
 
@@ -155,6 +169,161 @@ const DashboardScreen = () => {
 
 
         </View>
+
+        <Modal visible={showSummaryModal}
+               animationType="slide"
+               presentationStyle="pageSheet"
+               onRequestClose={() => setShowSummaryModal(false)}>
+
+
+          <View className=" bg-gray-50">
+            <View className=" overflow-hidden">
+              {/* Header */}
+              <View className="bg-black text-white p-6">
+                <Text className="text-2xl text-blue-100 font-bold text-center">Ride Summary</Text>
+                <Text className="text-blue-100 text-center mt-1">Review your trip details</Text>
+              </View>
+
+              {/* Trip Details */}
+              <View className="p-6 space-y-6">
+                {/* Locations */}
+                <View className="space-y-4 mb-2">
+                  <View className="flex-row items-center gap-2">
+                    <View className="w-3 h-3 bg-green-500 rounded-full"></View>
+                    <View className="">
+                      <Text className="text-gray-500">Pickup</Text>
+                      <Text className="font-semibold text-gray-800">{selectedFromValue}</Text>
+                    </View>
+                  </View>
+
+                  <View className="ml-6 border-l-2 border-dashed border-gray-300 h-8"></View>
+
+                  <View className="flex-row items-center gap-2">
+                    <View className="w-3 h-3 bg-red-500 rounded-full"></View>
+                    <View className="">
+                      <Text className="text-sm text-gray-500">Destination</Text>
+                      <Text className="font-semibold text-gray-800">{selectedToValue}</Text>
+                    </View>
+                  </View>
+                </View>
+
+
+                {/* Fare Breakdown */}
+                <View className="border-t border-gray-200 pt-4">
+                  <View className="flex-row justify-between items-center mb-2">
+                    <Text className="text-gray-600">Base Fare</Text>
+                    <Text className="text-gray-800">₦300.00</Text>
+                  </View>
+                  <View className="flex-row justify-between items-center mb-4">
+                    <Text className="text-gray-600">Service Fee</Text>
+                    <Text className="text-gray-800">₦50.00</Text>
+                  </View>
+                  <View className="flex-row justify-between items-center text-lg font-bold border-t border-gray-200 pt-4">
+                    <Text className="text-gray-800">Total</Text>
+                    <Text className="text-blue-600">₦350.00</Text>
+                  </View>
+                </View>
+              </View>
+
+              <View className="">
+                <View className="overflow-hidden">
+                  {/* Header */}
+                  <View className="pl-6">
+                    <Text className="text-xl text-blackfont-bold text-left">Payment Method</Text>
+                    <Text className="text-black text-left mt-1">Choose how to pay</Text>
+                  </View>
+                </View>
+                <View className="p-6 space-y-4">
+                  {/* Wallet Option */}
+                  <Pressable
+                      onPress={() => handlePaymentSelect('wallet')}
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                          selectedPayment === 'wallet'
+                              ? 'border-blue-500 bg-blue-50'
+                              : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                  >
+                    <View className="flex-row items-center justify-between">
+                      <View className="flex-row gap-1 items-center space-x-4">
+                        <View className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        </View>
+                        <View>
+                          <Text className="font-semibold text-gray-800">Wallet</Text>
+                          <Text className="text-sm text-gray-500">Balance: ₦{walletBalance.toFixed(2)}</Text>
+                        </View>
+                      </View>
+                      <View className={`w-5 h-5 rounded-full border-2 ${
+                          selectedPayment === 'wallet'
+                              ? 'border-blue-500 bg-blue-500'
+                              : 'border-gray-300'
+                      }`}>
+                        {selectedPayment === 'wallet' && (
+                            <View className="w-full h-full rounded-full bg-blue-500 flex items-center justify-center">
+                              <View className="w-2 h-2 bg-white rounded-full"></View>
+                            </View>
+                        )}
+                      </View>
+                    </View>
+                    {walletBalance < 350.00 && (
+                        <p className="text-red-500 text-sm mt-2">Insufficient balance</p>
+                    )}
+                  </Pressable>
+
+                  {/* Transfer Option */}
+                  <Pressable
+                      onPress={() => handlePaymentSelect('online')}
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all mt-2 ${
+                          selectedPayment === 'online'
+                              ? 'border-blue-500 bg-blue-50'
+                              : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                  >
+                    <View className="flex-row items-center justify-between">
+                      <View className="flex-row items-center gap-1 space-x-4">
+                        <View className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        </View>
+                        <View>
+                          <Text className="font-semibold text-gray-800">Online Payment(PAYSTACK)</Text>
+                          <Text className="text-sm text-gray-500">Pay via bank transfer</Text>
+                        </View>
+                      </View>
+                      <View className={`w-5 h-5 rounded-full border-2 ${
+                          selectedPayment === 'online'
+                              ? 'border-blue-500 bg-blue-500'
+                              : 'border-gray-300'
+                      }`}>
+                        {selectedPayment === 'transfer' && (
+                            <View className="w-full h-full rounded-full bg-blue-500 flex items-center justify-center">
+                              <View className="w-2 h-2 bg-white rounded-full"></View>
+                            </View>
+                        )}
+                      </View>
+                    </View>
+                  </Pressable>
+
+              </View>
+
+
+              {/* Continue Button */}
+              <View className="p-6 border-t border-gray-200">
+                <TouchableOpacity
+                    className="w-full bg-black py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Text className="text-white text-center"> Proceed </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    className="w-full bg-red-500 mt-3 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors"
+                    onPress={() => setShowSummaryModal(false)}
+                >
+                  <Text className="text-white text-center"> Cancel Ride </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          </View>
+
+
+        </Modal>
 
 
   </ContainerScrollViewLayout>
