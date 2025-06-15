@@ -1,23 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Pressable, Alert, TouchableOpacity, Modal, Image, StatusBar, Platform, ScrollView } from 'react-native';
-import {Ionicons, FontAwesome6, Feather} from '@expo/vector-icons';
+import { View, Text, StyleSheet, Pressable, Alert, TouchableOpacity, Modal, Image, StatusBar, Platform, ScrollView } from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { RootState } from "@/store";
 import {useRouter} from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {RouterUtil} from "@/utility/RouterUtil";
 import {persistStore} from "redux-persist";
 import {useStore} from "react-redux";
-import auth from '@/store/modules/auth'
 import {useDispatch} from "react-redux";
-import Dispatch from "@/view/screens/business_tabs/dispatch";
 import {ContainerScrollViewLayout, ContainerScrollViewLayoutProps} from "@/view/layout/ContainerScrollViewLayout";
-import {DefaultTextInput} from "@/component/textInput/DefaultTextInput";
 import app from "@/store/modules/app";
 import MapComponent from "@/component/mapComponent";
 import Select from "@/component/select/Select";
 import {ResponseUtil} from "@/utility/ResponseUtil";
-import {CreditCard, Wallet} from "lucide-react";
+import {usePaystack} from "react-native-paystack-webview";
 
 const MenuItem = ({ icon, title }: any) => (
 
@@ -54,7 +50,9 @@ const DashboardScreen = () => {
   const [showTo, setShowTo] = useState(false);
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('online');
-  const [walletBalance] = useState(1250.00);
+  const [walletBalance] = useState(0);
+  const { popup } = usePaystack();
+
 
   const toOptions:any = locations?.map(item => {
     return {
@@ -79,14 +77,36 @@ const DashboardScreen = () => {
     setShowSummaryModal(true)
   }
 
-  const handlePaymentSelect = (method) => {
-    console.log(method)
-    setSelectedPayment(method);
+  const handlePaymentSelect = (method:any) => {
+    setSelectedPayment(method)
   };
 
   const handleDriverSelect = (driver) => {
     alert(`Booking ride with ${driver.name}. ETA: ${driver.eta}`);
   };
+
+  const payNow = () => {
+    if(selectedPayment === 'online') {
+      popup.checkout({
+        email: 'jane.doe@example.com',
+        amount: 1000,
+        reference: "iuinuiu9aaagfsssfnssjj",
+        onSuccess: (res) => {
+          setShowSummaryModal(false)
+          RouterUtil.navigate('dashboard.rideSearchScreen')
+        },
+        onCancel: () => {},
+        onLoad: (res) => console.log('WebView Loaded:', res),
+        onError: (err) => console.log('WebView Error:', err)
+      });
+    }
+    else{
+      Alert.alert('feature not available yet')
+    }
+
+
+  };
+
 
   useEffect(() => {
 
@@ -118,13 +138,13 @@ const DashboardScreen = () => {
               {userDetails?.student ?
                   <View className="mt-3 ">
                     <Select
-                        label="Select Your destination"
+                        label="Where from"
                         options={fromOptions}
                         value={selectedFromValue}
                         onValueChange={setSelectedFromValue}
                         placeholder="from"
                         searchable={true}
-                        searchPlaceholder="Select Your destination..."
+                        searchPlaceholder="Where from..."
                     />
                     <Select
                         label="Select Your destination"
@@ -133,7 +153,7 @@ const DashboardScreen = () => {
                         onValueChange={setSelectedToValue}
                         placeholder="to"
                         searchable={true}
-                        searchPlaceholder="Select Your destination..."
+                        searchPlaceholder="Your destination..."
                     />
 
                     <View>
@@ -265,7 +285,7 @@ const DashboardScreen = () => {
                       </View>
                     </View>
                     {walletBalance < 350.00 && (
-                        <p className="text-red-500 text-sm mt-2">Insufficient balance</p>
+                        <Text className="text-red-500 text-sm mt-2">Insufficient balance</Text>
                     )}
                   </Pressable>
 
@@ -306,7 +326,7 @@ const DashboardScreen = () => {
 
               {/* Continue Button */}
               <View className="p-6 border-t border-gray-200">
-                <TouchableOpacity
+                <TouchableOpacity onPress={() => payNow()}
                     className="w-full bg-black py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors"
                 >
                   <Text className="text-white text-center"> Proceed </Text>

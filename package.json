@@ -105,6 +105,7 @@
     "react-redux": "^8.1.2",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.8.1",
     "uuid": "^9.0.1",
     "yup": "^1.2.0"
   },

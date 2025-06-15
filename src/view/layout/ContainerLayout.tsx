@@ -66,7 +66,7 @@ export const ContainerLayout = ({
 
     return (
         <View style={containerStyle}>
-            <StatusBar translucent backgroundColor={barColor} animated={true} style={barStyle}/>
+            <StatusBar translucent backgroundColor={barColor} animated={true} style={barStyle} hidden={false}/>
             <View
                 className={`flex-1 ${className || ''}`}
                 style={[

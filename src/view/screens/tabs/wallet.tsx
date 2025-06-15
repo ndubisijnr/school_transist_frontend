@@ -35,11 +35,30 @@ const WalletScreen = () => {
         }
         else if(activeTab === 'Wallet') {
             return (
-                <View className="flex-1 items-center justify-center">
-                    <View style={styles.receiptIconContainer}>
-                        <Ionicons name="receipt-outline" size={40} color="#333" />
+                <View className="flex-1 items-center justify-start w-full">
+                    <View className="bg-black w-full rounded-xl justify-center items-center h-[180px] relative overflow-hidden p-[24px]">
+                        {/* Card Chip */}
+                        <View className="h-full border w-full relative p-0">
+                            <Text className="text-white text-3xl">₦5,000.00</Text>
+
+                            {/* Logo */}
+                            <View className="absolute top-0 right-0 rounded-sm">
+                            </View>
+
+                            {/* Expiry Date */}
+                            <View className="absolute bottom-0 flex-row justify-between w-full">
+                                <View className="">
+                                    <Text className="text-gray-400 text-xs">Bank name</Text>
+                                    <Text className="text-white text-sm">Paystack titian</Text>
+                                </View>
+
+                                {/* Card Number */}
+                                <Text className="text-white text-xl font-bold right-0">0233233434</Text>
+                            </View>
+                        </View>
                     </View>
-                    <Text >Coming Soon</Text>
+
+
                 </View>
             );
         }

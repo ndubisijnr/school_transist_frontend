@@ -40,6 +40,11 @@ export const RouteConstant = {
             name: "Home Screen"
         },
 
+        rideSearchScreen: {
+            path: "stack/dashboard/ride-search-screen",
+            name: "Ride Search Screen"
+        },
+
         walletScreen: {
             path: "tab/dashboard/wallet-screen",
             name: "Wallet Screen"

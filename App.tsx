@@ -16,18 +16,16 @@ export default function App() {
   return (
     <SheetProvider >
       <SafeAreaProvider>
-      <PaystackProvider publicKey="pk_test_c9e5c330771a43937800449ed736c73bc647202f" debug={true}>
+        <PaystackProvider publicKey="pk_test_c9e5c330771a43937800449ed736c73bc647202f" debug={true}>
 
         <Provider store={store}>
           <PersistGate persistor={persistor} loading={<Text>Loading....</Text>}>
             <GestureHandlerRootView style={styles.container}>
                 <Router />
-            
             </GestureHandlerRootView>
           </PersistGate>
         </Provider>
         </PaystackProvider>
-
       </SafeAreaProvider>
     </SheetProvider >
   );

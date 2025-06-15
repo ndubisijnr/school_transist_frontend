@@ -40,9 +40,9 @@ const BusinessRegistrationScreen = () => {
                     onRequestClose={() => setShowForm(false)}
                 >
                     {userType === 'student' ?
-                    <StudentRegistrationScreen handleOnClick={() => setShowForm(false)} />
+                        <StudentRegistrationScreen handleOnClick={() => setShowForm(false)} />
                         :
-                    <DriverRegistrationScreen handleOnClick={() => setShowForm(false)} />
+                        <DriverRegistrationScreen handleOnClick={() => setShowForm(false)} />
 
                     }
                 </Modal>

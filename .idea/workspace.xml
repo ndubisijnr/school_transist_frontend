@@ -5,7 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/utility/hook/useWebSocket.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/screens/dashboard/ride-search.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/ws/websk-service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/layout/ContainerLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/layout/ContainerLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/layout/ContainerScrollViewLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/layout/ContainerScrollViewLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/analytics.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/dashboard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/dispatch.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cooperative.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/search.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,33 +34,26 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
-    </option>
-  </component>
-  <component name="FormatOnSaveOptions">
-    <option name="myRunOnSave" value="false" />
-    <option name="myAllFileTypesSelected" value="true" />
-    <option name="mySelectedFileTypes">
-      <set />
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "ndubisijnr"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ndubisijnr&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://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@github.com/ndubisijnr/school_transist_frontend.git",
-    "accountId": "4818250e-861c-42c2-8be0-36a1d55fbf87"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://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@github.com/ndubisijnr/school_transist_frontend.git&quot;,
+    &quot;accountId&quot;: &quot;4818250e-861c-42c2-8be0-36a1d55fbf87&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/RefreshControl/RefreshControl.d.ts" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Touchable/TouchableOpacity.d.ts" root0="SKIP_INSPECTION" />
@@ -61,7 +73,8 @@
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/ndubisiukonu/Downloads/softgem/school-transit-frontend/src/view/screens/business_tabs&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/mac/Documents/side_gigs/school_transist_frontend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -82,7 +95,7 @@
     &quot;npm.start dev-clean.executor&quot;: &quot;Run&quot;,
     &quot;npm.start dev.executor&quot;: &quot;Run&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/ndubisiukonu/Downloads/softgem/school-transit-frontend/node_modules/typescript/lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/mac/Documents/side_gigs/school_transist_frontend/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -159,6 +172,13 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="" />
@@ -182,6 +202,11 @@
       <workItem from="1747820101375" duration="1137000" />
       <workItem from="1747862198358" duration="23746000" />
       <workItem from="1748539778206" duration="1136000" />
+      <workItem from="1749023430994" duration="4230000" />
+      <workItem from="1749107525207" duration="5000" />
+      <workItem from="1749198262674" duration="2476000" />
+      <workItem from="1749479148633" duration="8761000" />
+      <workItem from="1749804410448" duration="3875000" />
     </task>
     <servers />
   </component>
@@ -232,14 +257,19 @@
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx</url>
-          <line>13</line>
-          <option name="timeStamp" value="12" />
+          <url>file://$PROJECT_DIR$/src/view/screens/tabs/home.tsx</url>
+          <line>75</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/view/ws/websk-service.ts</url>
+          <line>17</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/view/screens/tabs/home.tsx</url>
-          <line>77</line>
-          <option name="timeStamp" value="13" />
+          <line>123</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
