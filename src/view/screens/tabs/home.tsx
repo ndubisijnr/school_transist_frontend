@@ -103,18 +103,21 @@ const DashboardScreen = () => {
 
   const payNow = () => {
     if(selectedPayment === 'online') {
-      popup.checkout({
-        email: 'jane.doe@example.com',
-        amount: 1000,
-        reference: generateReference(),
-        onSuccess: (res) => {
-          setShowSummaryModal(false)
-          RouterUtil.navigate('dashboard.rideSearchScreen')
-        },
-        onCancel: () => {},
-        onLoad: (res) => console.log('WebView Loaded:', res),
-        onError: (err) => console.log('WebView Error:', err)
-      });
+      // popup.checkout({
+      //   email: 'jane.doe@example.com',
+      //   amount: 1000,
+      //   reference: generateReference(),
+      //   onSuccess: (res) => {
+      //     setShowSummaryModal(false)
+      //     RouterUtil.navigate('dashboard.rideSearchScreen')
+      //   },
+      //   onCancel: () => {},
+      //   onLoad: (res) => console.log('WebView Loaded:', res),
+      //   onError: (err) => console.log('WebView Error:', err)
+      // });
+
+      setShowSummaryModal(false)
+      RouterUtil.navigate('dashboard.rideSearchScreen')
     }
     else{
       Alert.alert('feature not available yet')
