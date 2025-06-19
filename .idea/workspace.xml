@@ -5,26 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d5ff472-bdd1-41c4-9035-7f09f23723ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/utility/hook/useWebSocket.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/screens/dashboard/ride-search.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/ws/websk-service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes/dashboard-routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/constant/RouteConstant.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/layout/ContainerLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/layout/ContainerLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/layout/ContainerScrollViewLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/layout/ContainerScrollViewLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/analytics.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/dashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/business_tabs/dispatch.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/dashboard/business.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/dashboard/cooperative.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/market_reels_screen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/search.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screens/tabs/wallet.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,11 +188,24 @@
       <workItem from="1749198262674" duration="2476000" />
       <workItem from="1749479148633" duration="8761000" />
       <workItem from="1749804410448" duration="3875000" />
+      <workItem from="1750017428605" duration="4380000" />
+      <workItem from="1750165440748" duration="3047000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
