@@ -34,6 +34,7 @@ const actions = {
     createRide: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/create-ride", AppService.createRide),
     updateRide: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/update-ride", AppService.updateRide),
     readRideByStudent: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/read-student-ride", AppService.readRidesByStudentId),
+    readRideById: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/read-by-id", AppService.readRidesById),
     readRideByHub: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/read-hub-ride", AppService.readRidesByHubId),
 }
 
@@ -46,6 +47,9 @@ const slice = createSlice({
             state.loading = action.payload
         },
 
+        setCurrentRide:(state, action:PayloadAction<any>) => {
+            state.currentRide = action.payload
+        }
     },
     extraReducers:(builder)=>{
 
@@ -64,6 +68,12 @@ const slice = createSlice({
 
 
         CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.createRide, {
+            stateProps: [
+                {stateProp: "currentRide", responseKey:"data"},
+            ]
+        })(builder)
+
+        CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.readRideById, {
             stateProps: [
                 {stateProp: "currentRide", responseKey:"data"},
             ]
