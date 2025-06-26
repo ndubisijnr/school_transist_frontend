@@ -1,7 +1,7 @@
 import {ContainerScrollViewLayout} from "@/view/layout/ContainerScrollViewLayout";
 import { View, Text, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
 import { Audio } from 'expo-av';
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {Ionicons} from "@expo/vector-icons"
 import {RouterUtil} from "@/utility/RouterUtil";
 import {RootState, useAppDispatch, useAppSelector} from "@/store";
@@ -113,49 +113,55 @@ const RideSearch = () => {
         Alert.alert("Calling Driver", `Calling ${driverData.name}...`);
     };
 
-    const poll = async () => {
-        console.log("Polling...");
+
+
+    const poll = useCallback(async () => {
+        console.log("📡 Polling...");
         try {
             const response = await dispatch(app.action.readRideById(currentRide.id)).unwrap();
 
-            if (response.code === "00" && isPolling && shouldPoll) {
-                // schedule the NEXT poll, not activatePolling
-                await activatePolling();
-
-                //     pollingTimeoutRef.current = setTimeout(() => {
-                //
-                //     }, 1000);
-                // }
+            if (response.code === "00") {
+                if(currentRide.transit_status === 'accepted'){
+                    setIsPolling(false)
+                    setShouldPoll(false);
+                }
             }
+
+            // Continue polling every 5s if still allowed
+            // if (isPolling && shouldPoll) {
+            //     pollingTimeoutRef.current = setTimeout(() => {
+            //         poll();
+            //     }, 5000);
+            // }
         } catch (err) {
-            console.log("Polling error:", err);
+            console.log("❌ Polling error:", err);
         }
-    };
+    }, [dispatch, currentRide, isPolling, shouldPoll]);
 
-    const restartPolling = () => {
-        setShouldPoll(false);
-        setTimeout(() => {
-            setShouldPoll(true);
-        }, 100); // force state change
-    };
-
-    const activatePolling = async () => {
+    const activatePolling = useCallback(async () => {
         if (isPolling) return;
 
         setIsPolling(true);
         await playSound();
-        poll();
+        poll(); // Kick off polling
 
-        stopPollingTimeoutRef.current = setTimeout(async () => {
+        setTimeout(async () => {
             setIsPolling(false);
             setShouldPoll(false);
-            await stopSound(); // ✅ Ensure sound stops
+            await stopSound();
+            clearTimeout(pollingTimeoutRef.current);
         }, 15000);
-    };
+    }, [isPolling, poll]);
 
     useEffect(() => {
+        // Auto-start polling once
+        activatePolling();
+    }, [activatePolling]);
+
+    useEffect(() => {
+        // Clean up timeouts on unmount
         return () => {
-            clearTimeout(pollingTimeoutRef?.current);
+            clearTimeout(pollingTimeoutRef.current);
             clearTimeout(stopPollingTimeoutRef.current);
         };
     }, []);
@@ -163,12 +169,24 @@ const RideSearch = () => {
     useEffect(() => {
         if (!isPolling) {
             clearTimeout(pollingTimeoutRef.current);
+            clearTimeout(stopPollingTimeoutRef.current);
         }
     }, [isPolling]);
 
     useEffect(() => {
-        activatePolling().then();
-    }, []);
+        const interval = setInterval(() => {
+            console.log("🔁 Called every 35 seconds");
+            if (
+                currentRide.transit_status === 'accepted' ||
+                currentRide.transit_status === 'in_progress'
+            ) {
+                activatePolling(); // Optionally re-start polling under condition
+            }
+        }, 35000);
+
+        return () => clearInterval(interval);
+    }, [currentRide.transit_status, activatePolling]);
+
 
 
     const handleMessageDriver = () => {
@@ -179,7 +197,7 @@ const RideSearch = () => {
     return (
 
         <ContainerScrollViewLayout>
-            {/*<Text>{JSON.stringify(currentRide, null, 2)}</Text>*/}
+            <Text>{JSON.stringify(currentRide, null, 2)}</Text>
             {/*<Text>{isPolling ? 'Active' : 'Inactive'}</Text>*/}
             {/*<Text>{shouldPoll ? 'can poll' : 'cannot poll'}</Text>*/}
             <View className="pl-5 pt-5">
@@ -251,7 +269,7 @@ const RideSearch = () => {
                                             </Text>
                                         </View>
                                         <Text className="text-sm text-gray-600">
-                                            {currentRide?.hub.vehicle_name} {currentRide?.hub?.vehicle_type}
+                                            {currentRide?.hub?.vehicle_name} {currentRide?.hub?.vehicle_type}
                                         </Text>
                                         <Text className="text-sm font-medium text-gray-800">
                                             vehicle color: {currentRide?.hub?.vehicle_color}

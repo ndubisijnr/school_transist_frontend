@@ -177,6 +177,7 @@ const DashboardScreen = () => {
 
       if(response.code === "00"){
         ResponseUtil.toast(response.message, '', 'success')
+        setRequestedRide([])
         try {
           const response2 =  await dispatch(app.action.readRides()).unwrap()
           if(response2.code === "00"){
@@ -256,11 +257,7 @@ const DashboardScreen = () => {
                 (ride: any) => ride.transit_status === "in_progress"
             );
 
-            setApprovedRide(prevState => {
-              const existingIds = new Set(prevState.map(r => r.id));
-              const uniqueRides = approvedRides.filter(ride => !existingIds.has(ride.id));
-              return [...prevState, ...uniqueRides];
-            })
+            setApprovedRide(approvedRides)
           }
 
         }catch (err){
@@ -274,7 +271,7 @@ const DashboardScreen = () => {
       setApprovingRide(false)
       ResponseUtil.toast(err, '', 'error')
     }
-  },[approvedRide, dispatch])
+  },[dispatch])
 
 
   const getRideRequest = useCallback(async () => {
@@ -322,7 +319,7 @@ const DashboardScreen = () => {
         console.log("Error fetching ride requests:", err);
       }
     }
-  }, [showRideRequest, dispatch, userDetails.driver_uni?.id]);
+  }, [showRideRequest, dispatch, userDetails?.driver_uni?.id]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -547,26 +544,39 @@ const DashboardScreen = () => {
                                 {/*</View>*/}
                               </View>
 
-                              <TouchableOpacity
-                                  className="bg-[#222] p-3 rounded-[18px] mb-5"
-                                  onPress={() => beginRide(approvedRide[0])}
-                              >
-                                <Text className="text-white text-center">Begin Ride</Text>
-                              </TouchableOpacity>
+
 
                               {/* Cancel Button */}
-                              <TouchableOpacity
-                                  className={`bg-white border-2 border-red-500 rounded-2xl p-4 flex-row items-center justify-center mb-6 ${
-                                      approvingRide ? 'opacity-60' : ''
-                                  }`}
-                                  onPress={() => handleCancelRide(approvedRide[0])}
-                                  disabled={approvingRide}
-                              >
-                                <Ionicons name="close" size={20} color="#EF4444" />
-                                <Text className="text-red-500 font-semibold text-base ml-2">
-                                  {approvingRide ? "Cancelling..." : "Cancel Ride"}
-                                </Text>
-                              </TouchableOpacity>
+
+                              {approvedRide[0]?.transit_status === 'accepted' ?
+                                  <View>
+                                    <TouchableOpacity
+                                        className="bg-[#222] p-3 rounded-[18px] mb-5"
+                                        onPress={() => beginRide(approvedRide[0])}
+                                    >
+                                      <Text className="text-white text-center">Begin Ride</Text>
+                                    </TouchableOpacity>
+                                <TouchableOpacity
+                                    className={`bg-white border-2 border-red-500 rounded-2xl p-4 flex-row items-center justify-center mb-6 ${
+                                        approvingRide ? 'opacity-60' : ''
+                                    }`}
+                                    onPress={() => handleCancelRide(approvedRide[0])}
+                                    disabled={approvingRide}
+                                >
+                                  <Ionicons name="close" size={20} color="#EF4444" />
+                                  <Text className="text-red-500 font-semibold text-base ml-2">
+                                    {approvingRide ? "Cancelling..." : "Cancel Ride"}
+                                  </Text>
+                                </TouchableOpacity>
+                              </View>
+                                  :
+
+                                  <Text className="text-center text-md text-gray-500 mb-3">
+                                    Enjoy the trip. if you want to cancel, ask the student to cancel
+                                  </Text>
+
+                              }
+
 
                               {/* Footer */}
                               <Text className="text-center text-sm text-gray-500">
