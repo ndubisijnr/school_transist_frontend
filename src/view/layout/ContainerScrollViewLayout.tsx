@@ -8,11 +8,12 @@ export const ContainerScrollViewLayout = ({children, className, scrollViewProps,
 
     return (
         <ContainerLayout {...props}>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollView} {...scrollViewProps}>
-                <View className={`flex-1 grow w-full ${className}`}>
-                    {children}
-                </View>
-            </ScrollView>
+            {/*<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollView} {...scrollViewProps}>*/}
+            {/*   */}
+            {/*</ScrollView>*/}
+            <View className={`flex-1 grow w-full ${className}`}>
+                {children}
+            </View>
         </ContainerLayout>
     )
 }
