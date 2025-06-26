@@ -270,7 +270,7 @@ export class CaseAsyncActionHelper {
             async (payload: PayloadType, thunkAPI) => {
                 try {
                     const response = await serviceMethod(thunkAPI, payload);
-                    console.log('serviceMethod',response)
+                    // console.log('serviceMethod',response)
                     return response.data;
                 } catch (error: any) {
                     if (customErrorHandler) {

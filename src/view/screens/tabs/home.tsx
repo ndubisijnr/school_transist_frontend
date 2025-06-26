@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -28,25 +28,6 @@ import Select from "@/component/select/Select";
 import {ResponseUtil} from "@/utility/ResponseUtil";
 import {usePaystack} from "react-native-paystack-webview";
 import {CreateRideRequest} from "@/model/request/app/AppRequest";
-const MenuItem = ({ icon, title }: any) => (
-
-  <TouchableOpacity style={styles.menuItem}>
-    <View style={styles.iconContainer}>
-      {/* Ensure icon is a component, not a string */}
-      {icon}
-    </View>
-    <Text style={styles.menuItemText}>{title}</Text>
-  </TouchableOpacity>
-);
-
-const MenuSection = ({ title, children }: any) => (
-  <View style={styles.menuSection}>
-    <Text style={styles.sectionTitle}>{title}</Text>
-    <View style={styles.sectionContent}>
-      {children}
-    </View>
-  </View>
-);
 
 
 const DashboardScreen = () => {
@@ -63,10 +44,19 @@ const DashboardScreen = () => {
   const [selectedFromValue, setSelectedFromValue] = useState(null);
   const [showTo, setShowTo] = useState(false);
   const [showSummaryModal, setShowSummaryModal] = useState(false);
+  const [showRideRequest, setShowRideRequest] = useState(false);
+  const [approvingRide, setApprovingRide] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('online');
   const [walletBalance] = useState(0);
+  const [requestedRide, setRequestedRide] = useState([])
+  const [approvedRide, setApprovedRide] = useState([])
   const { popup } = usePaystack();
+  const [currentRideIndex, setCurrentRideIndex] = useState(0);
+  const requestedRideRef = useRef(requestedRide);
 
+  useEffect(() => {
+    requestedRideRef.current = requestedRide;
+  }, [requestedRide]);
 
   const toOptions:any = locations?.map(item => {
     return {
@@ -82,17 +72,17 @@ const DashboardScreen = () => {
     };
   })
 
-  function generateReference(length = 10, prefix = '', suffix = '') {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let randomPart = '';
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomPart += characters[randomIndex];
-    }
-
-    return `${prefix}${randomPart}${suffix}`;
-  }
+  // function generateReference(length = 10, prefix = '', suffix = '') {
+  //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  //   let randomPart = '';
+  //
+  //   for (let i = 0; i < length; i++) {
+  //     const randomIndex = Math.floor(Math.random() * characters.length);
+  //     randomPart += characters[randomIndex];
+  //   }
+  //
+  //   return `${prefix}${randomPart}${suffix}`;
+  // }
 
   // Example usage:
   // console.log(generateReference(12, 'REF-', '-NG'));     // e.g. 'REF-A9DKXMP4TQWL-NG'
@@ -101,6 +91,30 @@ const DashboardScreen = () => {
   const updateDriversLocation = () => {
     ResponseUtil.toast('Location updated successfully', 'success');
   }
+
+  const handleCancelRide = (ride) => {
+    Alert.alert(
+        "Cancel Ride",
+        "Are you sure you want to cancel this ride? You may be charged a cancellation fee.",
+        [
+          {
+            text: "Keep Ride",
+            style: "cancel",
+
+          },
+          {
+            text: "Cancel Ride",
+            style: "destructive",
+            onPress: () => {
+              // Simulate API call
+              Alert.alert("Ride Cancelled", "Your ride has been cancelled successfully.");
+              cancelRide(ride).then()
+            }
+          }
+        ]
+    );
+  };
+
 
   const handleBookRide = () => {
     ResponseUtil.toast('Requesting ride', 'success');
@@ -114,6 +128,190 @@ const DashboardScreen = () => {
   const handleDriverSelect = (driver) => {
     alert(`Booking ride with ${driver.name}. ETA: ${driver.eta}`);
   };
+
+  // const getRideRequest = useCallback(async () => {
+  //   if (userDetails.driver_uni?.id) {
+  //     try {
+  //       const response = await dispatch(app.action.readRides()).unwrap();
+  //
+  //       if (response.code === "00") {
+  //         // 1. Filter for transit_status === "requested"
+  //         const newRequestedRides = response.data.filter(
+  //             (ride: any) => ride.transit_status === "requested"
+  //         );
+  //
+  //         // 2. Avoid duplicates by checking against existing ride IDs
+  //         setRequestedRide(prevState => {
+  //           const existingIds = new Set(prevState.map(r => r.id));
+  //           const uniqueRides = newRequestedRides.filter(ride => !existingIds.has(ride.id));
+  //           return [...prevState, ...uniqueRides];
+  //         });
+  //       }
+  //
+  //       if(requestedRide.length && !showRideRequest){
+  //         setShowRideRequest(true)
+  //       }
+  //
+  //       if(!requestedRide.length && showRideRequest){
+  //         setShowRideRequest(false)
+  //       }
+  //     } catch (err) {
+  //       console.log("Error fetching ride requests:", err);
+  //     }
+  //   }
+  // },[requestedRide, showRideRequest, dispatch]);
+
+  const acceptRide = async (currentRide) => {
+    setApprovingRide(true)
+    const payload = {
+      id:currentRide.id,
+      payload:{
+        hub:userDetails?.hub?.id,
+        transit_status:'accepted'
+      }
+    }
+
+    try{
+      const response = await dispatch(app.action.updateRide(payload)).unwrap()
+      setApprovingRide(false)
+
+      if(response.code === "00"){
+        ResponseUtil.toast(response.message, '', 'success')
+        try {
+          const response2 =  await dispatch(app.action.readRides()).unwrap()
+          if(response2.code === "00"){
+            const approvedRides = response.data.filter(
+                (ride: any) => ride.transit_status === "accepted"
+            );
+
+            setApprovedRide(prevState => {
+              const existingIds = new Set(prevState.map(r => r.id));
+              const uniqueRides = approvedRides.filter(ride => !existingIds.has(ride.id));
+              return [...prevState, ...uniqueRides];
+            })
+          }
+
+         }catch (err){
+          console.log(err)
+        }
+
+        setShowRideRequest(false)
+      }else{
+        ResponseUtil.toast(response.message, '', 'error')
+      }
+    }catch (err){
+      console.log(err)
+      setApprovingRide(false)
+      ResponseUtil.toast(err, '', 'error')
+    }
+  }
+
+  const cancelRide = async (currentRide) => {
+    setApprovingRide(true)
+    const payload = {
+      id:currentRide.id,
+      payload:{
+        hub:null,
+        transit_status:'cancelled'
+      }
+    }
+
+    try{
+      const response = await dispatch(app.action.updateRide(payload)).unwrap()
+      setApprovingRide(false)
+
+      if(response.code === "00"){
+        ResponseUtil.toast(response.message, '', 'success')
+        setApprovedRide([])
+        setShowRideRequest(false)
+      }else{
+        ResponseUtil.toast(response.message, '', 'error')
+      }
+    }catch (err){
+      console.log(err)
+      setApprovingRide(false)
+      ResponseUtil.toast(err, '', 'error')
+    }
+  }
+
+  const beginRide = async (currentRide) => {
+    setApprovingRide(true)
+    const payload = {
+      id:currentRide.id,
+      payload:{
+        transit_status:'in_progress'
+      }
+    }
+
+    try{
+      const response = await dispatch(app.action.updateRide(payload)).unwrap()
+      setApprovingRide(false)
+
+      if(response.code === "00"){
+        ResponseUtil.toast(response.message, '', 'success')
+      }else{
+        ResponseUtil.toast(response.message, '', 'error')
+      }
+    }catch (err){
+      console.log(err)
+      setApprovingRide(false)
+      ResponseUtil.toast(err, '', 'error')
+    }
+  }
+
+
+  const getRideRequest = useCallback(async () => {
+    if (userDetails?.hub?.id) {
+      try {
+        const response = await dispatch(app.action.readRides()).unwrap();
+
+        if (response.code === "00") {
+          const newRequestedRides = response.data.filter(
+              (ride: any) => ride.transit_status === "requested"
+          );
+
+          const approvedRides = response.data.filter(
+              (ride: any) => ride.transit_status === "accepted"
+          );
+
+          // Prevent duplicates
+          setRequestedRide(prevState => {
+            const existingIds = new Set(prevState.map(r => r.id));
+            const uniqueRides = newRequestedRides.filter(ride => !existingIds.has(ride.id));
+            return [...prevState, ...uniqueRides];
+          });
+
+          setApprovedRide(prevState => {
+            const existingIds = new Set(prevState.map(r => r.id));
+            const uniqueRides = approvedRides.filter(ride => !existingIds.has(ride.id));
+            return [...prevState, ...uniqueRides];
+          })
+        }
+
+        // ✅ Use latest value from ref (not stale closure)
+        if (requestedRideRef.current.length && !showRideRequest) {
+          setShowRideRequest(true);
+        }
+
+        if (!requestedRideRef.current.length && showRideRequest) {
+          setShowRideRequest(false);
+        }
+
+      } catch (err) {
+        console.log("Error fetching ride requests:", err);
+      }
+    }
+  }, [showRideRequest, dispatch, userDetails.driver_uni?.id]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("🔁 Called every 5 seconds");
+      getRideRequest()
+      // call your function here
+    }, 35000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
   const payNow = async () => {
     if(selectedPayment === 'online') {
@@ -160,7 +358,6 @@ const DashboardScreen = () => {
 
   };
 
-
   useEffect(() => {
 
     dispatch(app.action.readLocations(userDetails?.uni?.id || userDetails?.driver_uni?.id))
@@ -188,58 +385,228 @@ const DashboardScreen = () => {
           <View className="w-full h-full relative">
 
             <View className="absolute bg-white  w-full bottom-0 rounded p-3">
-              {userDetails?.student ?
-                  <View className="mt-3 ">
+              {/*{userDetails?.student ?*/}
+              {/*    <View className="mt-3 ">*/}
+              {/*      <Select*/}
+              {/*          label="Where from"*/}
+              {/*          options={fromOptions}*/}
+              {/*          value={selectedFromValue}*/}
+              {/*          onValueChange={setSelectedFromValue}*/}
+              {/*          placeholder="from"*/}
+              {/*          searchable={true}*/}
+              {/*          searchPlaceholder="Where from..."*/}
+              {/*      />*/}
+              {/*      <Select*/}
+              {/*          label="Select Your destination"*/}
+              {/*          options={toOptions}*/}
+              {/*          value={selectedToValue}*/}
+              {/*          onValueChange={setSelectedToValue}*/}
+              {/*          placeholder="to"*/}
+              {/*          searchable={true}*/}
+              {/*          searchPlaceholder="Your destination..."*/}
+              {/*      />*/}
+
+              {/*      <View>*/}
+              {/*        <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]" onPress={() =>  handleBookRide()}>*/}
+              {/*          <Text className="text-white text-center">Request Ride</Text>*/}
+              {/*        </TouchableOpacity>*/}
+              {/*      </View>*/}
+              {/*    </View>*/}
+              {/*    :*/}
+              {/*    <View className="mt-3">*/}
+              {/*      {approvedRide.length && (*/}
+              {/*          <View>*/}
+              {/*            <Text>{approvedRide?.student?.name}</Text>*/}
+
+              {/*            <View>*/}
+              {/*              <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]" onPress={() => updateDriversLocation()}>*/}
+              {/*                <Text className="text-white text-center">Begin Ride</Text>*/}
+              {/*              </TouchableOpacity>*/}
+              {/*            </View>*/}
+              {/*          </View>*/}
+              {/*      )}*/}
+
+              {/*    </View>*/}
+
+              {/*}*/}
+              {userDetails?.student ? (
+                  <View className="mt-3">
                     <Select
                         label="Where from"
                         options={fromOptions}
                         value={selectedFromValue}
                         onValueChange={setSelectedFromValue}
-                        placeholder="from"
-                        searchable={true}
+                        placeholder="From"
+                        searchable
                         searchPlaceholder="Where from..."
                     />
+
                     <Select
                         label="Select Your destination"
                         options={toOptions}
                         value={selectedToValue}
                         onValueChange={setSelectedToValue}
-                        placeholder="to"
-                        searchable={true}
+                        placeholder="To"
+                        searchable
                         searchPlaceholder="Your destination..."
                     />
 
-                    <View>
-                      <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]" onPress={() =>  handleBookRide()}>
-                        <Text className="text-white text-center">Request Ride</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                        className="bg-[#222] p-3 rounded-[18px] mt-4"
+                        onPress={handleBookRide}
+                    >
+                      <Text className="text-white text-center">Request Ride</Text>
+                    </TouchableOpacity>
                   </View>
-                  :
+              ) : (
                   <View className="mt-3">
-                    <Select
-                        label="Update your current location"
-                        options={toOptions}
-                        value={selectedToValue}
-                        onValueChange={setSelectedToValue}
-                        placeholder="to"
-                        searchable={true}
-                        searchPlaceholder="Update your current location..."
-                    />
+                    {approvedRide.length > 0 && approvedRide[0]?.student && (
+                        <View>
+                          <ScrollView className="flex-1 bg-gray-50">
+                            <View className="px-5 pt-12 pb-6">
+                              {/* Header */}
+                              <View className="items-center mb-8">
+                                <Text className="text-2xl font-bold text-gray-900 mb-1">
+                                  Ride Accepted
+                                </Text>
+                              </View>
 
-                    <View>
-                      <TouchableOpacity className="bg-[#222] p-3 rounded-[18px]" onPress={() => updateDriversLocation()}>
-                        <Text className="text-white text-center">Proceed</Text>
-                      </TouchableOpacity>
-                    </View>
+                              {/* Status Card */}
+                              <View className="bg-blue-50 rounded-2xl p-4 mb-6 border border-blue-100">
+                                <View className="flex-row items-center justify-center">
+                                  <Ionicons name="timer" size={20} color="#3B82F6" />
+                                  <Text className="text-lg font-semibold text-blue-800 ml-2">
+                                    Picking up {approvedRide[0].student.name}
+                                  </Text>
+                                </View>
+                              </View>
+
+                              {/* Driver Card */}
+                              {/*<View className="bg-white rounded-2xl p-5 mb-6 shadow-sm">*/}
+                              {/*  <View className="flex-row items-center justify-between">*/}
+                              {/*    <View className="flex-row items-center flex-1">*/}
+                              {/*      <Image*/}
+                              {/*          source={{ uri: driverData.profileImage }}*/}
+                              {/*          className="w-16 h-16 rounded-full mr-4"*/}
+                              {/*      />*/}
+                              {/*    </View>*/}
+
+                              {/*    /!* Action Buttons *!/*/}
+                              {/*    <View className="flex-row space-x-3">*/}
+                              {/*      <TouchableOpacity*/}
+                              {/*          className="w-12 h-12 bg-blue-100 rounded-full items-center justify-center"*/}
+                              {/*      >*/}
+                              {/*        <Ionicons name="phone-portrait" size={20} color="#3B82F6" />*/}
+
+                              {/*      </TouchableOpacity>*/}
+                              {/*      <TouchableOpacity*/}
+                              {/*          className="w-12 h-12 bg-blue-100 rounded-full items-center justify-center"*/}
+                              {/*      >*/}
+                              {/*        <Ionicons name="chatbox" size={20} color="#3B82F6" />*/}
+                              {/*      </TouchableOpacity>*/}
+                              {/*    </View>*/}
+                              {/*  </View>*/}
+                              {/*</View>*/}
+
+                              {/* Trip Details Card */}
+                              <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm">
+                                <Text className="text-lg font-bold text-gray-900 mb-4">
+                                  Trip Details
+                                </Text>
+
+                                {/* Pickup Location */}
+                                <View className="flex-row items-start mb-3">
+                                  <View className="w-5 items-center mr-3 mt-1">
+                                    <View className="w-3 h-3 bg-green-500 rounded-full" />
+                                  </View>
+                                  <View className="flex-1">
+                                    <Text className="text-sm text-gray-500 mb-1">Pickup</Text>
+                                    <Text className="text-base text-gray-900">
+                                      {approvedRide[0]?.where_from}
+                                    </Text>
+                                  </View>
+                                </View>
+
+                                {/* Connector Line */}
+                                <View className="flex-row mb-3">
+                                  <View className="w-5 items-center mr-3">
+                                    <View className="w-0.5 h-6 bg-gray-300" />
+                                  </View>
+                                </View>
+
+                                {/* Destination */}
+                                <View className="flex-row items-start mb-4">
+                                  <View className="w-5 items-center mr-3 mt-1">
+                                    <Ionicons name="map" size={12} color="#EF4444" fill="#EF4444" />
+                                  </View>
+                                  <View className="flex-1">
+                                    <Text className="text-sm text-gray-500 mb-1">Destination</Text>
+                                    <Text className="text-base text-gray-900">
+                                      {approvedRide[0]?.where_to}
+                                    </Text>
+                                  </View>
+                                </View>
+
+                                {/* Trip Info */}
+                                {/*<View className="border-t border-gray-200 pt-4">*/}
+                                {/*  <View className="flex-row justify-between items-center mb-2">*/}
+                                {/*    <Text className="text-sm text-gray-600">Distance</Text>*/}
+                                {/*    <Text className="text-sm font-medium text-gray-900">*/}
+                                {/*      {rideData.distance}*/}
+                                {/*    </Text>*/}
+                                {/*  </View>*/}
+                                {/*  <View className="flex-row justify-between items-center mb-2">*/}
+                                {/*    <Text className="text-sm text-gray-600">Duration</Text>*/}
+                                {/*    <Text className="text-sm font-medium text-gray-900">*/}
+                                {/*      {rideData.duration}*/}
+                                {/*    </Text>*/}
+                                {/*  </View>*/}
+                                {/*  <View className="flex-row justify-between items-center">*/}
+                                {/*    <Text className="text-base text-gray-900">Estimated Fare</Text>*/}
+                                {/*    <Text className="text-lg font-bold text-gray-900">*/}
+                                {/*      {rideData.fareEstimate}*/}
+                                {/*    </Text>*/}
+                                {/*  </View>*/}
+                                {/*</View>*/}
+                              </View>
+
+                              <TouchableOpacity
+                                  className="bg-[#222] p-3 rounded-[18px] mb-5"
+                                  onPress={() => beginRide(approvedRide[0])}
+                              >
+                                <Text className="text-white text-center">Begin Ride</Text>
+                              </TouchableOpacity>
+
+                              {/* Cancel Button */}
+                              <TouchableOpacity
+                                  className={`bg-white border-2 border-red-500 rounded-2xl p-4 flex-row items-center justify-center mb-6 ${
+                                      approvingRide ? 'opacity-60' : ''
+                                  }`}
+                                  onPress={() => handleCancelRide(approvedRide[0])}
+                                  disabled={approvingRide}
+                              >
+                                <Ionicons name="close" size={20} color="#EF4444" />
+                                <Text className="text-red-500 font-semibold text-base ml-2">
+                                  {approvingRide ? "Cancelling..." : "Cancel Ride"}
+                                </Text>
+                              </TouchableOpacity>
+
+                              {/* Footer */}
+                              <Text className="text-center text-sm text-gray-500">
+                                Need help? Contact support at any time.
+                              </Text>
+                            </View>
+                          </ScrollView>
+
+
+                        </View>
+                    )}
                   </View>
+              )}
 
-              }
             </View>
           </View>
           </View>
-
-
 
         </View>
 
@@ -397,6 +764,109 @@ const DashboardScreen = () => {
           </View>
           </View>
 
+
+        </Modal>
+
+
+        <Modal
+            visible={showRideRequest}
+            animationType="slide"
+            transparent
+            onRequestClose={() => setShowRideRequest(false)}
+        >
+          {requestedRide.length > 0 && (
+              <View className="flex-1 justify-center items-center bg-black/30">
+                <View className="bg-gray-50 border rounded-xl w-[90%] max-h-[85%] overflow-hidden">
+                  {/* Header */}
+                  <View className="bg-black text-white p-4 rounded-t-xl">
+                    <Text className="text-2xl text-blue-100 font-bold text-center">Ride Request</Text>
+                  </View>
+
+                  {/* Scrollable Content */}
+                  <ScrollView className="p-6 space-y-6" showsVerticalScrollIndicator={false}>
+                    {/* Pickup & Destination */}
+                    <Text>{requestedRide.length}</Text>
+                    <View className="space-y-4 mb-2">
+                      <View className="flex-row items-center gap-2">
+                        <View className="w-3 h-3 bg-green-500 rounded-full" />
+                        <View>
+                          <Text className="text-gray-500">Pickup</Text>
+                          <Text className="font-semibold text-gray-800">
+                            {requestedRide[currentRideIndex]?.where_from}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View className="ml-6 border-l-2 border-dashed border-gray-300 h-8" />
+
+                      <View className="flex-row items-center gap-2">
+                        <View className="w-3 h-3 bg-red-500 rounded-full" />
+                        <View>
+                          <Text className="text-sm text-gray-500">Destination</Text>
+                          <Text className="font-semibold text-gray-800">
+                            {requestedRide[currentRideIndex]?.where_to}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    {/* Fare Breakdown */}
+                    <View className="border-t border-gray-200 pt-4">
+                      <View className="flex-row justify-between items-center mb-2">
+                        <Text className="text-gray-600">Base Fare</Text>
+                        <Text className="text-gray-800">₦300.00</Text>
+                      </View>
+                      <View className="flex-row justify-between items-center mb-4">
+                        <Text className="text-gray-600">Service Fee</Text>
+                        <Text className="text-gray-800">₦50.00</Text>
+                      </View>
+                      <View className="flex-row justify-between items-center text-lg font-bold border-t border-gray-200 pt-4">
+                        <Text className="text-gray-800">Total</Text>
+                        <Text className="text-blue-600">₦350.00</Text>
+                      </View>
+                    </View>
+                  </ScrollView>
+
+                  {/* Actions */}
+                  <View className="p-6 border-t border-gray-200">
+                    <TouchableOpacity
+                        onPress={() => acceptRide(requestedRide[currentRideIndex])}
+                        disabled={approvingRide}
+                        className="w-full bg-black py-4 rounded-lg disabled:opacity-20"
+                    >
+                      {approvingRide ? (
+                          <ActivityIndicator color="#fff" />
+                      ) : (
+                          <Text className="text-white text-center font-semibold text-lg">Accept Ride</Text>
+                      )}
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                          // Move cancelled ride to the end
+                          const current = requestedRide[currentRideIndex];
+                          const updated = [...requestedRide.slice(0, currentRideIndex), ...requestedRide.slice(currentRideIndex + 1), current];
+
+                          setRequestedRide(updated);
+
+                          // Move to next ride, or close modal
+                          if (updated.length - 1 === currentRideIndex) {
+                            if (updated.length === 1) {
+                              setRequestedRide([]);
+                              setShowRideRequest(false);
+                            } else {
+                              setCurrentRideIndex(0);
+                            }
+                          }
+                        }}
+                        className="w-full bg-red-500 mt-3 py-4 rounded-lg"
+                    >
+                      <Text className="text-white text-center font-semibold text-lg">Cancel Ride</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+          )}
 
         </Modal>
 

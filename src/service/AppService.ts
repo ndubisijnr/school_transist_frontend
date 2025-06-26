@@ -33,19 +33,23 @@ export class AppService {
     }
 
     static updateRide(other: GetThunkAPI<ThunkApiConfig>, data?: {id:data.id, payload:data.payload}) {
-        return BaseService.apiClient(other).post(`/rides/${data?.id}`, data?.payload)
+        return BaseService.apiClient(other).put(`/rides/${data?.id}/`, data?.payload)
     }
 
     static readRidesById(other: GetThunkAPI<ThunkApiConfig>, data?: number) {
-        return BaseService.apiClient(other).post(`/rides/${data}`)
+        return BaseService.apiClient(other).get(`/rides/${data}/`)
     }
 
     static readRidesByStudentId(other: GetThunkAPI<ThunkApiConfig>, data?: number) {
-        return BaseService.apiClient(other).post(`/rides/student/${data}`)
+        return BaseService.apiClient(other).get(`/rides/student/${data}/`)
     }
 
     static readRidesByHubId(other: GetThunkAPI<ThunkApiConfig>, data?: number) {
-        return BaseService.apiClient(other).post(`/rides/hub/${data}`)
+        return BaseService.apiClient(other).get(`/rides/hub/${data}/`)
+    }
+
+    static readRides(other: GetThunkAPI<ThunkApiConfig>) {
+        return BaseService.apiClient(other).get(`/rides/`)
     }
 
 

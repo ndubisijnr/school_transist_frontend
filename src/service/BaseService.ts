@@ -33,14 +33,14 @@ const ApiClient = (others: GetThunkAPI<ThunkApiConfig>, isAuthorization: boolean
         if (config.method === 'post' || config.method === 'put') {
             config.onUploadProgress = (progressEvent: { loaded: number; total: number; }) => {
                 const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                console.log(`Upload progress: ${percentCompleted}%`);
+                // console.log(`Upload progress: ${percentCompleted}%`);
             };
         }
 
         if (config.method === 'get' && config.responseType === 'blob') {
             config.onDownloadProgress = (progressEvent: { loaded: number; total: number; }) => {
                 const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                console.log(`Download progress: ${percentCompleted}%`);
+                // console.log(`Download progress: ${percentCompleted}%`);
             };
         }
 
