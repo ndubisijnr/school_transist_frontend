@@ -287,7 +287,7 @@ const DashboardScreen = () => {
             );
 
             const approvedRides = response.data.filter(
-                (ride: any) => ride.transit_status === "accepted" || ride.transit_status === "in_progress"
+                (ride: any) => ride.transit_status === "accepted" || ride.transit_status === "in_progress" || ride.transit_status === "completed"
             );
 
             // Prevent duplicates
@@ -319,7 +319,7 @@ const DashboardScreen = () => {
         console.log("Error fetching ride requests:", err);
       }
     }
-  }, [showRideRequest, dispatch, userDetails?.driver_uni?.id]);
+  }, [showRideRequest, dispatch, userDetails?.driver_uni?.id, approvedRide[0]]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -436,12 +436,13 @@ const DashboardScreen = () => {
                   <View className="mt-3">
                     {approvedRide.length > 0 && approvedRide[0]?.student && (
                         <View>
-                          <ScrollView className="flex-1 bg-gray-50">
+                          <ScrollView className="flex-1">
                             <View className="px-5 pt-12 pb-6">
                               {/* Header */}
                               <View className="items-center mb-8">
                                 <Text className="text-2xl font-bold text-gray-900 mb-1">
-                                  Ride Accepted
+                                  {approvedRide[0]?.transit_status === 'completed' ?
+                                      'Ride Completed' : 'Ride Accepted' }
                                 </Text>
                               </View>
 
@@ -450,7 +451,9 @@ const DashboardScreen = () => {
                                 <View className="flex-row items-center justify-center">
                                   <Ionicons name="timer" size={20} color="#3B82F6" />
                                   <Text className="text-lg font-semibold text-blue-800 ml-2">
-                                    {approvedRide[0]?.transit_status === 'accepted' ? 'Picking up' : 'Driving'} {approvedRide[0]?.student.name} {approvedRide[0]?.transit_status === 'in_progress' && ('to destination')}
+                                    {approvedRide[0]?.transit_status === 'completed' ? 'Ride Completed' :
+                                    approvedRide[0]?.transit_status === 'accepted' ? 'Picking up' : `Driving`} {approvedRide[0]?.student.name} {approvedRide[0]?.transit_status === 'in_progress' && ('to destination')
+                                    }
                                   </Text>
                                 </View>
                               </View>
@@ -569,7 +572,24 @@ const DashboardScreen = () => {
                                   </Text>
                                 </TouchableOpacity>
                               </View>
-                                  :
+                                  : approvedRide[0]?.transit_status === 'completed' ?
+
+                                      <View>
+
+                                        <TouchableOpacity
+                                            className="bg-[#222] p-3 rounded-[18px] mb-5"
+                                            onPress={() => {
+                                              setApprovedRide([])
+                                              setRequestedRide([])
+                                            }}
+                                        >
+                                          <Text className="text-white text-center">Proceed</Text>
+                                        </TouchableOpacity>
+
+
+                                      </View>
+
+                                      :
 
                                   <Text className="text-center text-md text-gray-500 mb-3">
                                     Enjoy the trip. if you want to cancel, ask the student to cancel
@@ -586,8 +606,7 @@ const DashboardScreen = () => {
                           </ScrollView>
 
 
-                        </View>
-                    )}
+                        </View>)}
                   </View>
               )}
 
@@ -763,7 +782,7 @@ const DashboardScreen = () => {
         >
           {requestedRide.length > 0 && (
               <View className="flex-1 justify-center items-center bg-black/30">
-                <View className="bg-gray-50 border rounded-xl w-[90%] max-h-[85%] overflow-hidden">
+                <View className="bg-gray-50 rounded-xl w-[90%] max-h-[85%] overflow-hidden">
                   {/* Header */}
                   <View className="bg-black text-white p-4 rounded-t-xl">
                     <Text className="text-2xl text-blue-100 font-bold text-center">Ride Request</Text>
@@ -772,7 +791,6 @@ const DashboardScreen = () => {
                   {/* Scrollable Content */}
                   <ScrollView className="p-6 space-y-6" showsVerticalScrollIndicator={false}>
                     {/* Pickup & Destination */}
-                    <Text>{requestedRide.length}</Text>
                     <View className="space-y-4 mb-2">
                       <View className="flex-row items-center gap-2">
                         <View className="w-3 h-3 bg-green-500 rounded-full" />
