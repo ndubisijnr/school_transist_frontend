@@ -1,5 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, Pressable, Alert, TouchableOpacity, Modal, Image, StatusBar, Platform, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Alert,
+  TouchableOpacity,
+  Modal,
+  Image,
+  StatusBar,
+  Platform,
+  ScrollView,
+  ActivityIndicator
+} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { RootState } from "@/store";
@@ -14,7 +27,7 @@ import MapComponent from "@/component/mapComponent";
 import Select from "@/component/select/Select";
 import {ResponseUtil} from "@/utility/ResponseUtil";
 import {usePaystack} from "react-native-paystack-webview";
-
+import {CreateRideRequest} from "@/model/request/app/AppRequest";
 const MenuItem = ({ icon, title }: any) => (
 
   <TouchableOpacity style={styles.menuItem}>
@@ -40,6 +53,7 @@ const DashboardScreen = () => {
   const [showMenu, setShowMenu] = useState(false)
   const {userDetails} = useSelector((state: RootState) => state.auth)
   const {locations} = useSelector((state: RootState) => state.app)
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   const router = useRouter();
   const store = useStore();
@@ -101,7 +115,7 @@ const DashboardScreen = () => {
     alert(`Booking ride with ${driver.name}. ETA: ${driver.eta}`);
   };
 
-  const payNow = () => {
+  const payNow = async () => {
     if(selectedPayment === 'online') {
       // popup.checkout({
       //   email: 'jane.doe@example.com',
@@ -115,9 +129,29 @@ const DashboardScreen = () => {
       //   onLoad: (res) => console.log('WebView Loaded:', res),
       //   onError: (err) => console.log('WebView Error:', err)
       // });
+      setLoading(true)
+      CreateRideRequest.transit_fee = '350'
+      CreateRideRequest.transit_status = 'requested'
+      CreateRideRequest.review_comment = "NA"
+      CreateRideRequest.where_from = selectedFromValue
+      CreateRideRequest.where_to = selectedToValue
+      CreateRideRequest.seater = "two"
+      CreateRideRequest.student = userDetails?.student?.id
+      try{
+        const response = await dispatch(app.action.createRide(CreateRideRequest)).unwrap()
+        setLoading(false)
+        if(response.code === "00"){
+          setShowSummaryModal(false)
+          await RouterUtil.navigate('dashboard.rideSearchScreen')
 
-      setShowSummaryModal(false)
-      RouterUtil.navigate('dashboard.rideSearchScreen')
+        }else{
+          ResponseUtil.toast(response.message, '', 'error')
+        }
+      }catch (e){
+        setLoading(false)
+        ResponseUtil.toast(e, '', 'error')
+      }
+
     }
     else{
       Alert.alert('feature not available yet')
@@ -346,9 +380,11 @@ const DashboardScreen = () => {
               {/* Continue Button */}
               <View className="p-6 border-t border-gray-200">
                 <TouchableOpacity onPress={() => payNow()}
-                    className="w-full bg-black py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors"
+                                  disabled={loading}
+                    className="w-full bg-black py-4 rounded-lg disabled:opacity-20 font-semibold text-lg hover:bg-blue-700 transition-colors"
                 >
-                  <Text className="text-white text-center"> Proceed </Text>
+                  {loading && ( <ActivityIndicator />)}
+                  {!loading && (<Text className="text-white text-center"> Proceed </Text>)}
                 </TouchableOpacity>
                 <TouchableOpacity
                     className="w-full bg-red-500 mt-3 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors"

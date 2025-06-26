@@ -32,8 +32,20 @@ export class AppService {
         return BaseService.apiClient(other).post('/rides/', data)
     }
 
+    static updateRide(other: GetThunkAPI<ThunkApiConfig>, data?: {id:data.id, payload:data.payload}) {
+        return BaseService.apiClient(other).post(`/rides/${data?.id}`, data?.payload)
+    }
+
     static readRidesById(other: GetThunkAPI<ThunkApiConfig>, data?: number) {
         return BaseService.apiClient(other).post(`/rides/${data}`)
+    }
+
+    static readRidesByStudentId(other: GetThunkAPI<ThunkApiConfig>, data?: number) {
+        return BaseService.apiClient(other).post(`/rides/student/${data}`)
+    }
+
+    static readRidesByHubId(other: GetThunkAPI<ThunkApiConfig>, data?: number) {
+        return BaseService.apiClient(other).post(`/rides/hub/${data}`)
     }
 
 

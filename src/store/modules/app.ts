@@ -9,6 +9,9 @@ export type AppState = {
     loading: boolean,
     appTypeUserData:[]|null,
     locations:[]|null,
+    currentRide:null,
+    studentActivities:null,
+    hubActivities:null
 
 }
 
@@ -16,7 +19,10 @@ const initialState: AppState  = {
     unis: null,
     loading: false,
     appTypeUserData:null,
-    locations:null
+    locations:null,
+    currentRide:null,
+    studentActivities:null,
+    hubActivities:null
 
 }
 
@@ -26,6 +32,9 @@ const actions = {
     createHub: CaseAsyncActionHelper.createThunk<CreateHubRequestType>("app/create-hub", AppService.createHub),
     readLocations: CaseAsyncActionHelper.createThunk<ReadLocationsRequestType>("app/locations", AppService.readLocationByUniversityId),
     createRide: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/create-ride", AppService.createRide),
+    updateRide: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/update-ride", AppService.updateRide),
+    readRideByStudent: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/read-student-ride", AppService.readRidesByStudentId),
+    readRideByHub: CaseAsyncActionHelper.createThunk<CreateRideRequestType>("app/read-hub-ride", AppService.readRidesByHubId),
 }
 
 const slice = createSlice({
@@ -50,6 +59,27 @@ const slice = createSlice({
         CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.readLocations, {
             stateProps: [
                 {stateProp: "locations", responseKey:"data"},
+            ]
+        })(builder)
+
+
+        CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.createRide, {
+            stateProps: [
+                {stateProp: "currentRide", responseKey:"data"},
+            ]
+        })(builder)
+
+        CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.updateRide, {})(builder)
+
+        CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.readRideByStudent, {
+            stateProps:[
+                {stateProp:"studentActivities", responseKey:"data"}
+            ]
+        })(builder)
+
+        CaseAsyncActionHelper.createAsyncReducer<AppState, any>(actions.readRideByHub, {
+            stateProps:[
+                {stateProp:"hubActivities", responseKey:"data"}
             ]
         })(builder)
 

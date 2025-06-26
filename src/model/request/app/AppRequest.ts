@@ -17,7 +17,13 @@ export type CreateHubRequestType = {
 
 export type CreateRideRequestType = {
     where_from: string,
-    where_to: string
+    where_to: string,
+    transit_fee: string,
+    transit_status: string,
+    student: number,
+    hub: number | null,
+    seater: string,
+    review_comment: string
 }
 
 export type ReadLocationsRequestType = {
@@ -47,7 +53,13 @@ export const CreateHubRequest:CreateHubRequestType = {
     driver_vehicle_capacity: ""
 }
 
-export const CreateRideRequest:CreateRideRequestType = {
+export const CreateRideRequest = {
     where_from: "",
-    where_to: ""
+    where_to: "",
+    transit_fee: "",
+    transit_status: "",
+    student: "",
+    hub: null,
+    seater: "",
+    review_comment: ""
 }

@@ -4,6 +4,7 @@ import { Audio } from 'expo-av';
 import {useEffect, useState} from "react";
 import {Ionicons} from "@expo/vector-icons"
 import {RouterUtil} from "@/utility/RouterUtil";
+import {RootState, useAppSelector} from "@/store";
 
 
 const RideSearch = () => {
@@ -11,6 +12,7 @@ const RideSearch = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [showRiders, setShowRiders] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const {currentRide} = useAppSelector((state:RootState) => state.app)
 
     const playSound = async () => {
         try {
@@ -114,6 +116,7 @@ const RideSearch = () => {
     return (
 
         <ContainerScrollViewLayout>
+            <Text>{JSON.stringify(currentRide, null, 2)}</Text>
             {!showRiders && (
                 <View className="flex-1 justify-center items-center">
                     <View className="animate-spin w-[24px] h-[24px] items-center justify-center">
