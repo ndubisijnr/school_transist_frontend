@@ -7,7 +7,6 @@ import {
   Alert,
   TouchableOpacity,
   Modal,
-  Image,
   StatusBar,
   Platform,
   ScrollView,
@@ -18,31 +17,26 @@ import { useSelector } from 'react-redux';
 import { RootState } from "@/store";
 import {useRouter} from "expo-router";
 import {RouterUtil} from "@/utility/RouterUtil";
-import {persistStore} from "redux-persist";
 import {useStore} from "react-redux";
 import {useDispatch} from "react-redux";
-import {ContainerScrollViewLayout, ContainerScrollViewLayoutProps} from "@/view/layout/ContainerScrollViewLayout";
+import {ContainerScrollViewLayout} from "@/view/layout/ContainerScrollViewLayout";
 import app from "@/store/modules/app";
 import MapComponent from "@/component/mapComponent";
 import Select from "@/component/select/Select";
 import {ResponseUtil} from "@/utility/ResponseUtil";
-import {usePaystack} from "react-native-paystack-webview";
+// import {usePaystack} from "react-native-paystack-webview";
 import {CreateRideRequest} from "@/model/request/app/AppRequest";
 
 
 const DashboardScreen = () => {
-  const [showMenu, setShowMenu] = useState(false)
   const {userDetails} = useSelector((state: RootState) => state.auth)
   const {locations} = useSelector((state: RootState) => state.app)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   const router = useRouter();
   const store = useStore();
-  const persistor = persistStore(store);
-  const [showFrom, setShowFrom] = useState(false);
   const [selectedToValue, setSelectedToValue] = useState(null);
   const [selectedFromValue, setSelectedFromValue] = useState(null);
-  const [showTo, setShowTo] = useState(false);
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [showRideRequest, setShowRideRequest] = useState(false);
   const [approvingRide, setApprovingRide] = useState(false);
@@ -51,8 +45,8 @@ const DashboardScreen = () => {
   const [selectedPayment, setSelectedPayment] = useState('online');
   const [walletBalance] = useState(0);
   const [requestedRide, setRequestedRide] = useState([])
-  const [approvedRide, setApprovedRide] = useState([])
-  const { popup } = usePaystack();
+  const [approvedRide, setApprovedRide] = useState(null)
+  // const { popup } = usePaystack();
   const [currentRideIndex, setCurrentRideIndex] = useState(0);
   const requestedRideRef = useRef(requestedRide);
 
@@ -105,7 +99,7 @@ const DashboardScreen = () => {
   };
 
   // driver accept ride
-  const acceptRide = async (currentRide) => {
+  const acceptRide = useCallback(async (currentRide) => {
     setApprovingRide(true)
     const payload = {
       id:currentRide.id,
@@ -122,24 +116,7 @@ const DashboardScreen = () => {
       if(response.code === "00"){
         ResponseUtil.toast(response.message, '', 'success')
         setRequestedRide([])
-        try {
-          const response2 =  await dispatch(app.action.readRides()).unwrap()
-          if(response2.code === "00"){
-            const approvedRides = response2.data.filter(
-                (ride: any) => ride.transit_status === "accepted"
-            );
-
-            setApprovedRide(prevState => {
-              const existingIds = new Set(prevState.map(r => r.id));
-              const uniqueRides = approvedRides.filter(ride => !existingIds.has(ride.id));
-              return [...prevState, ...uniqueRides];
-            })
-          }
-
-         }catch (err){
-          console.log(err)
-        }
-
+        setApprovedRide(currentRide)
         setShowRideRequest(false)
       }else{
         ResponseUtil.toast(response.message, '', 'error')
@@ -149,7 +126,7 @@ const DashboardScreen = () => {
       setApprovingRide(false)
       ResponseUtil.toast(err, '', 'error')
     }
-  }
+  },[approvedRide, dispatch])
 
 
   // cancel ride
@@ -197,20 +174,7 @@ const DashboardScreen = () => {
 
       if(response.code === "00"){
         ResponseUtil.toast(response.message, '', 'success')
-        try {
-          const response2 =  await dispatch(app.action.readRides()).unwrap()
-          if(response2.code === "00"){
-            const approvedRides = response2.data.filter(
-                (ride: any) => ride.transit_status === "in_progress"
-            );
-
-            setApprovedRide(approvedRides)
-          }
-
-        }catch (err){
-          setStartingRide(false)
-          console.log(err)
-        }
+        await readCurrentRideUpdate()
       }else{
         ResponseUtil.toast(response.message, '', 'error')
       }
@@ -223,41 +187,39 @@ const DashboardScreen = () => {
 
 
   const readCurrentRideUpdate = useCallback(async () => {
-    if(approvedRide.length){
-      try{
-        const response = await dispatch(app.action.readRideById(approvedRide[0]?.id)).unwrap()
-        if(response.code === "00"){
-            setApprovedRide(response.data)
+    try{
+      const response = await dispatch(app.action.readRideById(approvedRide?.id)).unwrap()
+      if(response.code === "00"){
+        setApprovedRide(response.data)
 
-          if(response.data.transit_status === 'cancelled'){
-            setApprovedRide([])
-          }
+        if(response.data.transit_status === 'cancelled'){
+          await Alert.alert('Ride was cancelled')
+          setApprovedRide(null)
         }
-      }catch (err){
-        console.log(err)
       }
-    }else{
-      setApprovedRide([])
+    }catch (err){
+      console.log(err)
     }
-  },[approvedRide])
+  },[approvedRide,dispatch])
 
-
+  //TODO refactor later: create an endpoint that returns only requested rides
   const getRideRequest = useCallback(async () => {
     console.log("🔁 Called every 5 seconds");
 
-    try {
-      const response = await dispatch(app.action.readRides()).unwrap();
+    console.log(approvedRide)
 
-      if (response.code === "00") {
+    if (!approvedRide) {
 
-        if(!approvedRide.length){
+      try {
+        const response = await dispatch(app.action.readRides()).unwrap();
+
+        if (response.code === "00") {
+
+
+          // no current ride in progress for the driver
           const newRequestedRides = response.data.filter(
               (ride: any) => ride.transit_status === "requested"
           );
-
-          // const approvedRides = response.data.filter(
-          //     (ride: any) => ride.transit_status === "accepted" || ride.transit_status === "in_progress"
-          // );
 
           // Prevent duplicates
           setRequestedRide(prevState => {
@@ -266,15 +228,12 @@ const DashboardScreen = () => {
             return [...prevState, ...uniqueRides];
           });
 
-          // setApprovedRide(prevState => {
-          //   const existingIds = new Set(prevState.map(r => r.id));
-          //   const uniqueRides = approvedRides.filter(ride => !existingIds.has(ride.id));
-          //   return [...prevState, ...uniqueRides];
-          // })
 
         }
-        readCurrentRideUpdate().then()
 
+
+      }  catch(err){
+        console.log("Error fetching ride requests:", err);
       }
 
       // ✅ Use latest value from ref (not stale closure)
@@ -286,10 +245,11 @@ const DashboardScreen = () => {
         setShowRideRequest(false);
       }
 
-    } catch (err) {
-      console.log("Error fetching ride requests:", err);
+
+    }else{
+      readCurrentRideUpdate().then()
     }
-  }, [showRideRequest, dispatch, userDetails?.driver_uni?.id, approvedRide[0]]);
+  }, [showRideRequest, dispatch, userDetails?.driver_uni?.id, approvedRide]);
 
   const payNow = async () => {
     if(selectedPayment === 'online') {
@@ -351,7 +311,7 @@ const DashboardScreen = () => {
     //
     //   return () => clearInterval(interval); // Cleanup on unmount
     // }
-  }, [approvedRide]);
+  }, []);
 
 
   useEffect(() => {
@@ -401,15 +361,15 @@ const DashboardScreen = () => {
                   </View>
               ) : (
                   <View className="mt-3">
-                    {approvedRide.length > 0 && approvedRide[0]?.student && (
+                    {approvedRide  && approvedRide?.hub && (
                         <View className="bg-white">
                           <ScrollView className="flex-1">
                             <View className="px-5 pt-12 pb-6">
                               {/* Header */}
                               <View className="items-center mb-8">
                                 <Text className="text-2xl font-bold text-gray-900 mb-1">
-                                  {approvedRide[0]?.transit_status === 'completed' ?
-                                      'Ride Completed' : approvedRide[0]?.transit_status === 'cancelled' ? 'Ride Cancelled' :  approvedRide[0]?.transit_status === 'accepted' ? 'Ride Accepted' : approvedRide[0]?.transit_status === 'in_progress' ? 'Ride Ongoing.' : '' }
+                                  {approvedRide?.transit_status === 'completed' ?
+                                      'Ride Completed' : approvedRide?.transit_status === 'cancelled' ? 'Ride Cancelled' :  approvedRide?.transit_status === 'accepted' ? 'Ride Accepted' : approvedRide?.transit_status === 'in_progress' ? 'Ride Ongoing.' : '' }
                                 </Text>
                               </View>
 
@@ -418,10 +378,10 @@ const DashboardScreen = () => {
                                 <View className="flex-row items-center justify-center">
                                   <Ionicons name="timer" size={20} color="#3B82F6" />
                                   <Text className="text-lg font-semibold text-blue-800 ml-2">
-                                    {approvedRide[0]?.transit_status === 'completed' ? 'Ride Completed' :
-                                    approvedRide[0]?.transit_status === 'accepted' ? `Picking up ${approvedRide[0]?.student.name} from ${approvedRide[0]?.where_from}` :
-                                    approvedRide[0]?.transit_status === 'in_progress' ? `Driving ${approvedRide[0]?.student.name} to ${approvedRide[0]?.where_to}` :
-                                    approvedRide[0]?.transit_status === 'cancelled' ? `Ride was cancelled` : ''
+                                    {approvedRide?.transit_status === 'completed' ? 'Ride Completed' :
+                                    approvedRide?.transit_status === 'accepted' ? `Picking up ${approvedRide?.student.name} from ${approvedRide?.where_from}` :
+                                    approvedRide?.transit_status === 'in_progress' ? `Driving ${approvedRide?.student.name} to ${approvedRide?.where_to}` :
+                                    approvedRide?.transit_status === 'cancelled' ? `Ride was cancelled` : ''
                                     }
                                   </Text>
                                 </View>
@@ -441,7 +401,7 @@ const DashboardScreen = () => {
                                   <View className="flex-1">
                                     <Text className="text-sm text-gray-500 mb-1">Pickup</Text>
                                     <Text className="text-base text-gray-900">
-                                      {approvedRide[0]?.where_from}
+                                      {approvedRide?.where_from}
                                     </Text>
                                   </View>
                                 </View>
@@ -461,44 +421,23 @@ const DashboardScreen = () => {
                                   <View className="flex-1">
                                     <Text className="text-sm text-gray-500 mb-1">Destination</Text>
                                     <Text className="text-base text-gray-900">
-                                      {approvedRide[0]?.where_to}
+                                      {approvedRide?.where_to}
                                     </Text>
                                   </View>
                                 </View>
 
-                                {/* Trip Info */}
-                                {/*<View className="border-t border-gray-200 pt-4">*/}
-                                {/*  <View className="flex-row justify-between items-center mb-2">*/}
-                                {/*    <Text className="text-sm text-gray-600">Distance</Text>*/}
-                                {/*    <Text className="text-sm font-medium text-gray-900">*/}
-                                {/*      {rideData.distance}*/}
-                                {/*    </Text>*/}
-                                {/*  </View>*/}
-                                {/*  <View className="flex-row justify-between items-center mb-2">*/}
-                                {/*    <Text className="text-sm text-gray-600">Duration</Text>*/}
-                                {/*    <Text className="text-sm font-medium text-gray-900">*/}
-                                {/*      {rideData.duration}*/}
-                                {/*    </Text>*/}
-                                {/*  </View>*/}
-                                {/*  <View className="flex-row justify-between items-center">*/}
-                                {/*    <Text className="text-base text-gray-900">Estimated Fare</Text>*/}
-                                {/*    <Text className="text-lg font-bold text-gray-900">*/}
-                                {/*      {rideData.fareEstimate}*/}
-                                {/*    </Text>*/}
-                                {/*  </View>*/}
-                                {/*</View>*/}
                               </View>
 
 
 
                               {/* Cancel Button */}
 
-                              {approvedRide[0]?.transit_status === 'accepted' ?
+                              {approvedRide?.transit_status === 'accepted' ?
                                   <View>
                                     <TouchableOpacity
                                         className="bg-[#222] p-3 rounded-[18px] mb-5"
-                                        onPress={() => beginRide(approvedRide[0])}
-                                        disabled={startingRide}
+                                        onPress={() => beginRide(approvedRide)}
+                                        disabled={startingRide || cancellingRide}
                                     >
                                       <Text className="text-white text-center disabled:opacity-20">Begin Ride</Text>
                                     </TouchableOpacity>
@@ -506,8 +445,8 @@ const DashboardScreen = () => {
                                     className={`bg-white border-2 border-red-500 rounded-2xl p-4 flex-row items-center justify-center mb-6 ${
                                         approvingRide || startingRide ? 'opacity-60' : ''
                                     }`}
-                                    onPress={() => handleCancelRide(approvedRide[0])}
-                                    disabled={approvingRide || startingRide}
+                                    onPress={() => handleCancelRide(approvedRide)}
+                                    disabled={approvingRide || startingRide || cancellingRide}
                                 >
                                   <Ionicons name="close" size={20} color="#EF4444" />
                                   <Text className="text-red-500 font-semibold text-base ml-2">
@@ -515,7 +454,7 @@ const DashboardScreen = () => {
                                   </Text>
                                 </TouchableOpacity>
                               </View>
-                                  : approvedRide[0]?.transit_status === 'completed' ?
+                                  : approvedRide?.transit_status === 'completed' ?
 
                                       <View>
 
