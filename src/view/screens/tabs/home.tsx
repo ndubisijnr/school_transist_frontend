@@ -46,6 +46,8 @@ const DashboardScreen = () => {
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [showRideRequest, setShowRideRequest] = useState(false);
   const [approvingRide, setApprovingRide] = useState(false);
+  const [startingRide, setStartingRide] = useState(false);
+  const [cancellingRide, setCancellingRide] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState('online');
   const [walletBalance] = useState(0);
   const [requestedRide, setRequestedRide] = useState([])
@@ -53,10 +55,6 @@ const DashboardScreen = () => {
   const { popup } = usePaystack();
   const [currentRideIndex, setCurrentRideIndex] = useState(0);
   const requestedRideRef = useRef(requestedRide);
-
-  useEffect(() => {
-    requestedRideRef.current = requestedRide;
-  }, [requestedRide]);
 
   const toOptions:any = locations?.map(item => {
     return {
@@ -72,25 +70,6 @@ const DashboardScreen = () => {
     };
   })
 
-  // function generateReference(length = 10, prefix = '', suffix = '') {
-  //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  //   let randomPart = '';
-  //
-  //   for (let i = 0; i < length; i++) {
-  //     const randomIndex = Math.floor(Math.random() * characters.length);
-  //     randomPart += characters[randomIndex];
-  //   }
-  //
-  //   return `${prefix}${randomPart}${suffix}`;
-  // }
-
-  // Example usage:
-  // console.log(generateReference(12, 'REF-', '-NG'));     // e.g. 'REF-A9DKXMP4TQWL-NG'
-
-
-  const updateDriversLocation = () => {
-    ResponseUtil.toast('Location updated successfully', 'success');
-  }
 
   const handleCancelRide = (ride) => {
     Alert.alert(
@@ -125,42 +104,7 @@ const DashboardScreen = () => {
     setSelectedPayment(method)
   };
 
-  const handleDriverSelect = (driver) => {
-    alert(`Booking ride with ${driver.name}. ETA: ${driver.eta}`);
-  };
-
-  // const getRideRequest = useCallback(async () => {
-  //   if (userDetails.driver_uni?.id) {
-  //     try {
-  //       const response = await dispatch(app.action.readRides()).unwrap();
-  //
-  //       if (response.code === "00") {
-  //         // 1. Filter for transit_status === "requested"
-  //         const newRequestedRides = response.data.filter(
-  //             (ride: any) => ride.transit_status === "requested"
-  //         );
-  //
-  //         // 2. Avoid duplicates by checking against existing ride IDs
-  //         setRequestedRide(prevState => {
-  //           const existingIds = new Set(prevState.map(r => r.id));
-  //           const uniqueRides = newRequestedRides.filter(ride => !existingIds.has(ride.id));
-  //           return [...prevState, ...uniqueRides];
-  //         });
-  //       }
-  //
-  //       if(requestedRide.length && !showRideRequest){
-  //         setShowRideRequest(true)
-  //       }
-  //
-  //       if(!requestedRide.length && showRideRequest){
-  //         setShowRideRequest(false)
-  //       }
-  //     } catch (err) {
-  //       console.log("Error fetching ride requests:", err);
-  //     }
-  //   }
-  // },[requestedRide, showRideRequest, dispatch]);
-
+  // driver accept ride
   const acceptRide = async (currentRide) => {
     setApprovingRide(true)
     const payload = {
@@ -207,8 +151,10 @@ const DashboardScreen = () => {
     }
   }
 
+
+  // cancel ride
   const cancelRide = async (currentRide) => {
-    setApprovingRide(true)
+    setCancellingRide(true)
     const payload = {
       id:currentRide.id,
       payload:{
@@ -219,7 +165,7 @@ const DashboardScreen = () => {
 
     try{
       const response = await dispatch(app.action.updateRide(payload)).unwrap()
-      setApprovingRide(false)
+      setCancellingRide(false)
 
       if(response.code === "00"){
         ResponseUtil.toast(response.message, '', 'success')
@@ -230,13 +176,14 @@ const DashboardScreen = () => {
       }
     }catch (err){
       console.log(err)
-      setApprovingRide(false)
+      setCancellingRide(false)
       ResponseUtil.toast(err, '', 'error')
     }
   }
 
+
   const beginRide = useCallback(async (currentRide) => {
-    setApprovingRide(true)
+    setStartingRide(true)
     const payload = {
       id:currentRide.id,
       payload:{
@@ -246,7 +193,7 @@ const DashboardScreen = () => {
 
     try{
       const response = await dispatch(app.action.updateRide(payload)).unwrap()
-      setApprovingRide(false)
+      setStartingRide(false)
 
       if(response.code === "00"){
         ResponseUtil.toast(response.message, '', 'success')
@@ -261,6 +208,7 @@ const DashboardScreen = () => {
           }
 
         }catch (err){
+          setStartingRide(false)
           console.log(err)
         }
       }else{
@@ -268,68 +216,80 @@ const DashboardScreen = () => {
       }
     }catch (err){
       console.log(err)
-      setApprovingRide(false)
+      setStartingRide(false)
       ResponseUtil.toast(err, '', 'error')
     }
   },[dispatch])
 
 
-  const getRideRequest = useCallback(async () => {
-    if (userDetails?.hub?.id) {
-      try {
-        const response = await dispatch(app.action.readRides()).unwrap();
+  const readCurrentRideUpdate = useCallback(async () => {
+    if(approvedRide.length){
+      try{
+        const response = await dispatch(app.action.readRideById(approvedRide[0]?.id)).unwrap()
+        if(response.code === "00"){
+            setApprovedRide(response.data)
 
-        if (response.code === "00") {
-
-          if(!approvedRide.length){
-            const newRequestedRides = response.data.filter(
-                (ride: any) => ride.transit_status === "requested"
-            );
-
-            const approvedRides = response.data.filter(
-                (ride: any) => ride.transit_status === "accepted" || ride.transit_status === "in_progress" || ride.transit_status === "completed"
-            );
-
-            // Prevent duplicates
-            setRequestedRide(prevState => {
-              const existingIds = new Set(prevState.map(r => r.id));
-              const uniqueRides = newRequestedRides.filter(ride => !existingIds.has(ride.id));
-              return [...prevState, ...uniqueRides];
-            });
-
-            setApprovedRide(prevState => {
-              const existingIds = new Set(prevState.map(r => r.id));
-              const uniqueRides = approvedRides.filter(ride => !existingIds.has(ride.id));
-              return [...prevState, ...uniqueRides];
-            })
+          if(response.data.transit_status === 'cancelled'){
+            setApprovedRide([])
           }
-
         }
-
-        // ✅ Use latest value from ref (not stale closure)
-        if (requestedRideRef.current.length && !showRideRequest) {
-          setShowRideRequest(true);
-        }
-
-        if (!requestedRideRef.current.length && showRideRequest) {
-          setShowRideRequest(false);
-        }
-
-      } catch (err) {
-        console.log("Error fetching ride requests:", err);
+      }catch (err){
+        console.log(err)
       }
+    }else{
+      setApprovedRide([])
+    }
+  },[approvedRide])
+
+
+  const getRideRequest = useCallback(async () => {
+    console.log("🔁 Called every 5 seconds");
+
+    try {
+      const response = await dispatch(app.action.readRides()).unwrap();
+
+      if (response.code === "00") {
+
+        if(!approvedRide.length){
+          const newRequestedRides = response.data.filter(
+              (ride: any) => ride.transit_status === "requested"
+          );
+
+          // const approvedRides = response.data.filter(
+          //     (ride: any) => ride.transit_status === "accepted" || ride.transit_status === "in_progress"
+          // );
+
+          // Prevent duplicates
+          setRequestedRide(prevState => {
+            const existingIds = new Set(prevState.map(r => r.id));
+            const uniqueRides = newRequestedRides.filter(ride => !existingIds.has(ride.id));
+            return [...prevState, ...uniqueRides];
+          });
+
+          // setApprovedRide(prevState => {
+          //   const existingIds = new Set(prevState.map(r => r.id));
+          //   const uniqueRides = approvedRides.filter(ride => !existingIds.has(ride.id));
+          //   return [...prevState, ...uniqueRides];
+          // })
+
+        }
+        readCurrentRideUpdate().then()
+
+      }
+
+      // ✅ Use latest value from ref (not stale closure)
+      if (requestedRideRef.current.length && !showRideRequest) {
+        setShowRideRequest(true);
+      }
+
+      if (!requestedRideRef.current.length && showRideRequest) {
+        setShowRideRequest(false);
+      }
+
+    } catch (err) {
+      console.log("Error fetching ride requests:", err);
     }
   }, [showRideRequest, dispatch, userDetails?.driver_uni?.id, approvedRide[0]]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("🔁 Called every 5 seconds");
-      getRideRequest()
-      // call your function here
-    }, 35000);
-
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
 
   const payNow = async () => {
     if(selectedPayment === 'online') {
@@ -376,6 +336,24 @@ const DashboardScreen = () => {
 
   };
 
+
+  useEffect(() => {
+    requestedRideRef.current = requestedRide;
+  }, [requestedRide]);
+
+
+  useEffect(() => {
+    // if (userDetails?.hub?.id) {
+    //   const interval = setInterval(() => {
+    //     getRideRequest().then()
+    //     // call your function here
+    //   }, 5000);
+    //
+    //   return () => clearInterval(interval); // Cleanup on unmount
+    // }
+  }, [approvedRide]);
+
+
   useEffect(() => {
 
     dispatch(app.action.readLocations(userDetails?.uni?.id || userDetails?.driver_uni?.id))
@@ -389,20 +367,9 @@ const DashboardScreen = () => {
           <MapComponent />
 
           <View className="relative overflow-hidden">
-          <View style={styles.header} className="absolute top-5 right-[130px]">
-            <View className="bg-white p-4 rounded-lg shadow-sm p-4">
-              <View className="flex-row items-center gap-2">
-                <Ionicons name="star" size={18} color="gold" />
-                <Text className="text-[#666]">
-                  {userDetails?.student?.full_name ? userDetails?.student?.full_name.toLowerCase() : userDetails?.hub?.driver_fullname.toLowerCase()}
-                </Text>
-              </View>
-              <Text className="mt-2 text-[#666]">at {userDetails?.uni?.name || userDetails?.driver_uni?.name}</Text>
-            </View>
-          </View>
           <View className="w-full h-full relative">
 
-            <View className="absolute bg-white  w-full bottom-0 rounded p-3">
+            <View className="absolute  w-full bottom-0 rounded p-3">
               {userDetails?.student ? (
                   <View className="mt-3">
                     <Select
@@ -435,14 +402,14 @@ const DashboardScreen = () => {
               ) : (
                   <View className="mt-3">
                     {approvedRide.length > 0 && approvedRide[0]?.student && (
-                        <View>
+                        <View className="bg-white">
                           <ScrollView className="flex-1">
                             <View className="px-5 pt-12 pb-6">
                               {/* Header */}
                               <View className="items-center mb-8">
                                 <Text className="text-2xl font-bold text-gray-900 mb-1">
                                   {approvedRide[0]?.transit_status === 'completed' ?
-                                      'Ride Completed' : 'Ride Accepted' }
+                                      'Ride Completed' : approvedRide[0]?.transit_status === 'cancelled' ? 'Ride Cancelled' :  approvedRide[0]?.transit_status === 'accepted' ? 'Ride Accepted' : approvedRide[0]?.transit_status === 'in_progress' ? 'Ride Ongoing.' : '' }
                                 </Text>
                               </View>
 
@@ -452,38 +419,13 @@ const DashboardScreen = () => {
                                   <Ionicons name="timer" size={20} color="#3B82F6" />
                                   <Text className="text-lg font-semibold text-blue-800 ml-2">
                                     {approvedRide[0]?.transit_status === 'completed' ? 'Ride Completed' :
-                                    approvedRide[0]?.transit_status === 'accepted' ? 'Picking up' : `Driving`} {approvedRide[0]?.student.name} {approvedRide[0]?.transit_status === 'in_progress' && ('to destination')
+                                    approvedRide[0]?.transit_status === 'accepted' ? `Picking up ${approvedRide[0]?.student.name} from ${approvedRide[0]?.where_from}` :
+                                    approvedRide[0]?.transit_status === 'in_progress' ? `Driving ${approvedRide[0]?.student.name} to ${approvedRide[0]?.where_to}` :
+                                    approvedRide[0]?.transit_status === 'cancelled' ? `Ride was cancelled` : ''
                                     }
                                   </Text>
                                 </View>
                               </View>
-
-                              {/* Driver Card */}
-                              {/*<View className="bg-white rounded-2xl p-5 mb-6 shadow-sm">*/}
-                              {/*  <View className="flex-row items-center justify-between">*/}
-                              {/*    <View className="flex-row items-center flex-1">*/}
-                              {/*      <Image*/}
-                              {/*          source={{ uri: driverData.profileImage }}*/}
-                              {/*          className="w-16 h-16 rounded-full mr-4"*/}
-                              {/*      />*/}
-                              {/*    </View>*/}
-
-                              {/*    /!* Action Buttons *!/*/}
-                              {/*    <View className="flex-row space-x-3">*/}
-                              {/*      <TouchableOpacity*/}
-                              {/*          className="w-12 h-12 bg-blue-100 rounded-full items-center justify-center"*/}
-                              {/*      >*/}
-                              {/*        <Ionicons name="phone-portrait" size={20} color="#3B82F6" />*/}
-
-                              {/*      </TouchableOpacity>*/}
-                              {/*      <TouchableOpacity*/}
-                              {/*          className="w-12 h-12 bg-blue-100 rounded-full items-center justify-center"*/}
-                              {/*      >*/}
-                              {/*        <Ionicons name="chatbox" size={20} color="#3B82F6" />*/}
-                              {/*      </TouchableOpacity>*/}
-                              {/*    </View>*/}
-                              {/*  </View>*/}
-                              {/*</View>*/}
 
                               {/* Trip Details Card */}
                               <View className="bg-white rounded-2xl p-5 mb-6 shadow-sm">
@@ -556,15 +498,16 @@ const DashboardScreen = () => {
                                     <TouchableOpacity
                                         className="bg-[#222] p-3 rounded-[18px] mb-5"
                                         onPress={() => beginRide(approvedRide[0])}
+                                        disabled={startingRide}
                                     >
-                                      <Text className="text-white text-center">Begin Ride</Text>
+                                      <Text className="text-white text-center disabled:opacity-20">Begin Ride</Text>
                                     </TouchableOpacity>
                                 <TouchableOpacity
                                     className={`bg-white border-2 border-red-500 rounded-2xl p-4 flex-row items-center justify-center mb-6 ${
-                                        approvingRide ? 'opacity-60' : ''
+                                        approvingRide || startingRide ? 'opacity-60' : ''
                                     }`}
                                     onPress={() => handleCancelRide(approvedRide[0])}
-                                    disabled={approvingRide}
+                                    disabled={approvingRide || startingRide}
                                 >
                                   <Ionicons name="close" size={20} color="#EF4444" />
                                   <Text className="text-red-500 font-semibold text-base ml-2">

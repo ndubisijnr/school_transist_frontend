@@ -509,7 +509,10 @@ const RideSearch = () => {
             {/* Header */}
             <View className="flex-row items-center justify-between px-5 pt-5 pb-2">
                 <TouchableOpacity
-                    onPress={() => RouterUtil.goBack()}
+                    onPress={() => {
+                        cancelRide(),
+                        RouterUtil.goBack()
+                    }}
                     className="p-2"
                 >
                     <Ionicons name="chevron-back" size={24} color="#374151" />

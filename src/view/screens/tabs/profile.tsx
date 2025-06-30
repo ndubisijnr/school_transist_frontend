@@ -115,10 +115,8 @@ const ProfileScreen = () => {
                 <View className={"flex-1 items-center"}>
                     <Ionicons name="person-circle" size={70} color="#999" />
                     <Text className="text-lg">{userDetails?.student?.full_name ? userDetails?.student?.full_name : userDetails?.hub?.driver_fullname}</Text>
-                    <View className="flex-row items-center gap-2 mt-1">
-                        <Text className="text-sm bg-black/20 p-1">{userDetails?.student?.full_name ? 'Student' : 'Driver'}</Text>
-                        <Text className="text-md"> at</Text>
-                        <Text className="text-sm bg-orange-200 p-1"> {userDetails?.uni?.name || userDetails?.driver_uni?.name}</Text>
+                    <View className="flex-row items-center gap-2 mt-1 bg-orange-200  rounded-[8px] shadow-sm">
+                        <Text className="text-sm p-1">{userDetails?.student?.full_name ? 'Student' : 'Driver'} at {userDetails?.uni?.name || userDetails?.driver_uni?.name}</Text>
 
                     </View>
                     {/* <Image width={124} height={124} className={"rounded-full w-[124px] h-[124px]"} source={pf} /> */}

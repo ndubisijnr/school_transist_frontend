@@ -161,9 +161,9 @@ const DummyMapComponent = () => {
                     </View>
 
                     {/* My Location Button */}
-                    <TouchableOpacity className="absolute bottom-4 right-4 bg-white w-12 h-12 rounded-full items-center justify-center shadow-md">
-                        <View className="w-3 h-3 bg-blue-500 rounded-full border-2 border-white" />
-                    </TouchableOpacity>
+                    {/*<TouchableOpacity className="absolute bottom-4 right-4 bg-white w-12 h-12 rounded-full items-center justify-center shadow-md">*/}
+                    {/*    <View className="w-3 h-3 bg-blue-500 rounded-full border-2 border-white" />*/}
+                    {/*</TouchableOpacity>*/}
 
                     {/* Compass */}
                     <View className="absolute top-4 left-4 bg-white w-12 h-12 rounded-full items-center justify-center shadow-md">
