@@ -303,14 +303,14 @@ const DashboardScreen = () => {
 
 
   useEffect(() => {
-    // if (userDetails?.hub?.id) {
-    //   const interval = setInterval(() => {
-    //     getRideRequest().then()
-    //     // call your function here
-    //   }, 5000);
-    //
-    //   return () => clearInterval(interval); // Cleanup on unmount
-    // }
+    if (userDetails?.hub?.id) {
+      const interval = setInterval(() => {
+        getRideRequest().then()
+        // call your function here
+      }, 5000);
+
+      return () => clearInterval(interval); // Cleanup on unmount
+    }
   }, []);
 
 
