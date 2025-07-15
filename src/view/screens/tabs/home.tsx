@@ -178,7 +178,7 @@ const DashboardScreen = () => {
     const payload = {
       id: currentRide.id,
       payload: {
-        hub: null,
+        hub: currentRide?.hub?.id,
         transit_status: 'cancelled'
       }
     };
@@ -358,19 +358,19 @@ const DashboardScreen = () => {
   }, [requestedRide]);
 
   // Interval setup with cleanup
-  // useEffect(() => {
-  //   if (userDetails?.hub?.id) {
-  //     intervalRef.current = setInterval(() => {
-  //       getRideRequest();
-  //     }, 5000);
-  //
-  //     return () => {
-  //       if (intervalRef.current) {
-  //         clearInterval(intervalRef.current);
-  //       }
-  //     };
-  //   }
-  // }, [getRideRequest, userDetails?.hub?.id]);
+  useEffect(() => {
+    if (userDetails?.hub?.id) {
+      intervalRef.current = setInterval(() => {
+        getRideRequest();
+      }, 5000);
+
+      return () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+      };
+    }
+  }, [getRideRequest, userDetails?.hub?.id]);
 
   // Load locations
   useEffect(() => {

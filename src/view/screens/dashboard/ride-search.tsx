@@ -177,7 +177,7 @@ const RideSearch = () => {
         const payload = {
             id: currentRide.id,
             payload: {
-                hub: null,
+                hub: currentRide?.hub?.id,
                 transit_status: 'cancelled'
             }
         };
@@ -197,9 +197,9 @@ const RideSearch = () => {
 
     const endRide = async () => {
         const payload = {
-            id: currentRide.id,
+            id: currentRide?.id,
             payload: {
-                hub: null,
+                hub: currentRide?.hub?.id,
                 transit_status: 'completed'
             }
         };
@@ -443,7 +443,7 @@ const RideSearch = () => {
                         </View>
 
                         {/* Cancel Button - only show if ride can still be cancelled */}
-                        {status === 'accepted' && (
+                        {status === 'accepted' || 'in_progress'  && (
                             <>
                                 <TouchableOpacity
                                     className={`bg-black rounded-2xl p-4 flex-row items-center justify-center mb-6 ${
@@ -457,8 +457,7 @@ const RideSearch = () => {
                                     </Text>
                                 </TouchableOpacity>
 
-
-                                <TouchableOpacity
+                                {status === 'in_progress' || 'requesting' || 'accepted' && (<TouchableOpacity
                                     className={`bg-white border-2 border-red-500 rounded-2xl p-4 flex-row items-center justify-center mb-6 ${
                                         isLoading ? 'opacity-60' : ''
                                     }`}
@@ -469,7 +468,8 @@ const RideSearch = () => {
                                     <Text className="text-red-500 font-semibold text-base ml-2">
                                         {isLoading ? "Cancelling..." : "Cancel Ride"}
                                     </Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity>)}
+
 
                             </>
 

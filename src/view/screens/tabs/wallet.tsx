@@ -483,7 +483,7 @@ const WalletScreen = () => {
 
         setAllRides(sortedRides);
         setCurrentPage(1);
-    }, []);
+    }, [studentActivities, hubActivities]);
 
     const getFilteredRides = useCallback(() => {
         switch (activeFilter) {
